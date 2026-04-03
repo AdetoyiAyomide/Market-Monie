@@ -11,9 +11,11 @@ function App() {
         <Route path="/" element={<SelectState />} />
         <Route path="/apply/hub" element={<HubSelection />} />
         <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/personal-details" element={<PersonalDetails />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
 
 export default App;
