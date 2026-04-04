@@ -49,7 +49,7 @@ const PersonalDetails = () => {
                         <span>C</span>
                     </button>
                     <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                       <FiCreditCard />
+                        <FiCreditCard />
                         <span>Loan</span>
                         <span>D</span>
                     </button>
