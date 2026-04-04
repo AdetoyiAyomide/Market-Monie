@@ -2,23 +2,68 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locations } from '../store/Data';
 import { stateLgaMapping } from '../store/LgaData';
+import { BsPerson } from "react-icons/bs";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { LuBuilding2 } from "react-icons/lu";
+import { FiCreditCard } from "react-icons/fi";
+
 
 
 const Address = () => {
     const navigate = useNavigate();
     const [selectedState, setSelectedState] = useState("");
+    const [selectedLga, setSelectedLga] = useState("");
+    const [houseAddress, setHouseAddress] = useState("");
     const [lgas, setLgas] = useState([]);
+    const [error, setError] = useState(false);
 
     const handleStateChange = (e) => {
         const state = e.target.value;
         setSelectedState(state);
         setLgas(stateLgaMapping[state] || []);
+        setSelectedLga(""); // Reset LGA when state changes
+        setError(false);
+    };
+
+    const handleNext = () => {
+        if (!selectedState || !selectedLga || !houseAddress) {
+            setError(true);
+            return;
+        }
+        navigate("/business");
     };
 
     return (
-        <section className='w-full h-screen flex items-center justify-center'>
-            <div className='rounded-2xl bg-white border border-white min-w-1/2 flex flex-col items-center gap-5 p-4'>
+        <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
+            <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
+                            <div className='flex gap-2 w-full justify-between text-sm'>
+                                <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
+                                    <BsPerson />
+                                    <span>Personal</span>
+                                    <span>A</span>
+                                </button>
+                                <button className='text-green-800 bg-green-100 flex flex-col items-center rounded-lg p-2 w-1/4'>
+                                    <HiOutlineLocationMarker />
+                                    <span>Address</span>
+                                    <span>B</span>
+                                </button>
+                                <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
+                                    <LuBuilding2 />
+                                    <span>Business</span>
+                                    <span>C</span>
+                                </button>
+                                <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
+                                   <FiCreditCard />
+                                    <span>Loan</span>
+                                    <span>D</span>
+                                </button>
+                            </div>
                 <h2 className='font-semibold text-left w-full'>Residential Address</h2>
+                {error && (
+                    <div className='w-full p-2 bg-red-50 text-red-600 rounded-lg text-xs text-center border border-red-200'>
+                        Please fill in all required fields
+                    </div>
+                )}
 
                 <div className='flex flex-col w-full'>
                     <label htmlFor="state">State <span className='text-red-500'>*</span></label>
@@ -41,6 +86,11 @@ const Address = () => {
                     <select
                         name="local-government"
                         id="local-government"
+                        value={selectedLga}
+                        onChange={(e) => {
+                            setSelectedLga(e.target.value);
+                            setError(false);
+                        }}
                         disabled={!selectedState}
                         className='border border-gray-500 rounded-xl px-2 h-[40px] bg-white outline-none w-full scrollbar-hide disabled:bg-gray-100 disabled:cursor-not-allowed'
                     >
@@ -55,16 +105,27 @@ const Address = () => {
                     <input type="text" name="area" id="area" placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2' />
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label htmlFor="">House Address</label>
-                    <input type="text" name="house-address" id="house-address" placeholder='house number and street name' className='border border-gray-500 rounded-xl p-2' />
+                    <label htmlFor="house-address">House Address <span className='text-red-500'>*</span></label>
+                    <input
+                        type="text"
+                        name="house-address"
+                        id="house-address"
+                        value={houseAddress}
+                        onChange={(e) => {
+                            setHouseAddress(e.target.value);
+                            setError(false);
+                        }}
+                        placeholder='house number and street name'
+                        className='border border-gray-500 rounded-xl p-2'
+                    />
                 </div>
                 <div className='flex w-full justify-between gap-2'>
                     <button className='border border-green-800 text-green-800 rounded-xl p-2 w-1/2 hover:bg-green-100'
                         onClick={() => navigate("/personal-details")}>
                         Back
                     </button>
-                    <button className='text-white bg-green-800 rounded-xl p-2 w-1/2 hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400'
-                        onClick={() => navigate("/business")}>
+                    <button className='text-white bg-green-800 rounded-xl p-2 w-1/2 hover:bg-green-900 transition-colors duration-400'
+                        onClick={handleNext}>
                         Next
                     </button>
                 </div>

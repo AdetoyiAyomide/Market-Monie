@@ -29,8 +29,8 @@ const SelectSate = () => {
     setQuery("");
   };
   return (
-    <section className='w-full h-screen flex items-center justify-center'>
-      <div className='rounded-2xl bg-white shadow-lg border border-white min-w-1/3 flex flex-col items-center gap-5 p-4'>
+    <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
+      <div className='rounded-2xl bg-white shadow-lg border border-white w-full max-w-xl flex flex-col items-center gap-5 p-6'>
         <h3 className='w-full  rounded-t-2xl text-center py-3 font-semibold border-b border-slate-300'>Select State</h3>
         <div className='flex items-center gap-3 text-md lg:text-2xl px-3'>
           <div className='bg-[#e8f7ef] p-3 rounded-2xl'>
