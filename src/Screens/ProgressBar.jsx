@@ -4,19 +4,19 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
   const progress = (currentStep / totalSteps) * 100;
 
   return (
-    <div className="w-full mb-6">
+    <div className="w-full mb-4">
       {/* Top Text */}
-      <div className="flex justify-between text-sm mb-1">
-        <p className="text-slate-400">Loan Application</p>
-        <p className="text-green-700 font-medium">
-          Step {currentStep} of {totalSteps}
+      <div className="flex justify-between text-[11px] uppercase tracking-wider mb-2">
+        <p className="text-slate-400 font-semibold">Loan Application</p>
+        <p className="text-green-700 font-bold">
+          Step {currentStep} <span className="text-slate-300 mx-1">/</span> {totalSteps}
         </p>
       </div>
 
       {/* Progress Track */}
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden border border-gray-50">
         <div
-          className="h-full bg-green-700 transition-all rounded-full duration-500"
+          className="h-full bg-gradient-to-r from-green-600 to-green-800 transition-all rounded-full duration-700 ease-out shadow-[0_0_8px_rgba(22,101,52,0.2)]"
           style={{ width: `${progress}%` }}
         />
       </div>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
 import FormHeader from './formHeader';
 import ProgressBar from './ProgressBar';
 
@@ -36,11 +35,11 @@ const PersonalDetails = () => {
 };
 
     return (
-        <section className='w-full h-screen flex items-center justify-center py-10'>
+        <section className='w-full min-h-screen flex items-center justify-center py-10 bg-[#f4f6f9]'>
             <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
                 <ProgressBar currentStep={currentStep} totalSteps={8} />
                 <FormHeader />
-                <h1 className='w-full text-left font-bold'>Personal Details</h1>
+                <h1 className='w-full text-left font-bold text-xl'>Personal Details</h1>
 
                 {error && (
                     <div className='w-full p-2 bg-red-50 text-red-600 rounded-lg text-xs text-center'>

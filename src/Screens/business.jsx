@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BsPerson } from "react-icons/bs";
-import { HiOutlineLocationMarker } from "react-icons/hi";
-import { LuBuilding2 } from "react-icons/lu";
-import { FiCreditCard } from "react-icons/fi";
 import FormHeader from './formHeader'
 import ProgressBar from './ProgressBar';
 
