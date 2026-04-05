@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { BsPerson } from "react-icons/bs";
-import { HiOutlineLocationMarker } from "react-icons/hi";
-import { LuBuilding2 } from "react-icons/lu";
-import { FiCreditCard } from "react-icons/fi";
+import { FaArrowLeft } from "react-icons/fa";
+import FormHeader from './formHeader';
+import ProgressBar from './ProgressBar';
 
 const PersonalDetails = () => {
     const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -14,46 +14,32 @@ const PersonalDetails = () => {
         dateOfBirth: '',
     });
     const [error, setError] = useState(false);
+    const { firstName, lastName, phoneNumber, dateOfBirth } = formData;
+    const isFormValid =
+    firstName.trim() &&
+    lastName.trim() &&
+    phoneNumber.trim() &&
+    dateOfBirth;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
         setError(false); // Clear error message as user types
     };
 
+    const currentStep = 4;
     const handleContinue = () => {
-        const { firstName, lastName, phoneNumber, dateOfBirth } = formData;
-        if (!firstName || !lastName || !phoneNumber || !dateOfBirth) {
-            setError(true);
-            return;
-        }
-        navigate("/address");
-    };
+    if (!isFormValid) {
+        setError(true);
+        return;
+    }
+    navigate("/address");
+};
 
     return (
-        <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
+        <section className='w-full h-screen flex items-center justify-center py-10'>
             <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
-                <div className='flex gap-2 w-full justify-between text-sm'>
-                    <button className='text-green-800 bg-green-100 flex flex-col items-center rounded-lg p-2 w-1/4'>
-                        <BsPerson />
-                        <span>Personal</span>
-                        <span>A</span>
-                    </button>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <HiOutlineLocationMarker />
-                        <span>Address</span>
-                        <span>B</span>
-                    </button>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <LuBuilding2 />
-                        <span>Business</span>
-                        <span>C</span>
-                    </button>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <FiCreditCard />
-                        <span>Loan</span>
-                        <span>D</span>
-                    </button>
-                </div>
+                <ProgressBar currentStep={currentStep} totalSteps={8} />
+                <FormHeader />
                 <h1 className='w-full text-left font-bold'>Personal Details</h1>
 
                 {error && (
@@ -94,11 +80,18 @@ const PersonalDetails = () => {
                     <input type="file" id="ID" className='border border-gray-300 rounded-lg p-2 w-full cursor-pointer' />
                 </div>
                 <div className='w-full'>
-                    <button className='w-full border p-2.5 rounded-xl bg-green-800 text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400 '
-                        onClick={handleContinue}
-                    >
-                        Continue
-                    </button>
+                   <button
+    onClick={handleContinue}
+    disabled={!isFormValid}
+    className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
+    ${
+        isFormValid
+        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+        : "bg-green-100 text-green-400 cursor-not-allowed"
+    }`}
+>
+    Continue
+</button>
                 </div>
             </div>
         </section>

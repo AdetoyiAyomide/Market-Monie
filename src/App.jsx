@@ -7,6 +7,7 @@ import PersonalDetails from "./Screens/personalDetails";
 import Address from "./Screens/address";
 import Business from './Screens/business';
 import Loan from './Screens/loan';
+import AccountCreation from './Screens/AccountCreation';
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<SelectState />} />
         <Route path="/apply/hub" element={<HubSelection />} />
-        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/CreateAccount" element={<CreateAccount />} />
+        <Route path="/account-creation" element={<AccountCreation />} />
         <Route path="/personal-details" element={<PersonalDetails />} />
         <Route path="/address" element={<Address />} />
         <Route path="/business" element={<Business />} />

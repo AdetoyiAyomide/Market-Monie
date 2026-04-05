@@ -160,3 +160,37 @@ export const branchAddresses = {
     "Ada George Roundabout, Port Harcourt"
   ]
 };
+
+export const banks = [
+  "Access Bank",
+  "Citibank Nigeria",
+  "Ecobank Nigeria",
+  "Fidelity Bank",
+  "First Bank of Nigeria",
+  "First City Monument Bank (FCMB)",
+  "Globus Bank",
+  "Guarantee Trust Bank (GTBank)",
+  "Heritage Bank",
+  "Keystone Bank",
+  "Optimus Bank",
+  "Parallex Bank",
+  "Polaris Bank",
+  "Providus Bank",
+  "Stanbic IBTC Bank",
+  "Standard Chartered Bank Nigeria",
+  "Sterling Bank",
+  "SunTrust Bank",
+  "Titan Trust Bank",
+  "Union Bank of Nigeria",
+  "United Bank for Africa (UBA)",
+  "Unity Bank",
+  "Wema Bank",
+  "Zenith Bank",
+
+  // Fintech / microfinance / payment banks
+  "Opay",
+  "Moniepoint Microfinance Bank",
+  "PalmPay",
+  "Kuda Bank",
+  "VFD Microfinance Bank",
+];

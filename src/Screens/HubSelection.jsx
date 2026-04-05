@@ -6,16 +6,19 @@ import { PiWarningCircle } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { LuBuilding2 } from "react-icons/lu";
+import ProgressBar from "./ProgressBar";
 
 const HubSelection = () => {
+  const navigate = useNavigate();
   const selectedState = selectedStateGlobal;
   const handleContinue = () => {
     if (selectedHubLocal) {
       setSelectedHubGlobal(selectedHubLocal);
-      navigate("/create-account")
+      navigate("/CreateAccount")
     }
   };
-  const navigate = useNavigate();
+
+  const currentStep = 2;
   const [selectedHubLocal, setSelectedHubLocal] = useState("");
 
   const hubs = branchAddresses[selectedState]?.map((address, index) => ({
@@ -32,6 +35,7 @@ const HubSelection = () => {
             <FaArrowLeft onClick={() => navigate("/")} className=" " />
           </button>
           <h3 className='w-full  rounded-t-2xl text-center pb-4 font-semibold '>Select State</h3>
+          <ProgressBar currentStep={currentStep} totalSteps={8} />
         </div>
         <div className='flex items-center gap-3 text-md lg:text-2xl px-3 mt-2'>
           <div className='bg-[#e8f7ef] p-3 rounded-2xl'>
@@ -84,7 +88,7 @@ const HubSelection = () => {
             <button
               onClick={handleContinue}
               disabled={!selectedHubLocal}
-              className={`w-full border p-2.5 rounded-xl bg-green-800 text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400 ${selectedHubLocal
+              className={`w-full border p-2.5 rounded-xl text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400 ${selectedHubLocal
                 ? "bg-[#8abfa0] hover:bg-green-200 shadow-md"
                 : "bg-gray-300 cursor-not-allowed"
                 }`}

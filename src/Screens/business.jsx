@@ -4,6 +4,8 @@ import { BsPerson } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { LuBuilding2 } from "react-icons/lu";
 import { FiCreditCard } from "react-icons/fi";
+import FormHeader from './formHeader'
+import ProgressBar from './ProgressBar';
 
 
 const Business = () => {
@@ -13,15 +15,13 @@ const Business = () => {
     const [businessType, setBusinessType] = useState("");
     const [yearsInBusiness, setYearsInBusiness] = useState("");
     const [dailySales, setDailySales] = useState("");
+    const isFormValid = businessName && businessType && yearsInBusiness && dailySales;
     const [error, setError] = useState(false);
 
     const handleNext = () => {
-        if (!businessName || !businessType || !yearsInBusiness || !dailySales) {
-            setError(true);
-            return;
-        }
-        navigate("/loan");
-    };
+    if (!isFormValid) return;
+    navigate("/loan");
+};
 
     const businessYears = ["Less than a year", "1-3 years", "3-5 years", "5+ years"];
     const dailySalesOptions = [
@@ -33,39 +33,22 @@ const Business = () => {
         "Above ₦500,000"
     ];
 
+    const currentStep = 6;
+
     return (
         <section className='w-full min-h-screen flex items-center justify-center p-4 bg-[#f4f6f9]'>
             <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm mb-10'>
-                <div className='flex gap-2 w-full justify-between text-sm'>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <BsPerson />
-                        <span>Personal</span>
-                        <span>A</span>
-                    </button>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <HiOutlineLocationMarker />
-                        <span>Address</span>
-                        <span>B</span>
-                    </button>
-                    <button className='text-green-800 bg-green-100 flex flex-col items-center rounded-lg p-2 w-1/4'>
-                        <LuBuilding2 />
-                        <span>Business</span>
-                        <span>C</span>
-                    </button>
-                    <button className='flex flex-col items-center rounded-lg p-2 w-1/4 text-slate-400'>
-                        <FiCreditCard />
-                        <span>Loan</span>
-                        <span>D</span>
-                    </button>
-                </div>
+                <ProgressBar currentStep={currentStep} totalSteps={8} />
+                <FormHeader />
                 <h1 className='w-full text-left font-bold text-xl'>Business Details</h1>
                 {error && (
                     <div className='w-full p-2 bg-red-50 text-red-600 rounded-lg text-xs text-center border border-red-200'>
                         Please fill in all required fields
                     </div>
                 )}
-
-                <div className='flex flex-col w-full gap-1'>
+                <div className='w-full max-h-[60vh] flex flex-col'>
+                    <div className='overflow-y-auto'>
+                    <div className='flex flex-col w-full gap-1'>
                     <label htmlFor="business-name" className='text-sm font-medium'>Business Name <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
@@ -154,6 +137,8 @@ const Business = () => {
                     </div>
                 </div>
 
+                </div>
+                </div>
                 <div className='flex w-full justify-between gap-3 mt-4'>
                     <button
                         onClick={() => navigate("/address")}
@@ -162,12 +147,20 @@ const Business = () => {
                         Back
                     </button>
                     <button
-                        onClick={handleNext}
-                        className='text-white bg-green-800 rounded-xl p-2.5 w-1/2 hover:bg-green-900 transition-colors shadow-md font-medium'
-                    >
-                        Next
-                    </button>
+    onClick={handleNext}
+    disabled={!isFormValid}
+    className={`rounded-xl p-2.5 w-1/2 transition-all duration-200 shadow-md font-medium
+    ${
+        isFormValid
+        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+        : "bg-green-100 text-green-400 cursor-not-allowed"
+    }`}
+>
+    Next
+</button>
                 </div>
+                
+                
             </div>
         </section>
     );

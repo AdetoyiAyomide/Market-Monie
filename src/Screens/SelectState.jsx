@@ -4,6 +4,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { locations } from '..//store/Data.js';
 import { useNavigate } from "react-router-dom";
 import { setSelectedStateGlobal } from "../store/Data";
+import ProgressBar from './ProgressBar.jsx';
 
 const SelectSate = () => {
   const [open, setOpen] = useState(false);
@@ -32,6 +33,7 @@ const SelectSate = () => {
     <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
       <div className='rounded-2xl bg-white shadow-lg border border-white w-full max-w-xl flex flex-col items-center gap-5 p-6'>
         <h3 className='w-full  rounded-t-2xl text-center py-3 font-semibold border-b border-slate-300'>Select State</h3>
+        <ProgressBar currentStep={1} totalSteps={8} />
         <div className='flex items-center gap-3 text-md lg:text-2xl px-3'>
           <div className='bg-[#e8f7ef] p-3 rounded-2xl'>
             <IoLocationOutline className=' text-[#3e8b4b]' />

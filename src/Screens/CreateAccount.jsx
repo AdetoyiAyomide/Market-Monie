@@ -1,24 +1,31 @@
 import React from 'react';
 import { Navigate, useNavigate } from "react-router-dom";
 import { FiUserPlus, FiUserCheck } from "react-icons/fi";
-
+import { FaArrowLeft } from "react-icons/fa";
+import AccountCreation from './AccountCreation';
+import ProgressBar from './ProgressBar';
 
 
 const CreateAccount = () => {
     const navigate = useNavigate();
+    const currentStep = 3;
 
   return (
     <section className='w-full h-screen flex items-center justify-center'>
-        <div className='rounded-2xl bg-white border border-white min-w-1/2 flex flex-col items-center gap-5 p-4'>
+        <div className='relative rounded-2xl bg-white border border-white min-w-1/2 flex flex-col items-center gap-5 p-4'>
+        <ProgressBar currentStep={currentStep} totalSteps={8} />
+         <button className="p-2 text-gray-500 hover:text-green-600 text-xl flex absolute left-4 top-20 hover:bg-slate-200 rounded-full transition-colors duration-200">
+            <FaArrowLeft onClick={() => navigate("/")} className=" " />
+        </button>
             <img src="/public/marketmonie.png" className='w-40' alt="" />
             <h3 className='w-full text-xl lg:text-2xl rounded-t-2xl text-center pt-3 font-semibold'>How would you like to continue?</h3>
             <p className='text-slate-400 text-center text-sm'>Create an account to track your application, or continue as a guest.</p>
 
             <div className='flex flex-col gap-6'>
-                <button className='w-full text-left rounded-2xl border border-green-800 p-3 gap-3 hover:bg-green-100'>
+                <button  onClick={() => navigate("/account-creation")} className='w-full text-left rounded-2xl border border-green-800 p-3 gap-3 hover:bg-green-100'>
                     <div className='flex items-center justify-between lg:m-3 lg:gap-6'>
                         <div className='flex gap-3'>
-                            <div className='rounded-2xl bg-[#8abfa0] p-3 flex items-center justify-center'>
+                            <div className='rounded-2xl bg-green-100 p-3 flex items-center justify-center'>
                                 <FiUserPlus className='text-green-800 text-xl' />
                             </div>
                             <div className='flex flex-col gap-0.5 mr-2'>
