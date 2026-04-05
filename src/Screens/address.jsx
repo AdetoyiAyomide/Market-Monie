@@ -16,31 +16,31 @@ const Address = () => {
 
     const lgaRef = useRef(null);
 
-const handleStateChange = (e) => {
-    const state = e.target.value;
-    setSelectedState(state);
-    setLgas(stateLgaMapping[state] || []);
-    setSelectedLga("");
-    setError(false);
+    const handleStateChange = (e) => {
+        const state = e.target.value;
+        setSelectedState(state);
+        setLgas(stateLgaMapping[state] || []);
+        setSelectedLga("");
+        setError(false);
 
-    setTimeout(() => {
-        lgaRef.current?.focus();
-    }, 100);
-};
+        setTimeout(() => {
+            lgaRef.current?.focus();
+        }, 100);
+    };
 
     const isFormValid =
-    selectedState &&
-    selectedLga &&
-    houseAddress.trim();
+        selectedState &&
+        selectedLga &&
+        houseAddress.trim();
 
     const currentStep = 5;
     const handleNext = () => {
-    if (!isFormValid) {
-        setError(true);
-        return;
-    }
-    navigate("/business");
-};
+        if (!isFormValid) {
+            setError(true);
+            return;
+        }
+        navigate("/business");
+    };
 
     return (
         <section className='w-full min-h-screen flex items-center justify-center p-4 py-10 bg-[#f4f6f9]'>
@@ -61,7 +61,7 @@ const handleStateChange = (e) => {
                         id="state"
                         value={selectedState}
                         onChange={handleStateChange}
-                        
+
                         className='border border-gray-500 rounded-xl px-2 h-[40px] bg-white outline-none w-full scrollbar-hide'
                     >
                         <option value="">Select State</option>
@@ -116,17 +116,16 @@ const handleStateChange = (e) => {
                         Back
                     </button>
                     <button
-    onClick={handleNext}
-    disabled={!isFormValid}
-    className={`rounded-xl p-2 w-1/2 transition-all duration-200 font-medium
-    ${
-        isFormValid
-        ? "bg-green-800 text-white hover:bg-green-900"
-        : "bg-green-100 text-green-400 cursor-not-allowed"
-    }`}
->
-    Next
-</button>
+                        onClick={handleNext}
+                        disabled={!isFormValid}
+                        className={`rounded-xl p-2 w-1/2 transition-all duration-200 font-medium
+    ${isFormValid
+                                ? "bg-green-800 text-white hover:bg-green-900"
+                                : "bg-green-100 text-green-400 cursor-not-allowed"
+                            }`}
+                    >
+                        Next
+                    </button>
                 </div>
             </div>
         </section>
