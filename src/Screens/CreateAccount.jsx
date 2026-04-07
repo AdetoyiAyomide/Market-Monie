@@ -13,7 +13,9 @@ const CreateAccount = () => {
   return (
     <section className='w-full h-screen flex items-center justify-center'>
         <div className='relative rounded-2xl bg-white border border-white min-w-1/2 flex flex-col items-center gap-5 p-4'>
-        <ProgressBar currentStep={currentStep} totalSteps={8} />
+        <div className='w-full'>
+          <ProgressBar currentStep={currentStep} totalSteps={8} />
+        </div>
          <button className="p-2 text-gray-500 hover:text-green-600 text-xl flex absolute left-4 top-20 hover:bg-slate-200 rounded-full transition-colors duration-200">
             <FaArrowLeft onClick={() => navigate("/")} className=" " />
         </button>

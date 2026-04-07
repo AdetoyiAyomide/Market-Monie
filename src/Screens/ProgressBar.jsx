@@ -4,7 +4,7 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
   const progress = (currentStep / totalSteps) * 100;
 
   return (
-    <div> {/* ✅ wrapper added */}
+    <div> {/* Wrapper added */}
       {/* Top Text */}
       <div className="flex justify-between text-[11px] uppercase tracking-wider mb-2">
         <p className="text-slate-400 font-semibold">Loan Application</p>

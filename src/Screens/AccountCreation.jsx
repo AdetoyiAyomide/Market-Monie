@@ -126,7 +126,7 @@ const isOtpComplete = otp.every(d => d !== "");
                 </div>
                 <div className='flex gap-1 text-md'>
                   <p className='text-slate-400'>Already have an account?</p>
-                  <a href="/personalDetails" className='text-green-800 font-semibold'>Login</a>
+                  <button onClick={() => navigate("/personal-details")} className='text-green-800 font-semibold hover:underline'>Login</button>
                 </div>
 
 

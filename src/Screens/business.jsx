@@ -39,7 +39,9 @@ const handleChange = (e) => {
     return (
         <section className='w-full min-h-screen flex items-center justify-center p-4 bg-[#f4f6f9]'>
             <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm mb-10'>
-                <ProgressBar currentStep={currentStep} totalSteps={8} />
+                <div className='w-full'>
+                    <ProgressBar currentStep={currentStep} totalSteps={8} />
+                </div>
                 <FormHeader />
                 <h1 className='w-full text-left font-bold text-xl'>Business Details</h1>
                 {error && (
