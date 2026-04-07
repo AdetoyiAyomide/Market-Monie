@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 
 const ProgressBar = ({ currentStep, totalSteps }) => {
   const progress = (currentStep / totalSteps) * 100;
 
   return (
-    <div className="w-full mb-4">
+    <div> {/* ✅ wrapper added */}
       {/* Top Text */}
       <div className="flex justify-between text-[11px] uppercase tracking-wider mb-2">
         <p className="text-slate-400 font-semibold">Loan Application</p>

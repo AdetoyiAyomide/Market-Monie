@@ -2,28 +2,28 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import FormHeader from './formHeader';
 import ProgressBar from './ProgressBar';
+import { useForm } from "../store/FormContext";
+
 
 const PersonalDetails = () => {
     const navigate = useNavigate();
     
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        dateOfBirth: '',
-    });
+    const { formData, setFormData } = useForm();
+
     const [error, setError] = useState(false);
     const { firstName, lastName, phoneNumber, dateOfBirth } = formData;
     const isFormValid =
-    firstName.trim() &&
-    lastName.trim() &&
-    phoneNumber.trim() &&
-    dateOfBirth;
+    firstName.trim().length > 0 &&
+    lastName.trim().length > 0 &&
+    phoneNumber.trim().length > 0 &&
+    !!dateOfBirth;
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
-        setError(false); // Clear error message as user types
-    };
+  setFormData({
+    ...formData,
+    [e.target.id]: e.target.value
+  });
+};
 
     const currentStep = 4;
     const handleContinue = () => {
@@ -67,7 +67,7 @@ const PersonalDetails = () => {
 
                 <div className='flex flex-col gap-3 items-start justify-start w-full '>
                     <label htmlFor="email">Email Address <span className='text-slate-400'>(optional)</span></label>
-                    <input type="email" id="email" placeholder='Email Address' className='border border-gray-300 rounded-lg p-2 w-full' />
+                    <input type="email" id="email" placeholder='Email Address' value={formData.email} onChange={handleChange} className='border border-gray-300 rounded-lg p-2 w-full' />
                 </div>
                 <div className='flex flex-col gap-3 items-start justiify-start w-full'>
                     <label htmlFor="dateOfBirth">Date of birth <span className='text-red-500'>*</span></label>
@@ -80,17 +80,15 @@ const PersonalDetails = () => {
                 </div>
                 <div className='w-full'>
                    <button
-    onClick={handleContinue}
-    disabled={!isFormValid}
-    className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
-    ${
-        isFormValid
-        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
-        : "bg-green-100 text-green-400 cursor-not-allowed"
-    }`}
->
-    Continue
-</button>
+                    onClick={handleContinue}
+                    disabled={!isFormValid}
+                    className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
+                    ${
+                        isFormValid
+                        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+                        : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
+                    Continue
+                </button>
                 </div>
             </div>
         </section>

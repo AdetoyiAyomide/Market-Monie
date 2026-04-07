@@ -2,21 +2,26 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormHeader from './formHeader'
 import ProgressBar from './ProgressBar';
+import { useForm } from "../store/FormContext";
+
 
 
 const Business = () => {
     const navigate = useNavigate();
-    const [businessName, setBusinessName] = useState("");
-    const [businessAddress, setBusinessAddress] = useState("");
-    const [businessType, setBusinessType] = useState("");
-    const [yearsInBusiness, setYearsInBusiness] = useState("");
-    const [dailySales, setDailySales] = useState("");
+    const { formData, setFormData } = useForm();
+    const { businessName, businessAddress, businessType, yearsInBusiness, dailySales} = formData;
     const isFormValid = businessName && businessType && yearsInBusiness && dailySales;
     const [error, setError] = useState(false);
 
     const handleNext = () => {
     if (!isFormValid) return;
     navigate("/loan");
+};
+const handleChange = (e) => {
+  setFormData({
+    ...formData,
+    [e.target.id]: e.target.value
+  });
 };
 
     const businessYears = ["Less than a year", "1-3 years", "3-5 years", "5+ years"];
@@ -45,45 +50,37 @@ const Business = () => {
                 <div className='w-full max-h-[60vh] flex flex-col'>
                     <div className='overflow-y-auto'>
                     <div className='flex flex-col w-full gap-1'>
-                    <label htmlFor="business-name" className='text-sm font-medium'>Business Name <span className='text-red-500'>*</span></label>
+                    <label htmlFor="businessName" className='text-sm font-medium'>Business Name <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
-                        name="business-name"
-                        id="business-name"
-                        value={businessName}
-                        onChange={(e) => {
-                            setBusinessName(e.target.value);
-                            setError(false);
-                        }}
+                        name="businessName"
+                        id="businessName" value={businessName} onChange={handleChange}
                         placeholder='e.g. Vickys Salon'
                         className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
 
                 <div className='flex flex-col w-full gap-1'>
-                    <label htmlFor="business-address" className='text-sm font-medium'>Business Address <span className='text-slate-400'>(optional)</span></label>
+                    <label htmlFor="businessAddress" className='text-sm font-medium'>Business Address <span className='text-slate-400'>(optional)</span></label>
                     <input
                         type="text"
                         name="business-address"
-                        id="business-address"
+                        id="businessAddress"
                         value={businessAddress}
-                        onChange={(e) => setBusinessAddress(e.target.value)}
+                        onChange={handleChange}
                         placeholder='e.g. 15, Admiralty Way, Lekki'
                         className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
 
                 <div className='flex flex-col w-full gap-1'>
-                    <label htmlFor="business-type" className='text-sm font-medium'>Business Type <span className='text-red-500'>*</span></label>
+                    <label htmlFor="businessType" className='text-sm font-medium'>Business Type <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
-                        name="business-type"
-                        id="business-type"
+                        name="businessType"
+                        id="businessType"
                         value={businessType}
-                        onChange={(e) => {
-                            setBusinessType(e.target.value);
-                            setError(false);
-                        }}
+                        onChange={handleChange}
                         placeholder='e.g. Retail, Service'
                         className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
@@ -97,7 +94,7 @@ const Business = () => {
                                 key={option}
                                 type="button"
                                 onClick={() => {
-                                    setYearsInBusiness(option);
+                                    setFormData({ ...formData, yearsInBusiness: option });
                                     setError(false);
                                 }}
                                 className={`p-3 rounded-xl border text-sm transition-all duration-200 ${yearsInBusiness === option
@@ -119,8 +116,8 @@ const Business = () => {
                                 key={option}
                                 type="button"
                                 onClick={() => {
-                                    setDailySales(option);
-                                    setError(false);
+                                setFormData({ ...formData, dailySales: option });
+                                setError(false);
                                 }}
                                 className={`p-2.5 rounded-xl border text-left text-sm transition-all duration-200 ${dailySales === option
                                     ? "bg-green-800 text-white border-green-800"
