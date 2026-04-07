@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { locations } from '../store/Data';
+import { FaChevronDown, FaChevronUp, FaArrowLeft } from "react-icons/fa";
 import { stateLgaMapping } from '../store/LgaData';
 import FormHeader from './formHeader';
 import ProgressBar from "./ProgressBar"
@@ -8,18 +9,51 @@ import { useForm } from "../store/FormContext";
 
 const Address = () => {
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
     const { formData, setFormData } = useForm();
     const [error, setError] = useState(false);
+    const [query, setQuery] = useState("");
+      const [filtered, setFiltered] = useState(locations);
+      const [selectedLocation, setSelectedLocation] = useState("");
+      const [openLga, setOpenLga] = useState(false);
+        const [lgaQuery, setLgaQuery] = useState("");
+        const [filteredLgas, setFilteredLgas] = useState([]);
+        const [selectedLga, setSelectedLga] = useState("");
+    const handleStateChange = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+        setSelectedLocation(""); // important
+    
+        const results = locations.filter((loc) =>
+          loc.toLowerCase().includes(value.toLowerCase())
+        );
+    
+        setFiltered(results);
+      };
+      const handleSelect = (loc) => {
+  setSelectedLocation(loc);
+  setFormData({
+    ...formData,
+    state: loc,
+    lga: "" 
+  });
+  setOpen(false);
+  setQuery("");
+  setError(false);
+};
     const [lgas, setLgas] = useState([]);
     const isFormValid =
   !!formData.state &&
   !!formData.lga &&
+  !!formData.area &&
   formData.houseAddress?.trim().length > 0;
 
 
 useEffect(() => {
   if (formData.state) {
-    setLgas(stateLgaMapping[formData.state] || []);
+    const lgaList = stateLgaMapping[formData.state] || [];
+    setLgas(lgaList);
+    setFilteredLgas(lgaList); // 👈 important
   }
 }, [formData.state]);
 
@@ -38,6 +72,28 @@ const handleChange = (e) => {
   });
 };
 
+const handleLgaChange = (e) => {
+  const value = e.target.value;
+  setLgaQuery(value);
+
+  const results = lgas.filter((lga) =>
+    lga.toLowerCase().includes(value.toLowerCase())
+  );
+
+  setFilteredLgas(results);
+};
+
+const handleLgaSelect = (lga) => {
+  setFormData({
+    ...formData,
+    lga
+  });
+
+  setOpenLga(false);
+  setLgaQuery("");
+  setError(false);
+};
+
     return (
         <section className='w-full min-h-screen flex items-center justify-center p-4 py-10 bg-[#f4f6f9]'>
             <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
@@ -50,9 +106,9 @@ const handleChange = (e) => {
                     </div>
                 )}
 
-                <div className='flex flex-col w-full'>
+                <div className='flex flex-col w-full relative'>
                     <label htmlFor="state">State <span className='text-red-500'>*</span></label>
-                    <select
+                    {/* <select
                         name="state"
                         id="state"
                         value={formData.state}
@@ -73,34 +129,87 @@ const handleChange = (e) => {
                         {locations.map((state) => (
                             <option key={state} value={state}>{state}</option>
                         ))}
-                    </select>
+                    </select> */}
+                    <input
+                                type="text"
+                                value={query || selectedLocation}
+                                onClick={() => setOpen(prev => !prev)}
+                                onChange={handleStateChange}
+                                placeholder="Select State"
+                                className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
+                              />
+                              <button onClick={() => setOpen(prev => !prev)}>
+                                {open ? (
+                                  <FaChevronUp className="absolute right-7 top-9" />
+                                ) : (
+                                  <FaChevronDown className="absolute right-7 top-9" />
+                                )}
+                              </button>
+
+                               {open && (
+            <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+              <ul className="max-h-40 overflow-y-auto">
+                {filtered.length > 0 ? (
+                  filtered.map((loc, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSelect(loc)}
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      {loc}
+                    </li>
+                  ))
+                ) : (
+                  <li className="p-2 text-gray-400">No results found</li>
+                )}
+              </ul>
+            </div>
+          )}
                 </div>
 
-                <div className='flex flex-col w-full'>
-                    <label htmlFor="local-government">Local Government Area (LGA) <span className='text-red-500'>*</span></label>
-                    <select
-                        name="local-government"
-                       id="lga"
-                        value={formData.lga}
-                        onChange={(e) => {
-                            setFormData({
-                            ...formData,
-                            lga: e.target.value
-                            });
-                            setError(false);
-                        }}
-                        disabled={!formData.state}
-                        className='border border-gray-500 rounded-xl px-2 h-[40px] bg-white outline-none w-full scrollbar-hide disabled:bg-gray-100 disabled:cursor-not-allowed'
-                    >
-                        <option value="">{formData.state ? "Select LGA" : "Select State First"} </option>
-                        {lgas.map((lga) => (
-                            <option key={lga} value={lga}>{lga}</option>
-                        ))}
-                    </select>
+               <div className='flex flex-col w-full relative'>
+                <label>LGA <span className='text-red-500'>*</span></label>
+
+                <input
+                    type="text"
+                    value={lgaQuery || formData.lga}
+                    onClick={() => setOpenLga(prev => !prev)}
+                    onChange={handleLgaChange}
+                    placeholder={formData.state ? "Select LGA" : "Select State First"}
+                    disabled={!formData.state}
+                    className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100"/>
+
+                <button type="button" onClick={() => setOpenLga(prev => !prev)}>
+                    {openLga ? (
+                    <FaChevronUp className="absolute right-7 top-9" />
+                    ) : (
+                    <FaChevronDown className="absolute right-7 top-9" />
+                    )}
+                </button>
+
+                {openLga && (
+                    <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+                    <ul className="max-h-40 overflow-y-auto">
+                        {filteredLgas.length > 0 ? (
+                        filteredLgas.map((lga, index) => (
+                            <li
+                            key={index}
+                            onClick={() => handleLgaSelect(lga)}
+                            className="p-2 hover:bg-gray-100 cursor-pointer"
+                            >
+                            {lga}
+                            </li>
+                        ))
+                        ) : (
+                        <li className="p-2 text-gray-400">No results found</li>
+                        )}
+                    </ul>
+                    </div>
+                )}
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label htmlFor="area">Area/Street <span className='text-slate-400'>(optional)</span></label>
-                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2'/>
+                    <label htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
+                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2' />
                 </div>
                 <div className='flex flex-col w-full'>
                     <label htmlFor="houseAddress">House Address <span className='text-red-500'>*</span></label>

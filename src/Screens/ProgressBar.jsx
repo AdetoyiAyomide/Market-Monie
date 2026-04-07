@@ -4,9 +4,9 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
   const progress = (currentStep / totalSteps) * 100;
 
   return (
-    <div> {/* ✅ wrapper added */}
+    <> 
       {/* Top Text */}
-      <div className="flex justify-between text-[11px] uppercase tracking-wider mb-2">
+      <div className="flex justify-between text-[11px] uppercase tracking-wider w-full">
         <p className="text-slate-400 font-semibold">Loan Application</p>
         <p className="text-green-700 font-bold">
           Step {currentStep} <span className="text-slate-300 mx-1">/</span> {totalSteps}
@@ -20,7 +20,7 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
           style={{ width: `${progress}%` }}
         />
       </div>
-    </div>
+    </>
   );
 };
 

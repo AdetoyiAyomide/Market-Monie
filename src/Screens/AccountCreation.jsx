@@ -95,9 +95,9 @@ const isOtpComplete = otp.every(d => d !== "");
                     <input type="email" id="email" placeholder='you@example.com' className='border border-gray-300 rounded-lg p-2 w-full' />
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>
-                    <label htmlFor="dateOfBirth">Password <span className='text-red-500'>*</span></label>
+                    <label htmlFor="password">Password <span className='text-red-500'>*</span></label>
                     <div className='w-full relative'>
-                      <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Min. 6 characters' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
+                      <input type={showPassword ? "text" : "password"} value={password} id='password' onChange={(e) => setPassword(e.target.value)} placeholder='Min. 6 characters' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className='absolute right-3 top-2.5 text-gray-500'>
                       {showPassword ? <FiEyeOff /> : <MdOutlineRemoveRedEye />}
                     </button>
@@ -105,9 +105,9 @@ const isOtpComplete = otp.every(d => d !== "");
                     {password && password.length < 6 && (<p className="text-xs text-red-500">Password must be at least 6 characters long</p>)}       
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>
-                    <label htmlFor="dateOfBirth">Confirm Password <span className='text-red-500'>*</span></label>
+                    <label htmlFor="confirmPassword">Confirm Password <span className='text-red-500'>*</span></label>
                     <div className='relative w-full'>
-                    <input type={showConfirmPassword ? "text" : "password"} onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder='Re-enter your password' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
+                    <input type={showConfirmPassword ? "text" : "password"} id='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder='Re-enter your password' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
                    <button type="button"  onClick={() => setShowConfirmPassword(!showConfirmPassword)} className='absolute right-3 top-2.5 text-gray-500'>
                       {showConfirmPassword ? <FiEyeOff /> : <MdOutlineRemoveRedEye />}
                     </button>
@@ -126,7 +126,7 @@ const isOtpComplete = otp.every(d => d !== "");
                 </div>
                 <div className='flex gap-1 text-md'>
                   <p className='text-slate-400'>Already have an account?</p>
-                  <a href="/personalDetails" className='text-green-800 font-semibold'>Login</a>
+                  <a href="/login" className='text-green-800 font-semibold hover:underline'>Login</a>
                 </div>
 
 

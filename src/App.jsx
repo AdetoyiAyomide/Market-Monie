@@ -9,6 +9,7 @@ import Business from './Screens/Business';
 import Loan from './Screens/Loan';
 import AccountCreation from './Screens/AccountCreation';
 import Preview from './Screens/PreviewPage'
+import Login from './Screens/Login'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/business" element={<Business />} />
         <Route path="/loan" element={<Loan />} />
         <Route path="/preview" element={<Preview />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

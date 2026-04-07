@@ -11,23 +11,21 @@ import { useForm } from "../store/FormContext";
 const PreviewPage = () => {
     const currentStep = 8;
     const navigate = useNavigate();
-    console.log("hello")
     const { formData } = useForm();
-
     const Section = ({ title, children, onEdit }) => (
-  <div className="w-full border border-gray-200 rounded-xl p-4 shadow-md">
-    <div className="flex justify-between items-center mb-2">
-      <h3 className="font-semibold text-sm">{title}</h3>
-      <button
-        onClick={onEdit}
-        className="text-green-700 text-xs font-medium flex gap-1 items-center hover:underline">
-            <TiPencil className='text-blue-300 text-lg'/>
-        Edit
-      </button>
-    </div>
-    <div className="text-sm text-gray-700 space-y-1">{children}</div>
-  </div>
-);
+      <div className="w-full border border-gray-200 rounded-xl p-4 shadow-md">
+        <div className="flex justify-between items-center mb-2">
+          <h3 className="font-semibold text-md">{title}</h3>
+          <button
+            onClick={onEdit}
+            className="text-green-700 text-xs font-medium flex gap-1 items-center hover:underline">
+                <TiPencil className='text-blue-300 text-lg'/>
+            Edit
+          </button>
+        </div>
+        <div className="text-sm text-gray-700 space-y-1">{children}</div>
+      </div>
+        );
 
   return (
     <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
@@ -58,32 +56,74 @@ const PreviewPage = () => {
 
         {/* Personal Details */}
         <Section title="Personal Details" onEdit={() => navigate("/personal-details")}>
-        <p>{formData.firstName} {formData.lastName}</p>
-        <p>+234 {formData.phoneNumber}</p>
-        <p>{formData.dateOfBirth}</p>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>First Name</h2>
+            <p>{formData.firstName} {formData.lastName}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Phone Number</h2>
+            <p>+234 {formData.phoneNumber}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Date of Birth</h2>
+            <p>{formData.dateOfBirth}</p>
+          </div>
         </Section>
 
         {/* Address */}
         <Section title="Address" onEdit={() => navigate("/address")}>
-        <p>{formData.houseAddress}</p>
-        <p>{formData.area}</p>
-        <p>{formData.lga}, {formData.state}</p>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>House Address</h2>
+            <p>{formData.houseAddress}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Area</h2>
+            <p>{formData.area}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>State</h2>
+            <p>{formData.lga}, {formData.state}</p>
+          </div>
         </Section>
 
         {/* Business */}
         <Section title="Business" onEdit={() => navigate("/business")}>
-        <p>{formData.businessName}</p>
-        <p>{formData.businessType}</p>
-        <p>{formData.yearsInBusiness}</p>
-        <p>{formData.dailySales}</p>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Business Name</h2>
+            <p>{formData.businessName}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Business Type</h2>
+            <p>{formData.businessType}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Years In Business</h2>
+            <p>{formData.yearsInBusiness}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Daily sales</h2>
+            <p>{formData.dailySales}</p>
+          </div>
         </Section>
 
         {/* Loan */}
         <Section title="Loan" onEdit={() => navigate("/loan")}>
-        <p>₦{formData.loanAmount ? Number(formData.loanAmount).toLocaleString() : "0"}</p>
-        <p>{formData.bankName}</p>
-        <p>{formData.accountNumber}</p>
-        <p>{formData.accountName}</p>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Loan amount</h2>
+            <p>₦{formData.loanAmount ? Number(formData.loanAmount).toLocaleString() : "0"}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Bank Name</h2>
+            <p>{formData.bankName}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Account Number</h2>
+            <p>{formData.accountNumber}</p>
+          </div>
+          <div className='flex justify-between w-full'>
+            <h2 className='font-semibold'>Account Name</h2>
+            <p>{formData.accountName}</p>
+          </div>
         </Section>
         <button
         className="w-full bg-green-800 text-white rounded-xl p-3 mt-4 hover:bg-green-900 transition"

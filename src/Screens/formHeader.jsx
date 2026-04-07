@@ -53,7 +53,7 @@ const FormHeader = () => {
                 }`}
               >
                 <span className="text-lg mb-0.5">{step.icon}</span>
-                <span className="text-[10px] leading-tight font-medium">{step.name}</span>
+                <span className="text-[12px] leading-tight font-medium">{step.name}</span>
                 <span className="text-[9px] opacity-60">{String.fromCharCode(65 + index)}</span>
               </button>
             );

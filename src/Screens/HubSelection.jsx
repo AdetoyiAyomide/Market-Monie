@@ -29,14 +29,14 @@ const HubSelection = () => {
 
   return (
     <section className='w-full min-h-screen flex items-center justify-center'>
-      <div className="p-6 mx-auto shadow-lg bg-white rounded-2xl">
-        <div className="border-b border-slate-300">
-          <button className="p-2 text-gray-500 hover:text-green-600 text-xl absolute hover:bg-slate-200 rounded-full transition-colors duration-200">
-            <FaArrowLeft onClick={() => navigate("/")} className=" " />
+      <div className="rounded-2xl relative bg-white shadow-lg border border-white min-w-md flex flex-col items-center gap-5 p-6">
+          <button onClick={() => navigate(-1)} className="p-2 text-gray-500 hover:text-green-600 text-xl flex absolute left-4 top-10 hover:bg-slate-200 rounded-full transition-colors duration-200">
+              <FaArrowLeft />
           </button>
-          <h3 className='w-full  rounded-t-2xl text-center pb-4 font-semibold '>Select State</h3>
+              <img src="/marketmonie.png" className='w-40' alt="" />
+          <h3 className='w-full  rounded-t-2xl text-center pb-3 font-semibold border-b border-slate-300'>Select State</h3>
           <ProgressBar currentStep={currentStep} totalSteps={8} />
-        </div>
+        
         <div className='flex items-center gap-3 text-md lg:text-2xl px-3 mt-2'>
           <div className='bg-[#e8f7ef] p-3 rounded-2xl'>
             <LuBuilding2 className=' text-[#3e8b4b]' />
