@@ -62,7 +62,7 @@ const isOtpComplete = otp.every(d => d !== "");
   return (
      <section className='w-full relative min-h-screen flex items-center justify-center p-4 py-10'>
         <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
-          <ProgressBar currentStep={3} totalSteps={8} />
+          <div className='w-full'><ProgressBar currentStep={3} totalSteps={8} /></div>
           <div className='flex self-start gap-2 items-center'>
                 <button onClick={() => navigate(-1)} className="p-2 text-gray-500 hover:text-green-600 text-xl hover:bg-slate-200 h-fit rounded-full transition">
                       <FaArrowLeft />
