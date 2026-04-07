@@ -7,32 +7,32 @@ import { useForm } from "../store/FormContext";
 
 const PersonalDetails = () => {
     const navigate = useNavigate();
-    
+
     const { formData, setFormData } = useForm();
 
     const [error, setError] = useState(false);
     const { firstName, lastName, phoneNumber, dateOfBirth } = formData;
     const isFormValid =
-    firstName.trim().length > 0 &&
-    lastName.trim().length > 0 &&
-    phoneNumber.trim().length > 0 &&
-    !!dateOfBirth;
+        firstName.trim().length > 0 &&
+        lastName.trim().length > 0 &&
+        phoneNumber.trim().length > 0 &&
+        !!dateOfBirth;
 
     const handleChange = (e) => {
-  setFormData({
-    ...formData,
-    [e.target.id]: e.target.value
-  });
-};
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value
+        });
+    };
 
     const currentStep = 4;
     const handleContinue = () => {
-    if (!isFormValid) {
-        setError(true);
-        return;
-    }
-    navigate("/address");
-};
+        if (!isFormValid) {
+            setError(true);
+            return;
+        }
+        navigate("/address");
+    };
 
     return (
         <section className='w-full min-h-screen flex items-center justify-center py-10 bg-[#f4f6f9]'>
@@ -81,16 +81,15 @@ const PersonalDetails = () => {
                     <input type="file" id="ID" className='border border-gray-300 rounded-lg p-2 w-full cursor-pointer' />
                 </div>
                 <div className='w-full'>
-                   <button
-                    onClick={handleContinue}
-                    disabled={!isFormValid}
-                    className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
-                    ${
-                        isFormValid
-                        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
-                        : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
-                    Continue
-                </button>
+                    <button
+                        onClick={handleContinue}
+                        disabled={!isFormValid}
+                        className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
+                    ${isFormValid
+                                ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+                                : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
+                        Continue
+                    </button>
                 </div>
             </div>
         </section>
