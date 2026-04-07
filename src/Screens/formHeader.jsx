@@ -45,7 +45,7 @@ const FormHeader = () => {
             return (
               <button
                 key={step.name}
-                onClick={() => navigate(step.path)}
+                // onClick={() => navigate(step.path)}
                 className={`relative z-10 flex flex-col items-center rounded-xl p-2 transition-all duration-300 ${
                   isActive
                     ? "text-green-800 font-bold bg-white shadow-sm"

@@ -13,51 +13,51 @@ const Address = () => {
     const { formData, setFormData } = useForm();
     const [error, setError] = useState(false);
     const [query, setQuery] = useState("");
-      const [filtered, setFiltered] = useState(locations);
-      const [selectedLocation, setSelectedLocation] = useState("");
-      const [openLga, setOpenLga] = useState(false);
-        const [lgaQuery, setLgaQuery] = useState("");
-        const [filteredLgas, setFilteredLgas] = useState([]);
-        const [selectedLga, setSelectedLga] = useState("");
+    const [filtered, setFiltered] = useState(locations);
+    const [selectedLocation, setSelectedLocation] = useState("");
+    const [openLga, setOpenLga] = useState(false);
+    const [lgaQuery, setLgaQuery] = useState("");
+    const [filteredLgas, setFilteredLgas] = useState([]);
+    const [selectedLga, setSelectedLga] = useState("");
     const handleStateChange = (e) => {
         const value = e.target.value;
         setQuery(value);
         setSelectedLocation(""); // important
-    
+
         const results = locations.filter((loc) =>
-          loc.toLowerCase().includes(value.toLowerCase())
+            loc.toLowerCase().includes(value.toLowerCase())
         );
-    
+
         setFiltered(results);
-      };
-      const handleSelect = (loc) => {
-  setSelectedLocation(loc);
-  setFormData({
-    ...formData,
-    state: loc,
-    lga: "" 
-  });
-  setOpen(false);
-  setQuery("");
-  setError(false);
-};
+    };
+    const handleSelect = (loc) => {
+        setSelectedLocation(loc);
+        setFormData({
+            ...formData,
+            state: loc,
+            lga: ""
+        });
+        setOpen(false);
+        setQuery("");
+        setError(false);
+    };
     const [lgas, setLgas] = useState([]);
 
 
     const isFormValid =
-  !!formData.state &&
-  !!formData.lga &&
-  !!formData.area &&
-  formData.houseAddress?.trim().length > 0;
+        !!formData.state &&
+        !!formData.lga &&
+        !!formData.area &&
+        formData.houseAddress?.trim().length > 0;
 
 
-useEffect(() => {
-  if (formData.state) {
-    const lgaList = stateLgaMapping[formData.state] || [];
-    setLgas(lgaList);
-    setFilteredLgas(lgaList);
-  }
-}, [formData.state]);
+    useEffect(() => {
+        if (formData.state) {
+            const lgaList = stateLgaMapping[formData.state] || [];
+            setLgas(lgaList);
+            setFilteredLgas(lgaList);
+        }
+    }, [formData.state]);
 
     const currentStep = 5;
 
@@ -76,27 +76,27 @@ useEffect(() => {
         });
     };
 
-const handleLgaChange = (e) => {
-  const value = e.target.value;
-  setLgaQuery(value);
+    const handleLgaChange = (e) => {
+        const value = e.target.value;
+        setLgaQuery(value);
 
-  const results = lgas.filter((lga) =>
-    lga.toLowerCase().includes(value.toLowerCase())
-  );
+        const results = lgas.filter((lga) =>
+            lga.toLowerCase().includes(value.toLowerCase())
+        );
 
-  setFilteredLgas(results);
-};
+        setFilteredLgas(results);
+    };
 
-const handleLgaSelect = (lga) => {
-  setFormData({
-    ...formData,
-    lga
-  });
+    const handleLgaSelect = (lga) => {
+        setFormData({
+            ...formData,
+            lga
+        });
 
-  setOpenLga(false);
-  setLgaQuery("");
-  setError(false);
-};
+        setOpenLga(false);
+        setLgaQuery("");
+        setError(false);
+    };
 
     return (
         <section className='w-full min-h-screen flex items-center justify-center p-4 py-10 bg-[#f4f6f9]'>
@@ -117,80 +117,80 @@ const handleLgaSelect = (lga) => {
                 <div className='flex flex-col w-full relative'>
                     <label htmlFor="state">State <span className='text-red-500'>*</span></label>
                     <input
-                                type="text"
-                                value={query || selectedLocation}
-                                onClick={() => setOpen(prev => !prev)}
-                                onChange={handleStateChange}
-                                placeholder="Select State"
-                                className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
-                              />
-                              <button type='button' onClick={() => setOpen(prev => !prev)}>
-                                {open ? (
-                                  <FaChevronUp className="absolute right-7 top-9" />
-                                ) : (
-                                  <FaChevronDown className="absolute right-7 top-9" />
-                                )}
-                              </button>
-
-                               {open && (
-            <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
-              <ul className="max-h-40 overflow-y-auto">
-                {filtered.length > 0 ? (
-                  filtered.map((loc, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleSelect(loc)}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
-                    >
-                      {loc}
-                    </li>
-                  ))
-                ) : (
-                  <li className="p-2 text-gray-400">No results found</li>
-                )}
-              </ul>
-            </div>
-          )}
-                </div>
-               <div className='flex flex-col w-full relative'>
-                <label>LGA <span className='text-red-500'>*</span></label>
-
-                <input
-                    type="text"
-                    value={lgaQuery || formData.lga}
-                    onClick={() => setOpenLga(prev => !prev)}
-                    onChange={handleLgaChange}
-                    placeholder={formData.state ? "Select LGA" : "Select State First"}
-                    disabled={!formData.state}
-                    className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100"/>
-
-                <button type="button" onClick={() => setOpenLga(prev => !prev)}>
-                    {openLga ? (
-                    <FaChevronUp className="absolute right-7 top-9" />
-                    ) : (
-                    <FaChevronDown className="absolute right-7 top-9" />
-                    )}
-                </button>
-
-                {openLga && (
-                    <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
-                    <ul className="max-h-40 overflow-y-auto">
-                        {filteredLgas.length > 0 ? (
-                        filteredLgas.map((lga, index) => (
-                            <li
-                            key={index}
-                            onClick={() => handleLgaSelect(lga)}
-                            className="p-2 hover:bg-gray-100 cursor-pointer"
-                            >
-                            {lga}
-                            </li>
-                        ))
+                        type="text"
+                        value={query || selectedLocation}
+                        onClick={() => setOpen(prev => !prev)}
+                        onChange={handleStateChange}
+                        placeholder="Select State"
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
+                    />
+                    <button type='button' onClick={() => setOpen(prev => !prev)}>
+                        {open ? (
+                            <FaChevronUp className="absolute right-7 top-9" />
                         ) : (
-                        <li className="p-2 text-gray-400">No results found</li>
+                            <FaChevronDown className="absolute right-7 top-9" />
                         )}
-                    </ul>
-                    </div>
-                )}
+                    </button>
+
+                    {open && (
+                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+                            <ul className="max-h-40 overflow-y-auto">
+                                {filtered.length > 0 ? (
+                                    filtered.map((loc, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => handleSelect(loc)}
+                                            className="p-2 hover:bg-gray-100 cursor-pointer"
+                                        >
+                                            {loc}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="p-2 text-gray-400">No results found</li>
+                                )}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+                <div className='flex flex-col w-full relative'>
+                    <label>LGA <span className='text-red-500'>*</span></label>
+
+                    <input
+                        type="text"
+                        value={lgaQuery || formData.lga}
+                        onClick={() => setOpenLga(prev => !prev)}
+                        onChange={handleLgaChange}
+                        placeholder={formData.state ? "Select LGA" : "Select State First"}
+                        disabled={!formData.state}
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100" />
+
+                    <button type="button" onClick={() => setOpenLga(prev => !prev)}>
+                        {openLga ? (
+                            <FaChevronUp className="absolute right-7 top-9" />
+                        ) : (
+                            <FaChevronDown className="absolute right-7 top-9" />
+                        )}
+                    </button>
+
+                    {openLga && (
+                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+                            <ul className="max-h-40 overflow-y-auto">
+                                {filteredLgas.length > 0 ? (
+                                    filteredLgas.map((lga, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => handleLgaSelect(lga)}
+                                            className="p-2 hover:bg-gray-100 cursor-pointer"
+                                        >
+                                            {lga}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="p-2 text-gray-400">No results found</li>
+                                )}
+                            </ul>
+                        </div>
+                    )}
                 </div>
                 <div className='flex flex-col w-full'>
                     <label htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
