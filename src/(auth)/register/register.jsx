@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../schemas/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
@@ -13,12 +15,14 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    setError: setFormError,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
   const passwordValue = watch("password", "");
+  const emailValue = watch("email", "");
 
   const calculateStrength = (password) => {
     if (!password) return { score: 0, label: "", color: "bg-gray-200" };
@@ -34,10 +38,22 @@ const Register = () => {
   };
 
   const strength = calculateStrength(passwordValue);
+  const isWeak = strength.label === "Weak";
 
   const onSubmit = async (data) => {
+    // Mock check for existing email
+    if (data.email === "exists@gmail.com") {
+      setFormError("email", { 
+        type: "manual", 
+        message: "This email is already registered." 
+      });
+      return;
+    }
+
     console.log("Register Data:", data);
+    navigate("/verify-email", { state: { email: data.email } });
   };
+
 
   return (
     <div>
@@ -67,8 +83,16 @@ const Register = () => {
                 placeholder="you@example.com"
               />
               {errors.email && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{errors.email.message}</p>
+                <p className="mt-2 text-xs text-red-500 font-medium leading-relaxed">
+                  {errors.email.message}{" "}
+                  {errors.email.message.includes("registered") && (
+                    <Link to="/login" className="text-emerald-600 underline hover:text-emerald-500">
+                      Log in here
+                    </Link>
+                  )}
+                </p>
               )}
+
             </div>
           </div>
 
@@ -149,7 +173,7 @@ const Register = () => {
           <div>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isWeak}
               className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
             >
               {isSubmitting ? "Creating account..." : "Create Account"}

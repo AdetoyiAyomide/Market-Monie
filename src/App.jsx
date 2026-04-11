@@ -14,6 +14,9 @@ import Preview from './Screens/PreviewPage'
 import AuthLayout from "./(auth)/layout";
 import Login from "./(auth)/login/login";
 import Register from "./(auth)/register/register";
+import VerifyEmail from "./(auth)/register/verify-email";
+import SuccessScreen from "./components/ui/success-screen";
+import PhoneVerification from "./(onboarding)/phone-verification";
 
 function App() {
   return (
@@ -21,11 +24,28 @@ function App() {
       <Routes>
         <Route path="/" element={<SelectState />} />
         
+        {/* Onboarding Routes */}
+        <Route path="/onboarding/phone" element={<PhoneVerification />} />
+        
+        {/* Standalone Success Screens */}
+        <Route path="/register/success" element={
+          <SuccessScreen 
+            title="Account Created!" 
+            description="Your account has been successfully verified. You are being redirected to complete your profile."
+            redirectPath="/onboarding/phone"
+            countdownSeconds={5}
+          />
+        } />
+
         {/* Auth Routes */}
         <Route element={<AuthLayout />}>
+
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Route>
+
 
         <Route path="/apply/hub" element={<HubSelection />} />
         <Route path="/create-account" element={<CreateAccount />} />

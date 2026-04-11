@@ -5,20 +5,18 @@
   --font-poppins: "Poppins", "sans-serif";
 }
 
-:root {
-  font-family: var(--font-sans);
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.phone-input-container .PhoneInputInput {
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding: 0 10px !important;
+  font-family: inherit;
 }
+
+.phone-input-container .PhoneInputCountry {
+  margin-right: 12px;
+}
+
 
 body {
   margin: 0;
