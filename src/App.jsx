@@ -16,7 +16,9 @@ import Login from "./(auth)/login/login";
 import Register from "./(auth)/register/register";
 import VerifyEmail from "./(auth)/register/verify-email";
 import SuccessScreen from "./components/ui/success-screen";
+import OnboardingLayout from "./(onboarding)/layout";
 import PhoneVerification from "./(onboarding)/phone-verification";
+import BvnVerification from "./(onboarding)/bvn-verification";
 
 function App() {
   return (
@@ -25,14 +27,17 @@ function App() {
         <Route path="/" element={<SelectState />} />
         
         {/* Onboarding Routes */}
-        <Route path="/onboarding/phone" element={<PhoneVerification />} />
+        <Route element={<OnboardingLayout />}>
+          <Route path="/onboarding/phone" element={<PhoneVerification />} />
+          <Route path="/onboarding/bvn" element={<BvnVerification />} />
+        </Route>
         
         {/* Standalone Success Screens */}
         <Route path="/register/success" element={
           <SuccessScreen 
             title="Account Created!" 
             description="Your account has been successfully verified. You are being redirected to complete your profile."
-            redirectPath="/onboarding/phone"
+            redirectPath="/onboarding/bvn"
             countdownSeconds={5}
           />
         } />

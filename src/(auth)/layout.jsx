@@ -4,13 +4,13 @@ import { Outlet } from "react-router-dom";
 const carouselItems = [
   {
     image: "/market-woman.jpg",
-    title: "Empowering Market Traders Everywhere.",
-    description: "Market Monie provides access to credit and digital tools designed specifically for local traders to grow their business and secure their future."
+    title: <span className="block w-xl "> Empowering Market <span className="text-emerald-400">Traders</span> Everywhere.</span>,
+    description: <p>Market Monie provides access to credit and digital tools designed specifically for local traders to grow their business and secure their future.</p>
   },
   {
     image: "/monie.jpg",
-    title: "Fuel Your Business Growth with SME Loans.",
-    description: "Access flexible credit facilities and loans tailored to help your SME thrive. Get the financial support you need to expand your operations today."
+    title: <span className="block w-xl ">Fuel Your <span className="text-emerald-400">Business Growth </span>with SME Loans.</span>,
+    description: <p>Access flexible credit facilities and loans tailored to help your SME thrive. Get the financial support you need to expand your operations today.</p>
   }
 
 ];
@@ -87,7 +87,8 @@ const AuthLayout = () => {
             <div className="flex items-center gap-4 text-sm font-medium text-emerald-200 ml-auto">
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-8 w-8 rounded-full border-2 border-emerald-900 bg-emerald-800" />
+                  <img src={`https://api.dicebear.com/9.x/avataaars/svg?eyes=happy,default,&seed=${i}`}
+  alt="avatar" className="h-8 w-8 rounded-full border-2 border-emerald-900 bg-emerald-800" />
                 ))}
               </div>
               <span>Joined by over 10,000+ traders</span>

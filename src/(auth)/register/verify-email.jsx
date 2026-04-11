@@ -44,7 +44,7 @@ const VerifyEmail = () => {
         setRedirectTimer((prev) => prev - 1);
       }, 1000);
     } else if (isSuccess && redirectTimer === 0) {
-      navigate("/onboarding/hub");
+      navigate("/onboarding/bvn");
     }
     return () => clearInterval(interval);
   }, [isSuccess, redirectTimer, navigate]);
@@ -187,4 +187,3 @@ const VerifyEmail = () => {
 };
 
 export default VerifyEmail;
-
