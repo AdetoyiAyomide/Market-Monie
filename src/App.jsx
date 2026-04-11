@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HubSelection from "./Screens/HubSelection";
 import SelectState from "./Screens/SelectState";
 import CreateAccount from "./Screens/CreateAccount";
@@ -9,14 +9,24 @@ import Business from './Screens/business';
 import Loan from './Screens/loan';
 import AccountCreation from './Screens/AccountCreation';
 import Preview from './Screens/PreviewPage'
-import Login from './Screens/Login'
 
+// New Auth Components
+import AuthLayout from "./(auth)/layout";
+import Login from "./(auth)/login/login";
+import Register from "./(auth)/register/register";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<SelectState />} />
+        
+        {/* Auth Routes */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
         <Route path="/apply/hub" element={<HubSelection />} />
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/account-creation" element={<AccountCreation />} />
@@ -25,11 +35,12 @@ function App() {
         <Route path="/business" element={<Business />} />
         <Route path="/loan" element={<Loan />} />
         <Route path="/preview" element={<Preview />} />
-        <Route path='/login' element={<Login />} />
+        
+        {/* Redirect old login path if necessary, or just overwrite */}
+        {/* <Route path='/old-login' element={<OldLogin />} /> */}
       </Routes>
     </BrowserRouter>
   );
 }
-
 
 export default App;
