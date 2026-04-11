@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { BsPerson } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";

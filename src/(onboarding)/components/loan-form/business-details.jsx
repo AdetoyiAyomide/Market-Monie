@@ -1,6 +1,22 @@
-import { FiBriefcase, FiMapPin, FiTrendingUp, FiClock } from "react-icons/fi";
+import { useState } from "react";
+import { FiBriefcase, FiMapPin, FiTrendingUp, FiClock, FiType, FiLoader } from "react-icons/fi";
+import { useQuery } from "@tanstack/react-query";
+import { locationService } from "../../../services/locationService";
 
 const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
+  // Query for states
+  const { data: states = [], isLoading: loadingStates } = useQuery({
+    queryKey: ['states'],
+    queryFn: () => locationService.getStates(),
+  });
+
+  // Query for LGAs (enabled only if state is selected)
+  const { data: lgas = [], isFetching: loadingLgas } = useQuery({
+    queryKey: ['lgas', data.businessState],
+    queryFn: () => locationService.getLGAs(data.businessState),
+    enabled: !!data.businessState,
+  });
+
   const businessKinds = [
     "Farming", "Food Processing", "Bakery Business", "Restaurants and Catering",
     "Supermarkets/Grocery Stores", "Petty Trading", "Leather Production",
@@ -36,13 +52,39 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           icon={<FiBriefcase />} 
         />
 
-        <InputGroup 
-          label="What is your business address?" 
-          value={data.businessAddress} 
-          onChange={(e) => onChange('businessAddress', e.target.value)}
-          placeholder="Enter detailed business address"
-          icon={<FiMapPin />} 
-        />
+        <div className="space-y-4 pt-2 pb-2">
+          <label className="text-xs font-bold text-emerald-600 uppercase tracking-widest ml-1">
+             Business Location
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            <SelectGroup 
+              label="State" 
+              value={data.businessState} 
+              onChange={(e) => {
+                 onChange('businessState', e.target.value);
+                 onChange('businessLga', '');
+              }}
+              options={states}
+              icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMapPin />} 
+              disabled={loadingStates}
+            />
+            <SelectGroup 
+              label="LGA" 
+              value={data.businessLga} 
+              onChange={(e) => onChange('businessLga', e.target.value)}
+              options={lgas}
+              disabled={!data.businessState || loadingLgas}
+              icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
+            />
+          </div>
+          <InputGroup 
+            label="Street / Area Name" 
+            value={data.businessArea} 
+            onChange={(e) => onChange('businessArea', e.target.value)}
+            placeholder="e.g. 12, Market Road"
+            icon={<FiMapPin />} 
+          />
+        </div>
 
         <SelectGroup 
           label="What kind of business are you into?" 
@@ -78,8 +120,8 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           </button>
           <button
             onClick={onContinue}
-            disabled={!data.businessName || !data.businessType || !data.dailySales}
-            className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+            disabled={!data.businessName || !data.businessState || !data.businessLga || !data.businessType || !data.dailySales}
+            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
           >
             Continue
           </button>
@@ -109,7 +151,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon }) => (
+const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }) => (
   <div className="space-y-2">
     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
       {label}
@@ -121,9 +163,12 @@ const SelectGroup = ({ label, value, onChange, options, icon }) => (
       <select
         value={value}
         onChange={onChange}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+        disabled={disabled}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
+          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        }`}
       >
-        <option value="">Select Option</option>
+        <option value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
         {options.map((opt, i) => (
           <option key={i} value={opt}>{opt}</option>
         ))}

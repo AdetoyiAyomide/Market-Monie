@@ -1,6 +1,22 @@
-import { FiHome, FiMap, FiUploadCloud, FiType, FiFileText } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import { FiHome, FiMap, FiUploadCloud, FiType, FiFileText, FiLoader } from "react-icons/fi";
+import { useQuery } from "@tanstack/react-query";
+import { locationService } from "../../../services/locationService";
 
 const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
+  // Query for states
+  const { data: states = [], isLoading: loadingStates } = useQuery({
+    queryKey: ['states'],
+    queryFn: () => locationService.getStates(),
+  });
+
+  // Query for LGAs (enabled only if state is selected)
+  const { data: lgas = [], isFetching: loadingLgas } = useQuery({
+    queryKey: ['lgas', data.state],
+    queryFn: () => locationService.getLGAs(data.state),
+    enabled: !!data.state,
+  });
+
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-left font-poppins">
@@ -17,17 +33,21 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
           <SelectGroup 
             label="State" 
             value={data.state} 
-            onChange={(e) => onChange('state', e.target.value)}
-            options={["Lagos", "Abuja", "Ogun", "Kano", "Rivers"]}
-            icon={<FiMap />} 
+            onChange={(e) => {
+               onChange('state', e.target.value);
+               onChange('lga', ''); 
+            }}
+            options={states}
+            icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMap />} 
+            disabled={loadingStates}
           />
           <SelectGroup 
             label="LGA" 
             value={data.lga} 
             onChange={(e) => onChange('lga', e.target.value)}
-            options={data.state ? ["Ikeja", "Alimosho", "Garki", "Wuse"] : []}
-            disabled={!data.state}
-            icon={<FiType />} 
+            options={lgas}
+            disabled={!data.state || loadingLgas}
+            icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
           />
         </div>
 
@@ -85,7 +105,7 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
           <button
             onClick={onContinue}
             disabled={!data.state || !data.lga}
-            className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
           >
             Continue
           </button>
@@ -132,7 +152,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }
           disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
         }`}
       >
-        <option value="">Select {label}</option>
+        <option value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
         {options.map((opt, i) => (
           <option key={i} value={opt}>{opt}</option>
         ))}

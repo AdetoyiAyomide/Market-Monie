@@ -39,7 +39,9 @@ const LoanApplication = () => {
 
     // Step 3: Business
     businessName: "",
-    businessAddress: "",
+    businessState: "",
+    businessLga: "",
+    businessArea: "",
     businessType: "",
     businessYears: "",
     dailySales: "",
@@ -82,6 +84,7 @@ const LoanApplication = () => {
         <HubSelection 
           selectedState={formData.selectedState} 
           selectedHub={formData.hub}
+          onSelectState={(s) => updateFormData('selectedState', s)}
           onSelectHub={(h) => updateFormData('hub', h)}
           onContinue={nextStep}
         />

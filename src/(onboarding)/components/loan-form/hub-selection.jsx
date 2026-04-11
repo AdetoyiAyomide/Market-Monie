@@ -1,9 +1,21 @@
-import { FiMapPin, FiCheckCircle, FiChevronRight } from "react-icons/fi";
+import { FiMapPin, FiChevronRight, FiChevronDown, FiGlobe } from "react-icons/fi";
 import { hubsByState } from "../../../data/hubs";
 
-const HubSelection = ({ selectedState, selectedHub, onSelectHub, onContinue }) => {
+const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, onContinue }) => {
   const hubs = hubsByState[selectedState] || [];
   const hasHubs = hubs.length > 0;
+  const states = Object.keys(hubsByState);
+
+  const handleStateChange = (e) => {
+    onSelectState(e.target.value);
+    onSelectHub(null); // Reset hub when state changes
+  };
+
+  const handleHubChange = (e) => {
+    const hubName = e.target.value;
+    const hub = hubs.find(h => h.name === hubName);
+    onSelectHub(hub);
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -16,39 +28,75 @@ const HubSelection = ({ selectedState, selectedHub, onSelectHub, onContinue }) =
           Select Your Hub
         </h2>
         <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
-          {hasHubs 
-            ? "Choose the nearest Market Monie hub to your location in " + selectedState + "."
-            : "We currently do not have a Market Monie hub in " + selectedState + "."}
+          Please select your current state and the nearest Market Monie hub to process your application.
         </p>
       </div>
 
-      <div className="mt-10 space-y-4">
+      <div className="mt-10 space-y-6">
+        {/* State Selection */}
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+             Select State
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+              <FiGlobe />
+            </div>
+            <select
+              value={selectedState}
+              onChange={handleStateChange}
+              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+            >
+              {states.map((state, index) => (
+                <option key={index} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+              <FiChevronDown size={20} />
+            </div>
+          </div>
+        </div>
+
+        {/* Hub Selection */}
         {hasHubs ? (
-          <div className="grid grid-cols-1 gap-4">
-            {hubs.map((hub, index) => (
-              <button
-                key={index}
-                onClick={() => onSelectHub(hub)}
-                className={`flex flex-col text-left p-5 rounded-2xl border-2 transition-all group ${
-                  selectedHub?.name === hub.name 
-                    ? "border-emerald-600 bg-emerald-50/50 shadow-lg shadow-emerald-100" 
-                    : "border-gray-100 bg-white hover:border-emerald-200 hover:bg-emerald-50/30"
-                }`}
+          <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+               Available Hubs in {selectedState}
+            </label>
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+                <FiMapPin />
+              </div>
+              <select
+                value={selectedHub?.name || ""}
+                onChange={handleHubChange}
+                className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className={`font-bold text-lg ${selectedHub?.name === hub.name ? "text-emerald-700" : "text-gray-900"}`}>
+                <option value="" disabled>Select a hub near you</option>
+                {hubs.map((hub, index) => (
+                  <option key={index} value={hub.name}>
                     {hub.name}
-                  </span>
-                  {selectedHub?.name === hub.name && <FiCheckCircle className="text-emerald-600" size={20} />}
-                </div>
-                <p className="text-sm text-gray-500 leading-relaxed font-sans">
-                  {hub.address}
-                </p>
-              </button>
-            ))}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+                <FiChevronDown size={20} />
+              </div>
+            </div>
+            
+            {selectedHub && (
+              <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                 <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">Hub Address</p>
+                 <p className="text-sm text-emerald-900 leading-relaxed font-sans font-medium">
+                    {selectedHub.address}
+                 </p>
+              </div>
+            )}
           </div>
         ) : (
-          <div className="p-8 text-center bg-amber-50 rounded-2xl border-2 border-amber-100 border-dashed">
+          <div className="p-8 text-center bg-amber-50 rounded-2xl border-2 border-amber-100 border-dashed animate-in fade-in zoom-in-95 duration-500">
              <div className="inline-flex items-center justify-center h-16 w-16 bg-amber-100 rounded-full text-amber-600 mb-4 mx-auto">
                 <FiMapPin size={32} />
              </div>
@@ -64,7 +112,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectHub, onContinue }) =
           disabled={hasHubs && !selectedHub}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins mt-8 group"
         >
-          {hasHubs ? "Select Hub & Continue" : "Continue anyway"}
+          {hasHubs ? "Continue" : "Continue anyway"}
           <FiChevronRight className="transition-transform group-hover:translate-x-1" />
         </button>
       </div>

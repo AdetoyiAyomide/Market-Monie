@@ -28,6 +28,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel }) => {
           <InfoItem label="Business Name" value={data.businessName} />
           <InfoItem label="Business Type" value={data.businessType} />
           <InfoItem label="Daily Sales" value={`₦${data.dailySales}`} />
+          <InfoItem label="Location" value={`${data.businessArea || ''}, ${data.businessLga}, ${data.businessState}`} />
         </ReviewSection>
 
         <ReviewSection title="Loan Details" icon={<FiCreditCard />} onEdit={() => onEdit(4)}>
