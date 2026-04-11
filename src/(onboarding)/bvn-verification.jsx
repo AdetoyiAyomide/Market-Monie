@@ -79,7 +79,7 @@ const BvnVerification = () => {
         <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-3">
           <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-800 leading-relaxed italic">
-            Your BVN is safe with us. Dial <span className="font-bold">*565*0#</span> on your registered mobile number to retrieve your BVN.
+            Don&apos;t know your bvn?. Dial <span className="font-bold">*565*0#</span> on your registered mobile number to retrieve your BVN.
           </p>
         </div>
 

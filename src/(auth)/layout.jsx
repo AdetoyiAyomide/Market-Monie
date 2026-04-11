@@ -47,12 +47,6 @@ const AuthLayout = () => {
           </div>
         ))}
 
-        {/* Decorative Pattern Layer (Stays on top) */}
-        {/* <div className="absolute -top-[50%] -right-[40%] pointer-events-none opacity-10 z-20"
-          style={{ width: "200%", height: "170%" }}>
-          <img src="/Pattern.png" alt="" className="w-full h-full object-contain object-bottom-right" style={{ filter: "brightness(0.9)" }} />
-        </div> */}
-
         {/* Logo (Stays on top) */}
         <div className="absolute top-10 left-12 z-20">
           <img src="/market-monie.png" alt="Market Monie Logo" className="h-10 w-auto brightness-0 invert" />
@@ -88,7 +82,7 @@ const AuthLayout = () => {
               <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
                   <img src={`https://api.dicebear.com/9.x/avataaars/svg?eyes=happy,default,&seed=${i}`}
-  alt="avatar" className="h-8 w-8 rounded-full border-2 border-emerald-900 bg-emerald-800" />
+                   alt="avatar" key={i} className="h-8 w-8 rounded-full border-2 border-emerald-900 bg-emerald-800" />
                 ))}
               </div>
               <span>Joined by over 10,000+ traders</span>
@@ -99,7 +93,7 @@ const AuthLayout = () => {
 
       {/* Right Side: Form Content */}
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-20 bg-white overflow-y-auto">
-        <div className="mx-auto w-full max-w-lg lg:w-[28rem]">
+        <div className="mx-auto w-full max-w-lg lg:w-md">
           <div className="mb-10 lg:hidden text-left">
              <img src="/market-monie.png" alt="Market Monie" className="h-8 w-auto" />
           </div>
