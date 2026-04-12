@@ -34,13 +34,16 @@ const queryClient = new QueryClient({
   },
 });
 
+import LandingPage from "./LandingPage";
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           {/* Entry Point */}
-          <Route path="/" element={<SelectState />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/select-state" element={<SelectState />} />
           
           {/* Onboarding & Application Routes */}
           <Route element={<OnboardingLayout />}>

@@ -20,13 +20,16 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   background: white;
   color: #1a1a1a;
   font-family: var(--font-sans);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
 /* Fix invisible dropdown text — force native select/option to use black text */
