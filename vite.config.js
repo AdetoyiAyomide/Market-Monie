@@ -7,7 +7,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     react(),
-    babel({ presets: [reactCompilerPreset()] }),
+    // Temporarily disabled compiler due to 'useMemoCache' error
+    // babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
 })

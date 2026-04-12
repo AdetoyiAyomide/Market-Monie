@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const carouselItems = [
   {
@@ -26,7 +27,12 @@ const AuthLayout = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-white">
+    <motion.div 
+      initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
+      className="flex min-h-screen bg-white"
+    >
       {/* Left Side: Carousel (Sticky — stays fixed while page scrolls) */}
       <div className="hidden lg:flex lg:w-2/3 lg:sticky lg:top-0 lg:h-screen overflow-hidden">
         {carouselItems.map((item, index) => (
@@ -100,7 +106,7 @@ const AuthLayout = () => {
           <Outlet />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../schemas/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -14,6 +19,7 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     console.log("Form Data:", data);
+    navigate("/dashboard");
   };
 
   return (
@@ -53,13 +59,20 @@ const Login = () => {
             <label className="block text-sm font-medium leading-6 text-gray-900">
               Password
             </label>
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <input
                 {...register("password")}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              </button>
               {errors.password && (
                 <p className="mt-2 text-xs text-red-500 font-medium">{errors.password.message}</p>
               )}
@@ -101,4 +114,4 @@ const Login = () => {
 };
 
 export default Login;
-
+
