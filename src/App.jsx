@@ -9,6 +9,7 @@ import AuthLayout from "./(auth)/layout";
 import Login from "./(auth)/login/login";
 import Register from "./(auth)/register/register";
 import VerifyEmail from "./(auth)/register/verify-email";
+import ForgotPassword from "./(auth)/forgot-password/forgot-password";
 import SuccessScreen from "./components/ui/success-screen";
 
 // New Onboarding Components
@@ -68,6 +69,7 @@ function AnimatedRoutes() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Route>
 
         {/* Dashboard Routes */}

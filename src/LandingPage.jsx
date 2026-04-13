@@ -16,7 +16,7 @@ const LandingPage = () => {
     setIsNavigating(true);
     setTimeout(() => {
       navigate(path);
-    }, 800);
+    }, 100);
   };
 
   const modes = [
