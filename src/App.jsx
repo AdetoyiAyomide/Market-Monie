@@ -24,7 +24,7 @@ import Dashboard from "./(dashboard)/Dashboard";
 import Analytics from "./(dashboard)/Analytics";
 import ComingSoon from "./(dashboard)/ComingSoon";
 
-import LandingPage from "./LandingPage";
+// import LandingPage from "./LandingPage";
 import LandingPage2 from "./LandingPage2";
 
 // Create a client
@@ -62,7 +62,7 @@ function AnimatedRoutes() {
             title="Account Created!" 
             description="Your account has been successfully verified. You are being redirected to complete your profile."
             redirectPath="/onboarding/bvn"
-            countdownSeconds={5}
+            countdownSeconds={3}
           />
         } />
 
