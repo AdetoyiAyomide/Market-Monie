@@ -273,11 +273,11 @@ const LandingPage2 = () => {
                         </div>
                         <h3 className="text-2xl font-bold">Create Account</h3>
                         <p className="text-white/70 text-sm leading-relaxed">Join thousands of entrepreneurs and unlock full access to loans and tracking.</p>
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4">
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4 hover:gap-4 transition-all duration-500">
                            Get Started <FiArrowRight />
                         </div>
                      </div>
-                  </motion.button>
+                  </motion.button>  
 
                   <motion.button
                     whileHover={{ y: -10 }}
@@ -296,7 +296,7 @@ const LandingPage2 = () => {
                         </div>
                         <h3 className="text-2xl font-bold">Continue as Guest</h3>
                         <p className="text-white/40 text-sm leading-relaxed">Explore our platform first. You can always create an account later to apply.</p>
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4 text-emerald-500">
+                        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4 text-emerald-500 hover:gap-4 transition-all duration-500">
                            Explore Now <FiArrowRight />
                         </div>
                      </div>
