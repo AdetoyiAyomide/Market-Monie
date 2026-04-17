@@ -128,7 +128,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
 
       <div className="mt-8 space-y-6">
         <InputGroup 
-          label="What is the name of your business?" 
+          label="e.g Mama T store" 
           value={data.businessName} 
           onChange={(e) => onChange('businessName', e.target.value)}
           placeholder="Enter business name"
@@ -195,7 +195,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
               label="Please specify your business type" 
               value={data.otherBusiness} 
               onChange={(e) => onChange('otherBusiness', e.target.value)}
-              placeholder="e.g. Tailoring, Graphic Design"
+              placeholder="e.g. Trading"
               icon={<FiType />} 
             />
           </div>

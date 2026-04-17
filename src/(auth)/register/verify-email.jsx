@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { FiArrowLeft, FiCheck } from "react-icons/fi";
+import { FiCheck } from "react-icons/fi";
 import { toast } from "sonner";
 import {
   InputOTP,
@@ -8,6 +8,7 @@ import {
   InputOTPSlot,
 } from "../../components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import JourneyHeader from "../../components/ui/journey-header";
 
 
 const VerifyEmail = () => {
@@ -117,13 +118,9 @@ const VerifyEmail = () => {
 
   return (
     <div>
+      <JourneyHeader activeStep="email" />
+
       <div className="text-left font-poppins">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="mb-6 flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-600 transition-colors"
-        >
-          <FiArrowLeft /> Back
-        </button>
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Verify your email
         </h2>

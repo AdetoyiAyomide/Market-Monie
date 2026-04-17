@@ -121,7 +121,7 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
         />
 
         <InputGroup 
-          label="House Address (Optional)" 
+          label="House Number (Optional)" 
           value={data.houseAddress} 
           onChange={(e) => onChange('houseAddress', e.target.value)}
           placeholder="Enter house number"

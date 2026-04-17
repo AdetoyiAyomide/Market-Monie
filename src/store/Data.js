@@ -2,6 +2,7 @@ export let selectedStateGlobal = "";
 export let selectedHubGlobal = "";
 export let isNoHubStateGlobal = false;
 export let isGuestGlobal = false;
+export let applicationModeGlobal = "";
 
 export const setSelectedStateGlobal = (state) => {
   selectedStateGlobal = state;
@@ -17,6 +18,10 @@ export const setNoHubStateGlobal = (status) => {
 
 export const setIsGuestGlobal = (status) => {
   isGuestGlobal = status;
+};
+
+export const setApplicationModeGlobal = (mode) => {
+  applicationModeGlobal = mode;
 };
 
 // location dataset

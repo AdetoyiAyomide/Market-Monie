@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiShield, FiAlertCircle, FiCheck } from "react-icons/fi";
+import { FiShield, FiAlertCircle, FiCheck } from "react-icons/fi";
 import { toast } from "sonner";
 import BvnConfirmation from "./components/bvn-confirmation";
+import JourneyHeader from "../components/ui/journey-header";
 
 const BvnVerification = () => {
   const navigate = useNavigate();
@@ -93,24 +94,22 @@ const BvnVerification = () => {
 
   if (showConfirmation) {
     return (
-      <BvnConfirmation 
-        userData={userData} 
-        onConfirm={handleConfirm} 
-        onBack={() => setShowConfirmation(false)} 
-      />
+      <div>
+        <JourneyHeader activeStep="bvn" />
+        <BvnConfirmation 
+          userData={userData} 
+          onConfirm={handleConfirm} 
+          onBack={() => setShowConfirmation(false)} 
+        />
+      </div>
     );
   }
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <JourneyHeader activeStep="bvn" />
+
       <div className="text-left font-poppins">
-        <button 
-          onClick={() => navigate(-1)} 
-          className="mb-8 flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-600 transition-colors group"
-        >
-          <FiArrowLeft className="transition-transform group-hover:-translate-x-1" /> Back
-        </button>
-        
         <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
           <FiShield size={24} />
         </div>

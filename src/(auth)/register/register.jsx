@@ -1,20 +1,25 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../schemas/auth";
 import { Link, useNavigate } from "react-router-dom";
+import JourneyHeader from "../../components/ui/journey-header";
 
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
+  const titleDropdownRef = useRef(null);
+  const titleOptions = ["Mr", "Mrs", "Ms", "Miss", "Dr"];
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     setError: setFormError,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -22,6 +27,18 @@ const Register = () => {
   });
 
   const passwordValue = watch("password", "");
+  const titleValue = watch("title", "");
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (titleDropdownRef.current && !titleDropdownRef.current.contains(event.target)) {
+        setIsTitleOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const calculateStrength = (password) => {
     if (!password) return { score: 0, label: "", color: "bg-gray-200" };
@@ -57,6 +74,8 @@ const Register = () => {
 
   return (
     <div>
+      <JourneyHeader activeStep="account" />
+
       <div className="text-left font-poppins">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
           Create an account
@@ -77,17 +96,41 @@ const Register = () => {
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Title
               </label>
-              <select
-                {...register("title")}
-                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 appearance-none cursor-pointer"
-              >
-                <option value="">Select</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
-                <option value="Miss">Miss</option>
-                <option value="Dr">Dr</option>
-              </select>
+              <input type="hidden" {...register("title")} />
+              <div className="relative mt-2" ref={titleDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsTitleOpen((prev) => !prev)}
+                  className="block w-full rounded-lg border-0 bg-gray-50/50 py-3.5 px-4 pr-11 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
+                >
+                  <span className={titleValue ? "text-gray-900" : "text-gray-400"}>
+                    {titleValue || "Select"}
+                  </span>
+                </button>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400">
+                  {isTitleOpen ? <FiChevronUp size={18} /> : <FiChevronDown size={18} />}
+                </div>
+                {isTitleOpen && (
+                  <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl">
+                    <ul className="max-h-56 overflow-y-auto py-2">
+                      {titleOptions.map((title) => (
+                        <li
+                          key={title}
+                          onClick={() => {
+                            setValue("title", title, { shouldValidate: true, shouldDirty: true });
+                            setIsTitleOpen(false);
+                          }}
+                          className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                            titleValue === title ? "bg-emerald-50 text-emerald-700" : "text-gray-700"
+                          }`}
+                        >
+                          {title}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
               {errors.title && (
                 <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
               )}
@@ -271,4 +314,3 @@ const Register = () => {
 };
 
 export default Register;
-

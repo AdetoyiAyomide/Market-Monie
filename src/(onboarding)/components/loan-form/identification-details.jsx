@@ -64,7 +64,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <CustomSelectGroup 
-              label="ID Type" 
+              label="ID Type (optional)" 
               value={data.idType} 
               isOpen={isIdTypeOpen}
               onToggle={() => setIsIdTypeOpen((prev) => !prev)}

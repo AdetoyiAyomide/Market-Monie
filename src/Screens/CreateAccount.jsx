@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FiUserPlus, FiUserCheck } from "react-icons/fi";
 import { FaArrowLeft } from "react-icons/fa";
 import ProgressBar from './ProgressBar';
-
 const CreateAccount = () => {
     const navigate = useNavigate();
     const currentStep = 3;
