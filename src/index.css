@@ -1,6 +1,87 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Montserrat", "system-ui", "sans-serif";
+  --font-poppins: "Poppins", "sans-serif";
+}
+
+.phone-input-container .PhoneInputInput {
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  padding: 0 10px !important;
+  font-family: inherit;
+}
+
+.phone-input-container .PhoneInputCountry {
+  margin-right: 12px;
+}
+
+
 body {
-  background: #f4f6f9;
-  font-family: "Poppins", sans-serif;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: white;
+  color: #1a1a1a;
+  font-family: var(--font-sans);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Fix invisible dropdown text — force native select/option to use black text */
+select,
+select option {
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Focus Rings */
+input:focus {
+  outline: none;
+}
+
+/* Smooth transitions for buttons and inputs */
+button, input {
+  transition-property: all;
+  transition-duration: 200ms;
+}
+
+/* Global Thin & Light Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0; /* Slate-200 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1; /* Slate-300 */
+}
+
+/* Firefox Support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
 }
