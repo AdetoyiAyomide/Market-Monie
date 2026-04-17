@@ -236,7 +236,7 @@ const LandingPage2 = () => {
                           initial={{ opacity: 0, y: 10, scale: 0.98 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                          className="absolute mt-1 w-full bg-[#0d1412]/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden max-h-[320px] overflow-y-auto custom-scrollbar z-[100]"
+                          className="absolute mt-1 w-full bg-[#0d1412]/95 backdrop-blur-3xl border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden max-h-[360px] overflow-y-auto custom-scrollbar z-[100]"
                         >
                           {filteredHubs.length > 0 ? (
                             <div className="p-3 grid grid-cols-1 gap-2">
