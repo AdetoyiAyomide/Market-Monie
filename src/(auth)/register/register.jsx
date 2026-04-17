@@ -10,7 +10,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -22,15 +22,14 @@ const Register = () => {
   });
 
   const passwordValue = watch("password", "");
-  const phoneValue = watch("phone", "");
 
   const calculateStrength = (password) => {
     if (!password) return { score: 0, label: "", color: "bg-gray-200" };
     let score = 0;
+    if (password.length >= 2) score++;
+    if (password.length >= 4) score++;
     if (password.length >= 6) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
+    if (/^\d{6}$/.test(password)) score++;
 
     if (score <= 2) return { score, label: "Weak", color: "bg-red-500" };
     if (score === 3) return { score, label: "Medium", color: "bg-yellow-500" };
@@ -38,20 +37,21 @@ const Register = () => {
   };
 
   const strength = calculateStrength(passwordValue);
-  const isWeak = strength.label === "Weak";
 
   const onSubmit = async (data) => {
     // Mock check for existing phone
     if (data.phone === "08123456789") {
-      setFormError("phone", { 
-        type: "manual", 
-        message: "This phone number is already registered." 
+      setFormError("phone", {
+        type: "manual",
+        message: "This phone number is already registered."
       });
       return;
     }
 
     console.log("Register Data:", data);
-    navigate("/verify-otp", { state: { phone: data.phone } });
+    navigate("/verify-email", {
+      state: { email: data.email || "user@email.com" },
+    });
   };
 
 
@@ -70,49 +70,113 @@ const Register = () => {
       </div>
 
       <div className="mt-10">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label className="block text-sm font-medium leading-6 text-gray-900">
-              Phone Number
-            </label>
-            <div className="mt-2">
+        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+          {/* Title and Name Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="md:col-span-1">
+              <label className="block text-sm font-medium leading-6 text-gray-900">
+                Title
+              </label>
+              <select
+                {...register("title")}
+                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 appearance-none cursor-pointer"
+              >
+                <option value="">Select</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Miss">Miss</option>
+                <option value="Dr">Dr</option>
+              </select>
+              {errors.title && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+              )}
+            </div>
+
+            <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium leading-6 text-gray-900">
+                  First Name
+                </label>
+                <input
+                  {...register("firstName")}
+                  type="text"
+                  placeholder="e.g. John"
+                  className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                />
+                {errors.firstName && (
+                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName.message}</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium leading-6 text-gray-900">
+                  Last Name
+                </label>
+                <input
+                  {...register("lastName")}
+                  type="text"
+                  placeholder="e.g. Doe"
+                  className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                />
+                {errors.lastName && (
+                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName.message}</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium leading-6 text-gray-900">
+                Phone Number
+              </label>
               <input
                 {...register("phone")}
                 type="tel"
-                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
                 placeholder="e.g. 08123456789"
+                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
               />
               {errors.phone && (
-                <p className="mt-2 text-xs text-red-500 font-medium leading-relaxed">
-                  {errors.phone.message}{" "}
-                  {errors.phone.message.includes("registered") && (
-                    <Link to="/login" className="text-emerald-600 underline hover:text-emerald-500">
-                      Log in here
-                    </Link>
-                  )}
-                </p>
+                <p className="mt-2 text-xs text-red-500 font-medium">{errors.phone.message}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium leading-6 text-gray-900">
+                Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                placeholder="e.g. john@example.com"
+                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+              />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.email.message}</p>
               )}
             </div>
           </div>
 
-          <div className="space-y-4">
+          {/* PIN Setup */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Password
+                Create 6-Digit PIN
               </label>
               <div className="mt-2 relative">
                 <input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
-                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
-                  placeholder="••••••••"
+                  maxLength={6}
+                  placeholder="••••••"
+                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
               </div>
               
@@ -136,7 +200,7 @@ const Register = () => {
               )}
               
               <p className="mt-2 text-[11px] leading-relaxed text-gray-500">
-                Minimum 6 characters, including 1 uppercase, 1 number and 1 special character
+                Enter exactly 6 digits for your PIN
               </p>
               
               {errors.password && (
@@ -146,36 +210,58 @@ const Register = () => {
 
             <div className="relative">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Confirm Password
+                Confirm 6-Digit PIN
               </label>
               <div className="mt-2 relative">
                 <input
                   {...register("confirmPassword")}
                   type={showConfirmPassword ? "text" : "password"}
-                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
-                  placeholder="••••••••"
+                  maxLength={6}
+                  placeholder="••••••"
+                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{errors.confirmPassword.message}</p>
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.confirmPassword.message}</p>
               )}
             </div>
           </div>
 
-          <div>
+          {/* Terms and Conditions */}
+          <div className="flex items-start gap-3 py-2">
+            <div className="flex h-6 items-center">
+              <input
+                {...register("agreeTerms")}
+                id="agreeTerms"
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600 cursor-pointer"
+              />
+            </div>
+            <div className="text-sm leading-6">
+              <label htmlFor="agreeTerms" className="font-medium text-gray-900 cursor-pointer">
+                Terms and Conditions
+              </label>
+              <p className="text-gray-500">I agree to the <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
+              {errors.agreeTerms && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.agreeTerms.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-2">
             <button
               type="submit"
-              disabled={isSubmitting || isWeak}
-              className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
+              disabled={isSubmitting}
+              className="flex w-full justify-center rounded-lg bg-emerald-600 px-3 py-4 text-sm font-bold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins uppercase tracking-widest"
             >
-              {isSubmitting ? "Creating account..." : "Create Account"}
+              {isSubmitting ? "Creating account..." : "Complete Registration"}
             </button>
           </div>
         </form>
@@ -185,5 +271,4 @@ const Register = () => {
 };
 
 export default Register;
-
 

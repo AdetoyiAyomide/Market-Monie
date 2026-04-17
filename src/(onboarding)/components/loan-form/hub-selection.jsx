@@ -1,7 +1,14 @@
-import { FiMapPin, FiChevronRight, FiChevronDown, FiGlobe } from "react-icons/fi";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FiMapPin, FiChevronRight, FiChevronDown, FiChevronUp, FiGlobe } from "react-icons/fi";
 import { branchAddresses } from "../../../store/Data";
 
 const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, onContinue }) => {
+  const [isStateOpen, setIsStateOpen] = useState(false);
+  const [stateQuery, setStateQuery] = useState(selectedState || "");
+  const [isHubOpen, setIsHubOpen] = useState(false);
+  const stateDropdownRef = useRef(null);
+  const hubDropdownRef = useRef(null);
+
   // Map our states to handle the FCT (Abuja) case if necessary
   const displayState = selectedState === "Abuja" ? "FCT (Abuja)" : selectedState;
   const hubsRaw = branchAddresses[displayState] || [];
@@ -15,14 +22,54 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
   const hasHubs = hubs.length > 0;
   const states = Object.keys(branchAddresses);
 
-  const handleStateChange = (e) => {
-    onSelectState(e.target.value);
+  const filteredStates = useMemo(() => {
+    const query = stateQuery.trim().toLowerCase();
+
+    if (!query) {
+      return states;
+    }
+
+    return states.filter((state) => state.toLowerCase().includes(query));
+  }, [stateQuery, states]);
+
+  useEffect(() => {
+    setStateQuery(selectedState || "");
+  }, [selectedState]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setIsStateOpen(false);
+        setStateQuery(selectedState || "");
+      }
+
+      if (hubDropdownRef.current && !hubDropdownRef.current.contains(event.target)) {
+        setIsHubOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [selectedState]);
+
+  const handleStateInputChange = (e) => {
+    const value = e.target.value;
+    setStateQuery(value);
+    setIsStateOpen(true);
+    onSelectState("");
+    onSelectHub(null);
+  };
+
+  const handleStateSelect = (state) => {
+    setStateQuery(state);
+    setIsStateOpen(false);
+    setIsHubOpen(false);
+    onSelectState(state);
     onSelectHub(null); // Reset hub when state changes
   };
 
-  const handleHubChange = (e) => {
-    const hubName = e.target.value;
-    const hub = hubs.find(h => h.name === hubName);
+  const handleHubSelect = (hub) => {
+    setIsHubOpen(false);
     onSelectHub(hub);
   };
 
@@ -47,25 +94,46 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
           <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
              Select State
           </label>
-          <div className="relative group">
+          <div className="relative group" ref={stateDropdownRef}>
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
               <FiGlobe />
             </div>
-            <select
-              value={selectedState}
-              onChange={handleStateChange}
-              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+            <input
+              type="text"
+              value={stateQuery}
+              onFocus={() => setIsStateOpen(true)}
+              onClick={() => setIsStateOpen(true)}
+              onChange={handleStateInputChange}
+              placeholder="Choose your state"
+              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
+            />
+            <button
+              type="button"
+              onClick={() => setIsStateOpen((prev) => !prev)}
+              className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400"
+              aria-label="Toggle state dropdown"
             >
-              <option className="text-black bg-white" value="" disabled>Choose your state</option>
-              {states.map((state, index) => (
-                <option className="text-black bg-white" key={index} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-              <FiChevronDown size={20} />
-            </div>
+              {isStateOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
+            </button>
+            {isStateOpen && (
+              <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+                <ul className="max-h-56 overflow-y-auto py-2">
+                  {filteredStates.length > 0 ? (
+                    filteredStates.map((state) => (
+                      <li
+                        key={state}
+                        onClick={() => handleStateSelect(state)}
+                        className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                      >
+                        {state}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="px-4 py-3 text-sm text-gray-400">No states found</li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
 
@@ -75,25 +143,37 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
             <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
                Available Hubs in {selectedState}
             </label>
-            <div className="relative group">
+            <div className="relative group" ref={hubDropdownRef}>
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
                 <FiMapPin />
               </div>
-              <select
-                value={selectedHub?.name || ""}
-                onChange={handleHubChange}
-                className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+              <button
+                type="button"
+                onClick={() => setIsHubOpen((prev) => !prev)}
+                className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
               >
-                <option className="text-black bg-white" value="" disabled>Select a hub near you</option>
-                {hubs.map((hub, index) => (
-                  <option className="text-black bg-white" key={index} value={hub.name}>
-                    {hub.name}
-                  </option>
-                ))}
-              </select>
+                <span className={selectedHub ? "text-gray-900" : "text-gray-400"}>
+                  {selectedHub?.name || "Select a hub near you"}
+                </span>
+              </button>
               <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-                <FiChevronDown size={20} />
+                {isHubOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
               </div>
+              {isHubOpen && (
+                <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+                  <ul className="max-h-56 overflow-y-auto py-2">
+                    {hubs.map((hub) => (
+                      <li
+                        key={hub.address}
+                        onClick={() => handleHubSelect(hub)}
+                        className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                      >
+                        {hub.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
             
             {selectedHub && (
@@ -119,7 +199,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
 
         <button
           onClick={onContinue}
-          disabled={hasHubs && !selectedHub}
+          disabled={!selectedState || (hasHubs && !selectedHub)}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins mt-8 group"
         >
           {hasHubs ? "Continue" : "Continue anyway"}

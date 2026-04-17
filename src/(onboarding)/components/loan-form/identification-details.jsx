@@ -1,6 +1,12 @@
-import { FiFileText, FiUploadCloud, FiType, FiCheck } from "react-icons/fi";
+import { useEffect, useRef, useState } from "react";
+import { FiFileText, FiUploadCloud, FiType, FiCheck, FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
+  const [isIdTypeOpen, setIsIdTypeOpen] = useState(false);
+  const [isProofTypeOpen, setIsProofTypeOpen] = useState(false);
+  const idTypeDropdownRef = useRef(null);
+  const proofTypeDropdownRef = useRef(null);
+
   const idOptions = [
     "Driver’s License", 
     "International Passport", 
@@ -22,6 +28,21 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
     data.proofType && 
     data.proofFile;
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (idTypeDropdownRef.current && !idTypeDropdownRef.current.contains(event.target)) {
+        setIsIdTypeOpen(false);
+      }
+
+      if (proofTypeDropdownRef.current && !proofTypeDropdownRef.current.contains(event.target)) {
+        setIsProofTypeOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-left font-poppins">
@@ -42,11 +63,17 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <SelectGroup 
+            <CustomSelectGroup 
               label="ID Type" 
               value={data.idType} 
-              onChange={(e) => onChange('idType', e.target.value)}
+              isOpen={isIdTypeOpen}
+              onToggle={() => setIsIdTypeOpen((prev) => !prev)}
+              onSelect={(value) => {
+                setIsIdTypeOpen(false);
+                onChange('idType', value);
+              }}
               options={idOptions}
+              dropdownRef={idTypeDropdownRef}
               icon={<FiFileText />} 
             />
             <InputGroup 
@@ -73,11 +100,17 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
             <h3 className="text-xs font-bold uppercase tracking-widest">Proof of Residence</h3>
           </div>
 
-          <SelectGroup 
+          <CustomSelectGroup 
             label="Document Type" 
             value={data.proofType} 
-            onChange={(e) => onChange('proofType', e.target.value)}
+            isOpen={isProofTypeOpen}
+            onToggle={() => setIsProofTypeOpen((prev) => !prev)}
+            onSelect={(value) => {
+              setIsProofTypeOpen(false);
+              onChange('proofType', value);
+            }}
             options={proofOptions}
+            dropdownRef={proofTypeDropdownRef}
             icon={<FiFileText />} 
           />
 
@@ -154,28 +187,44 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon }) => (
+const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, dropdownRef }) => (
   <div className="space-y-2">
     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
       {label}
     </label>
-    <div className="relative group">
+    <div className="relative group" ref={dropdownRef}>
       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
         {icon}
       </div>
-      <select
-        value={value}
-        onChange={onChange}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none text-sm"
+      <button
+        type="button"
+        onClick={onToggle}
+        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium text-sm"
       >
-        <option value="">Select {label}</option>
-        {options.map((opt, i) => (
-          <option key={i} value={opt}>{opt}</option>
-        ))}
-      </select>
+        <span className={value ? "text-gray-900" : "text-gray-400"}>
+          {value || `Select ${label}`}
+        </span>
+      </button>
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
       </div>
+      {isOpen && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {options.map((opt) => (
+              <li
+                key={opt}
+                onClick={() => onSelect(opt)}
+                className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                }`}
+              >
+                {opt}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </div>
 );

@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
-import { FiHome, FiMap, FiUploadCloud, FiType, FiFileText, FiLoader } from "react-icons/fi";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FiHome, FiMap, FiType, FiLoader, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { locationService } from "../../../services/locationService";
 
 const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
+  const [isStateOpen, setIsStateOpen] = useState(false);
+  const [isLgaOpen, setIsLgaOpen] = useState(false);
+  const [stateQuery, setStateQuery] = useState(data.state || "");
+  const stateDropdownRef = useRef(null);
+  const lgaDropdownRef = useRef(null);
+
   // Query for states
   const { data: states = [], isLoading: loadingStates } = useQuery({
     queryKey: ['location-states'],
     queryFn: () => locationService.getStates(),
   });
-  console.log("states=>", states)
 
   // Query for LGAs (enabled only if state is selected)
   const { data: lgas = [], isFetching: loadingLgas } = useQuery({
@@ -17,6 +22,55 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
     queryFn: () => locationService.getLGAs(data.state),
     enabled: !!data.state,
   });
+
+  const filteredStates = useMemo(() => {
+    const query = stateQuery.trim().toLowerCase();
+
+    if (!query) return states;
+
+    return states.filter((state) => state.toLowerCase().includes(query));
+  }, [stateQuery, states]);
+
+  useEffect(() => {
+    setStateQuery(data.state || "");
+  }, [data.state]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setIsStateOpen(false);
+        setStateQuery(data.state || "");
+      }
+
+      if (lgaDropdownRef.current && !lgaDropdownRef.current.contains(event.target)) {
+        setIsLgaOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [data.state]);
+
+  const handleStateInputChange = (e) => {
+    const value = e.target.value;
+    setStateQuery(value);
+    setIsStateOpen(true);
+    onChange("state", "");
+    onChange("lga", "");
+  };
+
+  const handleStateSelect = (state) => {
+    setStateQuery(state);
+    setIsStateOpen(false);
+    setIsLgaOpen(false);
+    onChange("state", state);
+    onChange("lga", "");
+  };
+
+  const handleLgaSelect = (lga) => {
+    setIsLgaOpen(false);
+    onChange("lga", lga);
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
@@ -31,22 +85,28 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
 
       <div className="mt-8 space-y-6">
         <div className="grid grid-cols-2 gap-4">
-          <SelectGroup 
+          <SearchableSelectGroup 
             label="State" 
             value={data.state} 
-            onChange={(e) => {
-               onChange('state', e.target.value);
-               onChange('lga', ''); 
-            }}
+            query={stateQuery}
+            isOpen={isStateOpen}
+            onToggle={() => setIsStateOpen((prev) => !prev)}
+            onInputChange={handleStateInputChange}
+            onSelect={handleStateSelect}
             options={states}
+            filteredOptions={filteredStates}
+            dropdownRef={stateDropdownRef}
             icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMap />} 
             disabled={loadingStates}
           />
-          <SelectGroup 
+          <CustomSelectGroup 
             label="LGA" 
             value={data.lga} 
-            onChange={(e) => onChange('lga', e.target.value)}
+            isOpen={isLgaOpen}
+            onToggle={() => !(!data.state || loadingLgas) && setIsLgaOpen((prev) => !prev)}
+            onSelect={handleLgaSelect}
             options={lgas}
+            dropdownRef={lgaDropdownRef}
             disabled={!data.state || loadingLgas}
             icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
           />
@@ -108,31 +168,114 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }) => (
+const SearchableSelectGroup = ({
+  label,
+  value,
+  query,
+  isOpen,
+  onToggle,
+  onInputChange,
+  onSelect,
+  options,
+  filteredOptions,
+  icon,
+  disabled = false,
+  dropdownRef,
+}) => (
   <div className="space-y-2">
     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
       {label}
     </label>
-    <div className="relative group">
+    <div className="relative group" ref={dropdownRef}>
       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
         {icon}
       </div>
-      <select
-        value={value}
-        onChange={onChange}
+      <input
+        type="text"
+        value={query}
+        onFocus={() => !disabled && onToggle()}
+        onClick={() => !disabled && onToggle()}
+        onChange={onInputChange}
         disabled={disabled}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
+        placeholder={disabled ? "Loading..." : `Select ${label}`}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
+          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        }`}
+      />
+      <button
+        type="button"
+        onClick={() => !disabled && onToggle()}
+        className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400"
+        aria-label={`Toggle ${label} dropdown`}
+      >
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
+      </button>
+      {isOpen && !disabled && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((opt) => (
+                <li
+                  key={opt}
+                  onClick={() => onSelect(opt)}
+                  className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                  }`}
+                >
+                  {opt}
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-3 text-sm text-gray-400">No results found</li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, disabled = false, dropdownRef }) => (
+  <div className="space-y-2">
+    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+      {label}
+    </label>
+    <div className="relative group" ref={dropdownRef}>
+      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+        {icon}
+      </div>
+      <button
+        type="button"
+        onClick={onToggle}
+        disabled={disabled}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
           disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
         }`}
       >
-        <option className="text-black bg-white" value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
-        {options.map((opt, i) => (
-          <option className="text-black bg-white" key={i} value={opt}>{opt}</option>
-        ))}
-      </select>
+        <span className={value ? "text-gray-900" : "text-gray-400"}>
+          {disabled && !value ? "Loading..." : value || `Select ${label}`}
+        </span>
+      </button>
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
       </div>
+      {isOpen && !disabled && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {options.map((opt) => (
+              <li
+                key={opt}
+                onClick={() => onSelect(opt)}
+                className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                }`}
+              >
+                {opt}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </div>
 );

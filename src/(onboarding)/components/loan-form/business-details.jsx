@@ -1,9 +1,21 @@
-import { useState } from "react";
-import { FiBriefcase, FiMapPin, FiTrendingUp, FiClock, FiType, FiLoader } from "react-icons/fi";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FiBriefcase, FiMapPin, FiTrendingUp, FiClock, FiType, FiLoader, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useQuery } from "@tanstack/react-query";
 import { locationService } from "../../../services/locationService";
 
 const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
+  const [isStateOpen, setIsStateOpen] = useState(false);
+  const [isLgaOpen, setIsLgaOpen] = useState(false);
+  const [isBusinessTypeOpen, setIsBusinessTypeOpen] = useState(false);
+  const [isBusinessYearsOpen, setIsBusinessYearsOpen] = useState(false);
+  const [isDailySalesOpen, setIsDailySalesOpen] = useState(false);
+  const [stateQuery, setStateQuery] = useState(data.businessState || "");
+  const stateDropdownRef = useRef(null);
+  const lgaDropdownRef = useRef(null);
+  const businessTypeDropdownRef = useRef(null);
+  const businessYearsDropdownRef = useRef(null);
+  const dailySalesDropdownRef = useRef(null);
+
   // Query for states
   const { data: states = [], isLoading: loadingStates } = useQuery({
     queryKey: ['location-states'],
@@ -32,6 +44,77 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
     "200,000 - 400,000", "500,000 - 1,000,000", "1,000,000 and above"
   ];
 
+  const filteredStates = useMemo(() => {
+    const query = stateQuery.trim().toLowerCase();
+
+    if (!query) return states;
+
+    return states.filter((state) => state.toLowerCase().includes(query));
+  }, [stateQuery, states]);
+
+  useEffect(() => {
+    setStateQuery(data.businessState || "");
+  }, [data.businessState]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setIsStateOpen(false);
+        setStateQuery(data.businessState || "");
+      }
+
+      if (lgaDropdownRef.current && !lgaDropdownRef.current.contains(event.target)) {
+        setIsLgaOpen(false);
+      }
+
+      if (businessTypeDropdownRef.current && !businessTypeDropdownRef.current.contains(event.target)) {
+        setIsBusinessTypeOpen(false);
+      }
+
+      if (businessYearsDropdownRef.current && !businessYearsDropdownRef.current.contains(event.target)) {
+        setIsBusinessYearsOpen(false);
+      }
+
+      if (dailySalesDropdownRef.current && !dailySalesDropdownRef.current.contains(event.target)) {
+        setIsDailySalesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [data.businessState]);
+
+  const handleStateInputChange = (e) => {
+    const value = e.target.value;
+    setStateQuery(value);
+    setIsStateOpen(true);
+    onChange("businessState", "");
+    onChange("businessLga", "");
+  };
+
+  const handleStateSelect = (state) => {
+    setStateQuery(state);
+    setIsStateOpen(false);
+    setIsLgaOpen(false);
+    onChange("businessState", state);
+    onChange("businessLga", "");
+  };
+
+  const handleBusinessTypeSelect = (value) => {
+    setIsBusinessTypeOpen(false);
+    onChange("businessType", value);
+  };
+
+  const handleBusinessYearsSelect = (value) => {
+    setIsBusinessYearsOpen(false);
+    onChange("businessYears", value);
+  };
+
+  const handleDailySalesSelect = (value) => {
+    setIsDailySalesOpen(false);
+    onChange("dailySales", value);
+  };
+
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-left font-poppins">
@@ -57,22 +140,31 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
              Business Location
           </label>
           <div className="grid grid-cols-2 gap-4">
-            <SelectGroup 
+            <SearchableSelectGroup 
               label="State" 
               value={data.businessState} 
-              onChange={(e) => {
-                 onChange('businessState', e.target.value);
-                 onChange('businessLga', '');
-              }}
+              query={stateQuery}
+              isOpen={isStateOpen}
+              onToggle={() => setIsStateOpen((prev) => !prev)}
+              onInputChange={handleStateInputChange}
+              onSelect={handleStateSelect}
               options={states}
+              filteredOptions={filteredStates}
+              dropdownRef={stateDropdownRef}
               icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMapPin />} 
               disabled={loadingStates}
             />
-            <SelectGroup 
+            <CustomSelectGroup 
               label="LGA" 
               value={data.businessLga} 
-              onChange={(e) => onChange('businessLga', e.target.value)}
+              isOpen={isLgaOpen}
+              onToggle={() => !(!data.businessState || loadingLgas) && setIsLgaOpen((prev) => !prev)}
+              onSelect={(value) => {
+                setIsLgaOpen(false);
+                onChange('businessLga', value);
+              }}
               options={lgas}
+              dropdownRef={lgaDropdownRef}
               disabled={!data.businessState || loadingLgas}
               icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
             />
@@ -86,11 +178,14 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           />
         </div>
 
-        <SelectGroup 
+        <CustomSelectGroup 
           label="What kind of business are you into?" 
           value={data.businessType} 
-          onChange={(e) => onChange('businessType', e.target.value)}
+          isOpen={isBusinessTypeOpen}
+          onToggle={() => setIsBusinessTypeOpen((prev) => !prev)}
+          onSelect={handleBusinessTypeSelect}
           options={businessKinds}
+          dropdownRef={businessTypeDropdownRef}
           icon={<FiBriefcase />} 
         />
 
@@ -107,18 +202,24 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         )}
 
         <div className="grid grid-cols-1 gap-6">
-          <SelectGroup 
+          <CustomSelectGroup 
             label="How many years have you been in business?" 
             value={data.businessYears} 
-            onChange={(e) => onChange('businessYears', e.target.value)}
+            isOpen={isBusinessYearsOpen}
+            onToggle={() => setIsBusinessYearsOpen((prev) => !prev)}
+            onSelect={handleBusinessYearsSelect}
             options={yearOptions}
+            dropdownRef={businessYearsDropdownRef}
             icon={<FiClock />} 
           />
-          <SelectGroup 
+          <CustomSelectGroup 
             label="How much do you sell a day?" 
             value={data.dailySales} 
-            onChange={(e) => onChange('dailySales', e.target.value)}
+            isOpen={isDailySalesOpen}
+            onToggle={() => setIsDailySalesOpen((prev) => !prev)}
+            onSelect={handleDailySalesSelect}
             options={saleOptions}
+            dropdownRef={dailySalesDropdownRef}
             icon={<FiTrendingUp />} 
           />
         </div>
@@ -170,31 +271,114 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }) => (
+const SearchableSelectGroup = ({
+  label,
+  value,
+  query,
+  isOpen,
+  onToggle,
+  onInputChange,
+  onSelect,
+  options,
+  filteredOptions,
+  icon,
+  disabled = false,
+  dropdownRef,
+}) => (
   <div className="space-y-2">
     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
       {label}
     </label>
-    <div className="relative group">
+    <div className="relative group" ref={dropdownRef}>
       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
         {icon}
       </div>
-      <select
-        value={value}
-        onChange={onChange}
+      <input
+        type="text"
+        value={query}
+        onFocus={() => !disabled && onToggle()}
+        onClick={() => !disabled && onToggle()}
+        onChange={onInputChange}
         disabled={disabled}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
+        placeholder={disabled ? "Loading..." : `Select ${label}`}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
+          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        }`}
+      />
+      <button
+        type="button"
+        onClick={() => !disabled && onToggle()}
+        className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400"
+        aria-label={`Toggle ${label} dropdown`}
+      >
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
+      </button>
+      {isOpen && !disabled && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((opt) => (
+                <li
+                  key={opt}
+                  onClick={() => onSelect(opt)}
+                  className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                  }`}
+                >
+                  {opt}
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-3 text-sm text-gray-400">No results found</li>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, disabled = false, dropdownRef }) => (
+  <div className="space-y-2">
+    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+      {label}
+    </label>
+    <div className="relative group" ref={dropdownRef}>
+      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+        {icon}
+      </div>
+      <button
+        type="button"
+        onClick={onToggle}
+        disabled={disabled}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
           disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
         }`}
       >
-        <option className="text-black bg-white" value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
-        {options.map((opt, i) => (
-          <option className="text-black bg-white" key={i} value={opt}>{opt}</option>
-        ))}
-      </select>
+        <span className={value ? "text-gray-900" : "text-gray-400"}>
+          {disabled && !value ? "Loading..." : value || `Select ${label}`}
+        </span>
+      </button>
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
       </div>
+      {isOpen && !disabled && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {options.map((opt) => (
+              <li
+                key={opt}
+                onClick={() => onSelect(opt)}
+                className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                }`}
+              >
+                {opt}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   </div>
 );

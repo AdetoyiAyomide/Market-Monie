@@ -1,7 +1,36 @@
-import { FiDollarSign, FiCreditCard, FiActivity } from "react-icons/fi";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FiDollarSign, FiCreditCard, FiActivity, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { banks } from "../../../store/Data";
 
 const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
+  const [isBankOpen, setIsBankOpen] = useState(false);
+  const [bankQuery, setBankQuery] = useState(data.bankName || "");
+  const bankDropdownRef = useRef(null);
+
+  const filteredBanks = useMemo(() => {
+    const query = bankQuery.trim().toLowerCase();
+
+    if (!query) return banks;
+
+    return banks.filter((bank) => bank.toLowerCase().includes(query));
+  }, [bankQuery]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (bankDropdownRef.current && !bankDropdownRef.current.contains(event.target)) {
+        setIsBankOpen(false);
+        setBankQuery(data.bankName || "");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [data.bankName]);
+
+  useEffect(() => {
+    setBankQuery(data.bankName || "");
+  }, [data.bankName]);
+
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-left font-poppins">
@@ -33,11 +62,24 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
           </div>
         </div>
 
-        <SelectGroup 
+        <CustomSelectGroup 
           label="What is the name of your bank?" 
           value={data.bankName} 
-          onChange={(e) => onChange('bankName', e.target.value)}
-          options={banks}
+          query={bankQuery}
+          isOpen={isBankOpen}
+          onToggle={() => setIsBankOpen((prev) => !prev)}
+          onInputChange={(e) => {
+            setBankQuery(e.target.value);
+            setIsBankOpen(true);
+            onChange('bankName', '');
+          }}
+          onSelect={(value) => {
+            setIsBankOpen(false);
+            setBankQuery(value);
+            onChange('bankName', value);
+          }}
+          options={filteredBanks}
+          dropdownRef={bankDropdownRef}
           icon={<FiActivity />} 
         />
 
@@ -89,31 +131,51 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }) => (
+const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, icon, disabled = false, dropdownRef }) => (
   <div className="space-y-2">
     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
       {label}
     </label>
-    <div className="relative group">
+    <div className="relative group" ref={dropdownRef}>
       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
         {icon}
       </div>
-      <select
-        value={value}
-        onChange={onChange}
+      <input
+        type="text"
+        value={query}
+        onFocus={() => !disabled && onToggle()}
+        onClick={() => !disabled && onToggle()}
+        onChange={onInputChange}
         disabled={disabled}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
+        placeholder={disabled ? "Loading..." : `Select ${label}`}
+        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
           disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
         }`}
-      >
-        <option className="text-black bg-white" value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
-        {options.map((opt, i) => (
-          <option className="text-black bg-white" key={i} value={opt}>{opt}</option>
-        ))}
-      </select>
+      />
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+        {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
       </div>
+      {isOpen && !disabled && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-20 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
+          <ul className="max-h-56 overflow-y-auto py-2">
+            {options.length > 0 ? (
+              options.map((opt) => (
+                <li
+                  key={opt}
+                  onClick={() => onSelect(opt)}
+                  className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                  }`}
+                >
+                  {opt}
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-3 text-sm text-gray-400">No results found</li>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   </div>
 );
