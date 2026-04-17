@@ -19,6 +19,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel }) => {
           <InfoItem label="Email" value={data.email} />
           <InfoItem label="NIN" value={data.nin} />
           <InfoItem label="Date of Birth" value={data.dob} />
+          <InfoItem label="Where you live" value={data.residentialAddress} />
         </ReviewSection>
 
         <ReviewSection title="Residential Address" icon={<FiHome />} onEdit={() => onEdit(2)}>

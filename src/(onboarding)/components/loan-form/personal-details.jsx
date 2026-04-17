@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FiUser, FiMail, FiCalendar, FiHash, FiHome } from "react-icons/fi";
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
@@ -60,6 +61,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack }) => {
     if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Date of birth is required";
     if (!data.nin) newErrors.nin = "NIN is required";
     else if (data.nin.length !== 11) newErrors.nin = "NIN must be exactly 11 digits";
+    if (!data.residentialAddress) newErrors.residentialAddress = "Residential address is required";
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -187,6 +189,18 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack }) => {
           </div>
           {errors.dob && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1">{errors.dob}</p>}
         </div>
+
+        <InputGroup 
+          label="Where do you live?" 
+          value={data.residentialAddress} 
+          onChange={(e) => {
+            onChange('residentialAddress', e.target.value);
+            if (errors.residentialAddress) setErrors(prev => ({ ...prev, residentialAddress: null }));
+          }}
+          error={errors.residentialAddress}
+          icon={<FiHome />} 
+          placeholder="Enter your street address"
+        />
 
         <div className="flex gap-4 mt-10">
           <button

@@ -37,6 +37,26 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
     }
   };
 
+  const handleToggle = (hasLoan) => {
+    onChange('hasExistingLoan', hasLoan);
+    if (hasLoan && data.loans.length === 0) {
+      handleAddLoan();
+    }
+  };
+
+  const handleAddLoan = () => {
+    const newLoans = [...data.loans, { lender: '', amount: '', balance: '', repayment: '' }];
+    onChange('loans', newLoans);
+  };
+
+  const handleRemoveLoan = (index) => {
+    const newLoans = data.loans.filter((_, i) => i !== index);
+    onChange('loans', newLoans);
+    if (newLoans.length === 0) {
+      onChange('hasExistingLoan', false);
+    }
+  };
+
   const handleLoanChange = (index, field, value) => {
     const newLoans = [...data.loans];
     newLoans[index][field] = value;
@@ -203,24 +223,5 @@ const InputGroup = ({ label, value, onChange, icon, error = null }) => (
   </div>
 );
 
-const handleToggle = (hasLoan, onChange, data, handleAddLoan) => {
-    onChange('hasExistingLoan', hasLoan);
-    if (hasLoan && data.loans.length === 0) {
-      handleAddLoan();
-    }
-};
-
-const handleAddLoanOriginal = (data, onChange) => {
-    const newLoans = [...data.loans, { lender: '', amount: '', balance: '', repayment: '' }];
-    onChange('loans', newLoans);
-};
-
-const handleRemoveLoanOriginal = (index, data, onChange) => {
-    const newLoans = data.loans.filter((_, i) => i !== index);
-    onChange('loans', newLoans);
-    if (newLoans.length === 0) {
-      onChange('hasExistingLoan', false);
-    }
-};
 
 export default ExistingLoans;

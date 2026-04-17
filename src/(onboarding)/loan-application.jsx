@@ -10,6 +10,7 @@ import ExistingLoans from "./components/loan-form/existing-loans";
 import ReviewApplication from "./components/loan-form/review-application";
 import ApplicationSuccess from "./components/loan-form/success-screen";
 import { selectedStateGlobal, selectedHubGlobal } from "../store/Data";
+import ProgressBar from "../Screens/ProgressBar";
 
 const LoanApplication = () => {
   const location = useLocation();
@@ -89,8 +90,31 @@ const LoanApplication = () => {
     }
   };
 
+  const steps = [
+    "Hub Selection",
+    "Personal Info",
+    "Residential Address",
+    "Identification",
+    "Business Info",
+    "Loan Details",
+    "Existing Loans",
+    "Review Details"
+  ];
+
+  // Logic to show progress bar only for relevant steps
+  const showProgress = step >= 0 && step <= 7;
+
   // Render Logic
-  switch (step) {
+  return (
+    <div className="w-full">
+      {showProgress && (
+        <div className="mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
+           <ProgressBar currentStep={step + 1} totalSteps={steps.length} />
+        </div>
+      )}
+
+      {(() => {
+        switch (step) {
     case 0:
       return (
         <HubSelection 
@@ -164,13 +188,16 @@ const LoanApplication = () => {
           onCancel={handleCancel}
         />
       );
-    case 8:
-      return (
-        <ApplicationSuccess referenceId="MM-94202" />
-      );
-    default:
-      return null;
-  }
+      case 8:
+        return (
+          <ApplicationSuccess referenceId="MM-94202" />
+        );
+      default:
+        return null;
+    }
+  })()}
+</div>
+);
 };
 
 export default LoanApplication;
