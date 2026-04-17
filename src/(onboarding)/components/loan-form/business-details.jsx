@@ -32,6 +32,29 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
     "200,000 - 400,000", "500,000 - 1,000,000", "1,000,000 and above"
   ];
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!data.businessName) newErrors.businessName = "Business name is required";
+    if (!data.businessState) newErrors.businessState = "Business state is required";
+    if (!data.businessLga) newErrors.businessLga = "Business LGA is required";
+    if (!data.businessArea) newErrors.businessArea = "Area/Street name is required";
+    if (!data.businessType) newErrors.businessType = "Business type is required";
+    if (data.businessType === "Other" && !data.otherBusiness) newErrors.otherBusiness = "Please specify business type";
+    if (!data.businessYears) newErrors.businessYears = "Years in business is required";
+    if (!data.dailySales) newErrors.dailySales = "Daily sales estimate is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleContinue = () => {
+    if (validate()) {
+      onContinue();
+    }
+  };
+
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-left font-poppins">
@@ -47,7 +70,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         <InputGroup 
           label="What is the name of your business?" 
           value={data.businessName} 
-          onChange={(e) => onChange('businessName', e.target.value)}
+          onChange={(e) => {
+            onChange('businessName', e.target.value);
+            if (errors.businessName) setErrors(prev => ({ ...prev, businessName: null }));
+          }}
+          error={errors.businessName}
           placeholder="Enter business name"
           icon={<FiBriefcase />} 
         />
@@ -63,7 +90,9 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
               onChange={(e) => {
                  onChange('businessState', e.target.value);
                  onChange('businessLga', '');
+                 if (errors.businessState) setErrors(prev => ({ ...prev, businessState: null }));
               }}
+              error={errors.businessState}
               options={states}
               icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMapPin />} 
               disabled={loadingStates}
@@ -71,7 +100,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             <SelectGroup 
               label="LGA" 
               value={data.businessLga} 
-              onChange={(e) => onChange('businessLga', e.target.value)}
+              onChange={(e) => {
+                onChange('businessLga', e.target.value);
+                if (errors.businessLga) setErrors(prev => ({ ...prev, businessLga: null }));
+              }}
+              error={errors.businessLga}
               options={lgas}
               disabled={!data.businessState || loadingLgas}
               icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
@@ -80,7 +113,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           <InputGroup 
             label="Street / Area Name" 
             value={data.businessArea} 
-            onChange={(e) => onChange('businessArea', e.target.value)}
+            onChange={(e) => {
+              onChange('businessArea', e.target.value);
+              if (errors.businessArea) setErrors(prev => ({ ...prev, businessArea: null }));
+            }}
+            error={errors.businessArea}
             placeholder="e.g. 12, Market Road"
             icon={<FiMapPin />} 
           />
@@ -89,7 +126,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         <SelectGroup 
           label="What kind of business are you into?" 
           value={data.businessType} 
-          onChange={(e) => onChange('businessType', e.target.value)}
+          onChange={(e) => {
+            onChange('businessType', e.target.value);
+            if (errors.businessType) setErrors(prev => ({ ...prev, businessType: null }));
+          }}
+          error={errors.businessType}
           options={businessKinds}
           icon={<FiBriefcase />} 
         />
@@ -97,9 +138,13 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         {data.businessType === "Other" && (
           <div className="animate-in slide-in-from-top-2 duration-300">
             <InputGroup 
-              label="Please specify your business type" 
+              label="Please specify" 
               value={data.otherBusiness} 
-              onChange={(e) => onChange('otherBusiness', e.target.value)}
+              onChange={(e) => {
+                onChange('otherBusiness', e.target.value);
+                if (errors.otherBusiness) setErrors(prev => ({ ...prev, otherBusiness: null }));
+              }}
+              error={errors.otherBusiness}
               placeholder="e.g. Tailoring, Graphic Design"
               icon={<FiType />} 
             />
@@ -110,14 +155,22 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           <SelectGroup 
             label="How many years have you been in business?" 
             value={data.businessYears} 
-            onChange={(e) => onChange('businessYears', e.target.value)}
+            onChange={(e) => {
+              onChange('businessYears', e.target.value);
+              if (errors.businessYears) setErrors(prev => ({ ...prev, businessYears: null }));
+            }}
+            error={errors.businessYears}
             options={yearOptions}
             icon={<FiClock />} 
           />
           <SelectGroup 
             label="How much do you sell a day?" 
             value={data.dailySales} 
-            onChange={(e) => onChange('dailySales', e.target.value)}
+            onChange={(e) => {
+              onChange('dailySales', e.target.value);
+              if (errors.dailySales) setErrors(prev => ({ ...prev, dailySales: null }));
+            }}
+            error={errors.dailySales}
             options={saleOptions}
             icon={<FiTrendingUp />} 
           />
@@ -131,16 +184,8 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             Back
           </button>
           <button
-            onClick={onContinue}
-            disabled={
-              !data.businessName || 
-              !data.businessState || 
-              !data.businessLga || 
-              !data.businessType || 
-              (data.businessType === "Other" && !data.otherBusiness) ||
-              !data.dailySales
-            }
-            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+            onClick={handleContinue}
+            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Continue
           </button>
@@ -150,13 +195,13 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
+const InputGroup = ({ label, value, onChange, icon, placeholder, error = null }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
         {icon}
       </div>
       <input
@@ -164,27 +209,36 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          error 
+            ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       />
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }) => (
+const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, error = null }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
         {icon}
       </div>
       <select
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
-          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium appearance-none ${
+          disabled 
+            ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+            : error
+              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
         }`}
       >
         <option className="text-black bg-white" value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
@@ -192,10 +246,11 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false }
           <option className="text-black bg-white" key={i} value={opt}>{opt}</option>
         ))}
       </select>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+      <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none ${error ? 'text-red-400' : 'text-gray-400'}`}>
         <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
       </div>
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 

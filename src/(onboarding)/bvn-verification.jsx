@@ -12,6 +12,7 @@ const BvnVerification = () => {
   const [userData, setUserData] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [redirectTimer, setRedirectTimer] = useState(5);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let interval;
@@ -29,13 +30,14 @@ const BvnVerification = () => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 11) {
       setBvn(value);
+      if (error) setError("");
     }
   };
 
   const handleVerify = async (e) => {
     e.preventDefault();
     if (bvn.length !== 11) {
-      toast.error("BVN must be exactly 11 digits");
+      setError("BVN must be exactly 11 digits");
       return;
     }
 
@@ -135,15 +137,19 @@ const BvnVerification = () => {
               value={bvn}
               onChange={handleBvnChange}
               placeholder="Enter your 11-digit BVN"
-              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none placeholder:text-gray-400 font-medium"
-              required
+              className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none placeholder:text-gray-400 font-medium ${
+                error 
+                  ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              }`}
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-              <span className={`text-xs font-bold transition-colors ${bvn.length === 11 ? "text-emerald-500" : "text-gray-300"}`}>
+              <span className={`text-xs font-bold transition-colors ${bvn.length === 11 ? "text-emerald-500" : error ? "text-red-400" : "text-gray-300"}`}>
                 {bvn.length}/11
               </span>
             </div>
           </div>
+          {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
         </div>
 
         <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-3">
@@ -155,7 +161,7 @@ const BvnVerification = () => {
 
         <button
           type="submit"
-          disabled={bvn.length !== 11 || isVerifying}
+          disabled={isVerifying}
           className="flex w-full justify-center rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins mt-8"
         >
           {isVerifying ? (

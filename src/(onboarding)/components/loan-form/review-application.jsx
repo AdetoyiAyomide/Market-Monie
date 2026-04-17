@@ -16,11 +16,15 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel }) => {
         <ReviewSection title="Personal Info" icon={<FiUser />} onEdit={() => onEdit(1)}>
           <InfoItem label="Full Name" value={`${data.firstname} ${data.middlename || ''} ${data.lastname}`} />
           <InfoItem label="Phone Number" value={data.phone} />
+          <InfoItem label="Email" value={data.email} />
+          <InfoItem label="NIN" value={data.nin} />
           <InfoItem label="Date of Birth" value={data.dob} />
         </ReviewSection>
 
         <ReviewSection title="Residential Address" icon={<FiHome />} onEdit={() => onEdit(2)}>
-          <InfoItem label="Address" value={`${data.houseAddress || ''} ${data.area || ''}, ${data.lga}, ${data.state}`} />
+          <InfoItem label="House Number" value={data.houseAddress} />
+          <InfoItem label="Area" value={data.area} />
+          <InfoItem label="Region" value={`${data.lga}, ${data.state}`} />
         </ReviewSection>
 
         <ReviewSection title="Identification & Docs" icon={<FiFileText />} onEdit={() => onEdit(3)}>

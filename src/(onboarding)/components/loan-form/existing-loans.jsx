@@ -1,23 +1,39 @@
+import { useState } from "react";
 import { FiPlus, FiTrash2, FiHelpCircle, FiCreditCard } from "react-icons/fi";
 
 const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
-  const handleToggle = (hasLoan) => {
-    onChange('hasExistingLoan', hasLoan);
-    if (hasLoan && data.loans.length === 0) {
-      handleAddLoan();
+  const [errors, setErrors] = useState({});
+  const [loanErrors, setLoanErrors] = useState([]);
+
+  const validate = () => {
+    const newErrors = {};
+    const newLoanErrors = [];
+
+    if (data.hasExistingLoan === null) {
+      newErrors.choice = "Please select Yes or No";
     }
+
+    if (data.hasExistingLoan) {
+      data.loans.forEach((loan, index) => {
+        const itemErrors = {};
+        if (!loan.lender) itemErrors.lender = "Lender/Bank name is required";
+        if (!loan.amount) itemErrors.amount = "Loan amount is required";
+        if (!loan.balance) itemErrors.balance = "Outstanding balance is required";
+        if (!loan.repayment) itemErrors.repayment = "Regular repayment is required";
+        newLoanErrors[index] = itemErrors;
+      });
+    }
+
+    setErrors(newErrors);
+    setLoanErrors(newLoanErrors);
+
+    const hasNoLoanErrors = newLoanErrors.every(err => Object.keys(err || {}).length === 0);
+    return Object.keys(newErrors).length === 0 && hasNoLoanErrors;
   };
 
-  const handleAddLoan = () => {
-    const newLoans = [...data.loans, { lender: '', amount: '', balance: '', repayment: '' }];
-    onChange('loans', newLoans);
-  };
-
-  const handleRemoveLoan = (index) => {
-    const newLoans = data.loans.filter((_, i) => i !== index);
-    onChange('loans', newLoans);
-    if (newLoans.length === 0) {
-      onChange('hasExistingLoan', false);
+  const handleContinue = () => {
+    if (validate()) {
+      onContinue();
     }
   };
 
@@ -25,6 +41,13 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
     const newLoans = [...data.loans];
     newLoans[index][field] = value;
     onChange('loans', newLoans);
+    
+    // Clear error for this field
+    if (loanErrors[index]?.[field]) {
+      const updatedLoanErrors = [...loanErrors];
+      updatedLoanErrors[index] = { ...updatedLoanErrors[index], [field]: null };
+      setLoanErrors(updatedLoanErrors);
+    }
   };
 
   return (
@@ -39,27 +62,40 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
       </div>
 
       <div className="mt-8 space-y-8">
-        <div className="flex gap-4">
-          <button
-            onClick={() => handleToggle(true)}
-            className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
-              data.hasExistingLoan === true 
-                ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
-                : "border-gray-100 text-gray-400 hover:border-emerald-200"
-            }`}
-          >
-            Yes
-          </button>
-          <button
-            onClick={() => handleToggle(false)}
-            className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
-              data.hasExistingLoan === false 
-                ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
-                : "border-gray-100 text-gray-400 hover:border-emerald-200"
-            }`}
-          >
-            No
-          </button>
+        <div className="space-y-2">
+          <div className="flex gap-4">
+            <button
+              onClick={() => {
+                handleToggle(true);
+                if (errors.choice) setErrors(prev => ({ ...prev, choice: null }));
+              }}
+              className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
+                data.hasExistingLoan === true 
+                  ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
+                  : errors.choice
+                    ? "border-red-300 bg-red-50/10 text-red-400"
+                    : "border-gray-100 text-gray-400 hover:border-emerald-200"
+              }`}
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => {
+                handleToggle(false);
+                if (errors.choice) setErrors(prev => ({ ...prev, choice: null }));
+              }}
+              className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
+                data.hasExistingLoan === false 
+                  ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
+                  : errors.choice
+                    ? "border-red-300 bg-red-50/10 text-red-400"
+                    : "border-gray-100 text-gray-400 hover:border-emerald-200"
+              }`}
+            >
+              No
+            </button>
+          </div>
+          {errors.choice && <p className="text-center mt-2 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 font-medium">{errors.choice}</p>}
         </div>
 
         {data.hasExistingLoan && (
@@ -83,28 +119,32 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                     label="Who or which bank did you borrow from?" 
                     value={loan.lender}
                     onChange={(e) => handleLoanChange(index, 'lender', e.target.value)}
+                    error={loanErrors[index]?.lender}
                     icon={<FiHelpCircle />} 
                   />
                   
                   <div className="grid grid-cols-2 gap-4">
                     <InputGroup 
-                      label="How much did you borrow?" 
-                      value={loan.amount}
+                      label="Loan amount?" 
+                      value={loan.amount ? Number(loan.amount).toLocaleString() : ''}
                       onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/\D/g, ''))}
+                      error={loanErrors[index]?.amount}
                       icon={<FiCreditCard />} 
                     />
                     <InputGroup 
-                      label="How much do you still owe?" 
-                      value={loan.balance}
+                      label="Still owe?" 
+                      value={loan.balance ? Number(loan.balance).toLocaleString() : ''}
                       onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/\D/g, ''))}
+                      error={loanErrors[index]?.balance}
                       icon={<FiCreditCard />} 
                     />
                   </div>
 
                   <InputGroup 
                     label="How much do you pay regularly? (weekly/monthly)" 
-                    value={loan.repayment}
+                    value={loan.repayment ? Number(loan.repayment).toLocaleString() : ''}
                     onChange={(e) => handleLoanChange(index, 'repayment', e.target.value.replace(/\D/g, ''))}
+                    error={loanErrors[index]?.repayment}
                     icon={<FiCreditCard />} 
                   />
                 </div>
@@ -128,9 +168,8 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
             Back
           </button>
           <button
-            onClick={onContinue}
-            disabled={data.hasExistingLoan === null || (data.hasExistingLoan && data.loans.some(l => !l.lender || !l.amount))}
-            className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+            onClick={handleContinue}
+            className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Review Details
           </button>
@@ -140,23 +179,48 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, icon }) => (
+const InputGroup = ({ label, value, onChange, icon, error = null }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
         {icon}
       </div>
       <input
         type="text"
         value={value}
         onChange={onChange}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-white pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
+        className={`block w-full rounded-xl border-2 bg-white pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+          error 
+            ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       />
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
+
+const handleToggle = (hasLoan, onChange, data, handleAddLoan) => {
+    onChange('hasExistingLoan', hasLoan);
+    if (hasLoan && data.loans.length === 0) {
+      handleAddLoan();
+    }
+};
+
+const handleAddLoanOriginal = (data, onChange) => {
+    const newLoans = [...data.loans, { lender: '', amount: '', balance: '', repayment: '' }];
+    onChange('loans', newLoans);
+};
+
+const handleRemoveLoanOriginal = (index, data, onChange) => {
+    const newLoans = data.loans.filter((_, i) => i !== index);
+    onChange('loans', newLoans);
+    if (newLoans.length === 0) {
+      onChange('hasExistingLoan', false);
+    }
+};
 
 export default ExistingLoans;

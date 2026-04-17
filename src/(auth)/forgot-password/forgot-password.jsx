@@ -129,11 +129,15 @@ const ForgotPassword = () => {
                   <input
                     {...registerPhone("phone")}
                     type="tel"
-                    className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                    className={`block w-full rounded-lg border-0 py-3.5 pl-10 pr-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                      phoneErrors.phone 
+                        ? "ring-red-300 focus:ring-red-600" 
+                        : "ring-gray-300 focus:ring-emerald-600"
+                    }`}
                     placeholder="e.g. 08123456789"
                   />
                   {phoneErrors.phone && (
-                    <p className="mt-2 text-xs text-red-500 font-medium">
+                    <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">
                       {phoneErrors.phone.message}
                     </p>
                   )}
@@ -259,7 +263,11 @@ const ForgotPassword = () => {
                     <input
                       {...registerReset("password")}
                       type={showPassword ? "text" : "password"}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className={`block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                        resetErrors.password 
+                          ? "ring-red-300 focus:ring-red-600" 
+                          : "ring-gray-300 focus:ring-emerald-600"
+                      }`}
                       placeholder="••••••••"
                     />
                     <button
@@ -270,7 +278,7 @@ const ForgotPassword = () => {
                       {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
                     {resetErrors.password && (
-                      <p className="mt-2 text-xs text-red-500 font-medium">
+                      <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">
                         {resetErrors.password.message}
                       </p>
                     )}
@@ -288,7 +296,11 @@ const ForgotPassword = () => {
                     <input
                       {...registerReset("confirmPassword")}
                       type={showConfirmPassword ? "text" : "password"}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className={`block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                        resetErrors.confirmPassword 
+                          ? "ring-red-300 focus:ring-red-600" 
+                          : "ring-gray-300 focus:ring-emerald-600"
+                      }`}
                       placeholder="••••••••"
                     />
                     <button
@@ -299,7 +311,7 @@ const ForgotPassword = () => {
                       {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
                     {resetErrors.confirmPassword && (
-                      <p className="mt-2 text-xs text-red-500 font-medium">
+                      <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">
                         {resetErrors.confirmPassword.message}
                       </p>
                     )}

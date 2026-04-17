@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FiFileText, FiUploadCloud, FiType, FiCheck } from "react-icons/fi";
 
 const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
@@ -15,12 +16,25 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
     "Lagos State Residency Card (LASRRA)"
   ];
 
-  const canContinue = 
-    data.idType && 
-    data.idNumber && 
-    data.idFile && 
-    data.proofType && 
-    data.proofFile;
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!data.idType) newErrors.idType = "ID type is required";
+    if (!data.idNumber) newErrors.idNumber = "ID number is required";
+    if (!data.idFile) newErrors.idFile = "ID document upload is required";
+    if (!data.proofType) newErrors.proofType = "Proof of residence type is required";
+    if (!data.proofFile) newErrors.proofFile = "Proof of residence document is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleContinue = () => {
+    if (validate()) {
+      onContinue();
+    }
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
@@ -45,14 +59,22 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
             <SelectGroup 
               label="ID Type" 
               value={data.idType} 
-              onChange={(e) => onChange('idType', e.target.value)}
+              onChange={(e) => {
+                onChange('idType', e.target.value);
+                if (errors.idType) setErrors(prev => ({ ...prev, idType: null }));
+              }}
+              error={errors.idType}
               options={idOptions}
               icon={<FiFileText />} 
             />
             <InputGroup 
               label="ID Number" 
               value={data.idNumber} 
-              onChange={(e) => onChange('idNumber', e.target.value)}
+              onChange={(e) => {
+                onChange('idNumber', e.target.value);
+                if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
+              }}
+              error={errors.idNumber}
               placeholder="Enter ID number"
               icon={<FiType />} 
             />
@@ -60,7 +82,11 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
           
           <FileUpload 
             file={data.idFile}
-            onFileSelect={(file) => onChange('idFile', file)}
+            onFileSelect={(file) => {
+              onChange('idFile', file);
+              if (errors.idFile) setErrors(prev => ({ ...prev, idFile: null }));
+            }}
+            error={errors.idFile}
             label={`Upload ${data.idType || 'ID'}`}
             description="PNG, JPG or PDF. Max 5MB."
           />
@@ -76,14 +102,22 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
           <SelectGroup 
             label="Document Type" 
             value={data.proofType} 
-            onChange={(e) => onChange('proofType', e.target.value)}
+            onChange={(e) => {
+              onChange('proofType', e.target.value);
+              if (errors.proofType) setErrors(prev => ({ ...prev, proofType: null }));
+            }}
+            error={errors.proofType}
             options={proofOptions}
             icon={<FiFileText />} 
           />
 
           <FileUpload 
             file={data.proofFile}
-            onFileSelect={(file) => onChange('proofFile', file)}
+            onFileSelect={(file) => {
+              onChange('proofFile', file);
+              if (errors.proofFile) setErrors(prev => ({ ...prev, proofFile: null }));
+            }}
+            error={errors.proofFile}
             label={`Upload ${data.proofType || 'Proof Document'}`}
             description="Utility bill or bank statement (not older than 3 months)"
           />
@@ -97,9 +131,8 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
             Back
           </button>
           <button
-            onClick={onContinue}
-            disabled={!canContinue}
-            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+            onClick={handleContinue}
+            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Continue
           </button>
@@ -109,38 +142,49 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const FileUpload = ({ file, onFileSelect, label, description }) => (
-  <div className="relative group cursor-pointer">
-    <input 
-      type="file" 
-      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-      onChange={(e) => onFileSelect(e.target.files[0])}
-    />
-    <div className={`p-6 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 ${
-      file ? "bg-emerald-50 border-emerald-300" : "bg-gray-50/50 border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
-    }`}>
-      <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-        file ? "bg-emerald-100 text-emerald-600" : "bg-gray-100 text-gray-400"
+const FileUpload = ({ file, onFileSelect, label, description, error = null }) => (
+  <div className="space-y-2">
+    <div className="relative group cursor-pointer">
+      <input 
+        type="file" 
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+        onChange={(e) => onFileSelect(e.target.files[0])}
+      />
+      <div className={`p-6 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 ${
+        file 
+          ? "bg-emerald-50 border-emerald-300" 
+          : error
+            ? "bg-red-50/30 border-red-300"
+            : "bg-gray-50/50 border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
       }`}>
-        {file ? <FiCheck size={20} /> : <FiUploadCloud size={20} />}
+        <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
+          file 
+            ? "bg-emerald-100 text-emerald-600" 
+            : error
+              ? "bg-red-100 text-red-600"
+              : "bg-gray-100 text-gray-400"
+        }`}>
+          {file ? <FiCheck size={20} /> : <FiUploadCloud size={20} />}
+        </div>
+        <p className={`text-sm font-bold ${file ? "text-emerald-700" : error ? "text-red-700" : "text-gray-900"}`}>
+          {file ? file.name : label}
+        </p>
+        <p className={`text-[10px] text-center uppercase tracking-wider font-medium ${error ? 'text-red-500' : 'text-gray-500'}`}>
+           {description}
+        </p>
       </div>
-      <p className={`text-sm font-bold ${file ? "text-emerald-700" : "text-gray-900"}`}>
-        {file ? file.name : label}
-      </p>
-      <p className="text-[10px] text-gray-500 text-center uppercase tracking-wider font-medium">
-         {description}
-      </p>
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 
-const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
+const InputGroup = ({ label, value, onChange, icon, placeholder, error = null }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
         {icon}
       </div>
       <input
@@ -148,35 +192,45 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium text-sm"
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+          error 
+            ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       />
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon }) => (
+const SelectGroup = ({ label, value, onChange, options, icon, error = null }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
         {icon}
       </div>
       <select
         value={value}
         onChange={onChange}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none text-sm"
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium appearance-none text-sm ${
+          error 
+            ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       >
         <option value="">Select {label}</option>
         {options.map((opt, i) => (
           <option key={i} value={opt}>{opt}</option>
         ))}
       </select>
-      <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+      <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 ${error ? 'text-red-400' : 'text-gray-400'}`}>
         <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
       </div>
     </div>
+    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 

@@ -8,12 +8,13 @@ import { toast } from "sonner";
 const PhoneVerification = () => {
   const [value, setValue] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleContinue = async (e) => {
     e.preventDefault();
     if (!value) {
-      toast.error("Please enter a valid phone number");
+      setError("Please enter a valid phone number");
       return;
     }
 
@@ -21,7 +22,6 @@ const PhoneVerification = () => {
     // Mock API call
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Phone number saved!");
       navigate("/onboarding/bvn"); // Next step
     }, 1500);
   };
@@ -43,7 +43,7 @@ const PhoneVerification = () => {
 
       <form className="mt-10 space-y-8" onSubmit={handleContinue}>
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
             Phone Number
           </label>
           <div className="phone-input-container">
@@ -51,15 +51,23 @@ const PhoneVerification = () => {
               placeholder="Enter phone number"
               defaultCountry="NG"
               value={value}
-              onChange={setValue}
-              className="flex w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 px-4 py-3 sm:text-sm focus-within:ring-4 focus-within:ring-emerald-500/10 focus-within:border-emerald-600 outline-none transition-all"
+              onChange={(val) => {
+                 setValue(val);
+                 if (error) setError("");
+              }}
+              className={`flex w-full rounded-xl border-2 bg-gray-50/30 px-4 py-3 sm:text-sm transition-all focus-within:ring-4 outline-none ${
+                error 
+                  ? "border-red-300 focus-within:ring-red-500/10 focus-within:border-red-500" 
+                  : "border-gray-200 focus-within:ring-emerald-500/10 focus-within:border-emerald-600"
+              }`}
             />
           </div>
+          {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
         </div>
 
         <button
           type="submit"
-          disabled={isLoading || !value}
+          disabled={isLoading}
           className="group flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 transition-all hover:bg-emerald-500 hover:shadow-emerald-300 disabled:opacity-50 disabled:shadow-none font-poppins mt-8"
         >
           {isLoading ? (

@@ -79,7 +79,11 @@ const Register = () => {
               </label>
               <select
                 {...register("title")}
-                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 appearance-none cursor-pointer"
+                className={`mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 appearance-none cursor-pointer transition-all ${
+                  errors.title 
+                    ? "ring-red-300 focus:ring-red-600" 
+                    : "ring-gray-300 focus:ring-emerald-600"
+                }`}
               >
                 <option value="">Select</option>
                 <option value="Mr">Mr</option>
@@ -89,7 +93,7 @@ const Register = () => {
                 <option value="Dr">Dr</option>
               </select>
               {errors.title && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+                <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.title.message}</p>
               )}
             </div>
 
@@ -102,10 +106,14 @@ const Register = () => {
                   {...register("firstName")}
                   type="text"
                   placeholder="e.g. John"
-                  className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                  className={`mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                    errors.firstName 
+                      ? "ring-red-300 focus:ring-red-600" 
+                      : "ring-gray-300 focus:ring-emerald-600"
+                  }`}
                 />
                 {errors.firstName && (
-                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName.message}</p>
+                  <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.firstName.message}</p>
                 )}
               </div>
               <div>
@@ -116,10 +124,14 @@ const Register = () => {
                   {...register("lastName")}
                   type="text"
                   placeholder="e.g. Doe"
-                  className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                  className={`mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                    errors.lastName 
+                      ? "ring-red-300 focus:ring-red-600" 
+                      : "ring-gray-300 focus:ring-emerald-600"
+                  }`}
                 />
                 {errors.lastName && (
-                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName.message}</p>
+                  <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.lastName.message}</p>
                 )}
               </div>
             </div>
@@ -131,14 +143,18 @@ const Register = () => {
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Phone Number
               </label>
-              <input
+               <input
                 {...register("phone")}
                 type="tel"
                 placeholder="e.g. 08123456789"
-                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className={`mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  errors.phone 
+                    ? "ring-red-300 focus:ring-red-600" 
+                    : "ring-gray-300 focus:ring-emerald-600"
+                }`}
               />
               {errors.phone && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{errors.phone.message}</p>
+                <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.phone.message}</p>
               )}
             </div>
             <div>
@@ -149,10 +165,14 @@ const Register = () => {
                 {...register("email")}
                 type="email"
                 placeholder="e.g. john@example.com"
-                className="mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className={`mt-2 block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  errors.email 
+                    ? "ring-red-300 focus:ring-red-600" 
+                    : "ring-gray-300 focus:ring-emerald-600"
+                }`}
               />
               {errors.email && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.email.message}</p>
+                <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.email.message}</p>
               )}
             </div>
           </div>
@@ -169,7 +189,11 @@ const Register = () => {
                   type={showPassword ? "text" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono"
+                  className={`block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono transition-all ${
+                    errors.password 
+                      ? "ring-red-300 focus:ring-red-600" 
+                      : "ring-gray-300 focus:ring-emerald-600"
+                  }`}
                 />
                 <button
                   type="button"
@@ -180,7 +204,7 @@ const Register = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.password.message}</p>
+                <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.password.message}</p>
               )}
             </div>
 
@@ -194,7 +218,11 @@ const Register = () => {
                   type={showConfirmPassword ? "text" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className="block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono"
+                  className={`block w-full rounded-lg border-0 py-3.5 px-4 pr-12 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 tracking-widest font-mono transition-all ${
+                    errors.confirmPassword 
+                      ? "ring-red-300 focus:ring-red-600" 
+                      : "ring-gray-300 focus:ring-emerald-600"
+                  }`}
                 />
                 <button
                   type="button"
@@ -205,7 +233,7 @@ const Register = () => {
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.confirmPassword.message}</p>
+                <p className="mt-1 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.confirmPassword.message}</p>
               )}
             </div>
           </div>

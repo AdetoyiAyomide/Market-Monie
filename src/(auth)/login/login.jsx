@@ -46,11 +46,15 @@ const Login = () => {
               <input
                 {...register("phone")}
                 type="tel"
-                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className={`block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  errors.phone 
+                    ? "ring-red-300 focus:ring-red-600" 
+                    : "ring-gray-300 focus:ring-emerald-600"
+                }`}
                 placeholder="e.g. 08123456789"
               />
               {errors.phone && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{errors.phone.message}</p>
+                <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.phone.message}</p>
               )}
             </div>
           </div>
@@ -63,18 +67,23 @@ const Login = () => {
               <input
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
-                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className={`block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  errors.password 
+                    ? "ring-red-300 focus:ring-red-600" 
+                    : "ring-gray-300 focus:ring-emerald-600"
+                }`}
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                style={{ top: '22px' }}
               >
                 {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
               </button>
               {errors.password && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{errors.password.message}</p>
+                <p className="mt-2 text-xs text-red-500 font-medium animate-in fade-in slide-in-from-top-1">{errors.password.message}</p>
               )}
             </div>
           </div>

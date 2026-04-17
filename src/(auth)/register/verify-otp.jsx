@@ -20,7 +20,7 @@ const VerifyOTP = () => {
   const [canResend, setCanResend] = useState(false);
   const [resendAttempts, setResendAttempts] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [error, setError] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [redirectTimer, setRedirectTimer] = useState(5);
 
@@ -53,21 +53,19 @@ const VerifyOTP = () => {
   const handleVerify = async (e) => {
     e.preventDefault();
     if (otpValue.length < 6) {
-      toast.error("Please enter the full 6-digit code");
+      setError("Please enter the full 6-digit code");
       return;
     }
     
     setIsVerifying(true);
-    setHasError(false);
+    setError("");
     
     // Mock Verification
     setTimeout(() => {
       if (otpValue === "123456") {
-        toast.success("Phone verified successfully!");
         setIsSuccess(true);
       } else {
-        toast.error("Invalid or expired code.");
-        setHasError(true);
+        setError("Invalid or expired code.");
       }
       setIsVerifying(false);
     }, 1500);
@@ -133,13 +131,13 @@ const VerifyOTP = () => {
       </div>
 
       <form className="mt-10 space-y-8" onSubmit={handleVerify}>
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center">
           <InputOTP
             maxLength={6}
             value={otpValue}
             onChange={(value) => {
               setOtpValue(value);
-              if (hasError) setHasError(false);
+              if (error) setError("");
             }}
             pattern={REGEXP_ONLY_DIGITS}
           >
@@ -148,12 +146,12 @@ const VerifyOTP = () => {
                 <InputOTPSlot
                   key={index}
                   index={index}
-                  className={`rounded-sm border-gray-200 border focus:ring focus:ring-green-600 focus:border-green-600 outline-none ${hasError && "ring-2 ring-red-500 border-red-500"}`}
+                  className={`rounded-sm border-gray-200 border focus:ring focus:ring-green-600 focus:border-green-600 outline-none transition-all ${error && "ring-2 ring-red-500 border-red-500"}`}
                 />
               ))}
             </InputOTPGroup>
           </InputOTP>
-
+          {error && <p className="mt-4 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 font-medium">{error}</p>}
         </div>
 
         <div className="text-center">
@@ -176,7 +174,7 @@ const VerifyOTP = () => {
 
         <button
           type="submit"
-          disabled={otpValue.length < 6 || isVerifying}
+          disabled={isVerifying}
           className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
         >
           {isVerifying ? "Verifying..." : "Verify"}

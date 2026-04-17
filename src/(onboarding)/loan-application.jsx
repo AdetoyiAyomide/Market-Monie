@@ -27,8 +27,10 @@ const LoanApplication = () => {
     lastname: "Peter",
     middlename: "Blessing",
     phone: "+234 812 345 6789",
-    email: "",
+    email: "samuel.peter@example.com",
     dob: "2000-01-27",
+    nin: "",
+    residentialAddress: "",
 
     // Step 2: Address
     state: selectedStateGlobal || location.state?.state || "Lagos",

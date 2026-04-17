@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FiMapPin, FiChevronRight, FiChevronDown, FiGlobe } from "react-icons/fi";
 import { branchAddresses } from "../../../store/Data";
 
@@ -15,15 +16,30 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
   const hasHubs = hubs.length > 0;
   const states = Object.keys(branchAddresses);
 
+  const [errors, setErrors] = useState({});
+
   const handleStateChange = (e) => {
     onSelectState(e.target.value);
     onSelectHub(null); // Reset hub when state changes
+    if (errors.state) setErrors(prev => ({ ...prev, state: null }));
   };
 
   const handleHubChange = (e) => {
     const hubName = e.target.value;
     const hub = hubs.find(h => h.name === hubName);
     onSelectHub(hub);
+    if (errors.hub) setErrors(prev => ({ ...prev, hub: null }));
+  };
+
+  const handleContinue = () => {
+    const newErrors = {};
+    if (!selectedState) newErrors.state = "Please select your state";
+    if (hasHubs && !selectedHub) newErrors.hub = "Please select a hub to proceed";
+    
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      onContinue();
+    }
   };
 
   return (
@@ -44,17 +60,21 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
       <div className="mt-10 space-y-6">
         {/* State Selection */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${errors.state ? 'text-red-500' : 'text-gray-400'}`}>
              Select State
           </label>
           <div className="relative group">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+            <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${errors.state ? 'text-red-400' : 'text-gray-400'}`}>
               <FiGlobe />
             </div>
             <select
               value={selectedState}
               onChange={handleStateChange}
-              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+              className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium appearance-none ${
+                errors.state 
+                  ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              }`}
             >
               <option className="text-black bg-white" value="" disabled>Choose your state</option>
               {states.map((state, index) => (
@@ -63,26 +83,31 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                 </option>
               ))}
             </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+            <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none transition-colors ${errors.state ? 'text-red-400' : 'text-gray-400'}`}>
               <FiChevronDown size={20} />
             </div>
           </div>
+          {errors.state && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.state}</p>}
         </div>
 
         {/* Hub Selection */}
         {hasHubs ? (
           <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+            <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${errors.hub ? 'text-red-500' : 'text-gray-400'}`}>
                Available Hubs in {selectedState}
             </label>
             <div className="relative group">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+              <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${errors.hub ? 'text-red-400' : 'text-gray-400'}`}>
                 <FiMapPin />
               </div>
               <select
                 value={selectedHub?.name || ""}
                 onChange={handleHubChange}
-                className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none"
+                className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium appearance-none ${
+                    errors.hub 
+                      ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                      : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                }`}
               >
                 <option className="text-black bg-white" value="" disabled>Select a hub near you</option>
                 {hubs.map((hub, index) => (
@@ -91,10 +116,11 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                   </option>
                 ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
+              <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none transition-colors ${errors.hub ? 'text-red-400' : 'text-gray-400'}`}>
                 <FiChevronDown size={20} />
               </div>
             </div>
+            {errors.hub && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.hub}</p>}
             
             {selectedHub && (
               <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
@@ -118,9 +144,8 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
         )}
 
         <button
-          onClick={onContinue}
-          disabled={hasHubs && !selectedHub}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins mt-8 group"
+          onClick={handleContinue}
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins mt-8 group"
         >
           {hasHubs ? "Continue" : "Continue anyway"}
           <FiChevronRight className="transition-transform group-hover:translate-x-1" />
