@@ -37,7 +37,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel }) => {
         </ReviewSection>
 
         <ReviewSection title="Financial History" icon={<FiCreditCard />} onEdit={() => onEdit(3)}>
-          <InfoItem label="Existing Loans" value={data.hasExistingLoan ? `${data.loans.length} Loan(s)` : "None"} />
+          <InfoItem label="Existing Loans" value={data.hasExistingLoan ? "Yes" : "No"} />
         </ReviewSection>
 
         <div className="flex flex-col gap-4 pt-8">

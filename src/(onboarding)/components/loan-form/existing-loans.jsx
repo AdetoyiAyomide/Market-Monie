@@ -1,35 +1,14 @@
-import { FiPlus, FiTrash2, FiHelpCircle, FiCreditCard } from "react-icons/fi";
+import { FiCheckCircle, FiInfo } from "react-icons/fi";
 
 const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
   const handleToggle = (hasLoan) => {
     onChange('hasExistingLoan', hasLoan);
-    if (hasLoan && data.loans.length === 0) {
-      handleAddLoan();
-    }
-  };
-
-  const handleAddLoan = () => {
-    const newLoans = [...data.loans, { lender: '', amount: '', balance: '', repayment: '' }];
-    onChange('loans', newLoans);
-  };
-
-  const handleRemoveLoan = (index) => {
-    const newLoans = data.loans.filter((_, i) => i !== index);
-    onChange('loans', newLoans);
-    if (newLoans.length === 0) {
-      onChange('hasExistingLoan', false);
-    }
-  };
-
-  const handleLoanChange = (index, field, value) => {
-    const newLoans = [...data.loans];
-    newLoans[index][field] = value;
-    onChange('loans', newLoans);
+    // Note: We are no longer collecting detailed loan info per user request
   };
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      {!data.hasExistingLoan ? (
+      {data.hasExistingLoan === null ? (
         <>
           <div className="text-left font-poppins">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -43,136 +22,57 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
           <div className="mt-8 flex gap-4">
             <button
               onClick={() => handleToggle(true)}
-              className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
-                data.hasExistingLoan === true 
-                  ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
-                  : "border-gray-100 text-gray-400 hover:border-emerald-200"
-              }`}
+              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
             >
-              Yes
+              <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">Yes</span>
+              <span className="block text-[10px] font-medium opacity-50 uppercase tracking-widest">I have other loans</span>
             </button>
             <button
               onClick={() => handleToggle(false)}
-              className={`flex-1 py-4 rounded-xl border-2 transition-all font-bold ${
-                data.hasExistingLoan === false 
-                  ? "border-emerald-600 bg-emerald-50/50 text-emerald-700 shadow-lg shadow-emerald-100" 
-                  : "border-gray-100 text-gray-400 hover:border-emerald-200"
-              }`}
+              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
             >
-              No
+              <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">No</span>
+              <span className="block text-[10px] font-medium opacity-50 uppercase tracking-widest">No active loans</span>
             </button>
           </div>
         </>
       ) : (
-        <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
-          <div>
-            <h3 className="text-sm font-bold text-gray-900">Current Loan List</h3>
-            <p className="text-xs text-gray-500">You are adding details for your existing loans</p>
+        <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center py-10">
+          <div className="h-20 w-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-inner">
+            <FiCheckCircle size={40} />
           </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Selection Saved</h2>
+          <p className="text-sm text-gray-500 text-center max-w-[240px]">
+            You've marked that you {data.hasExistingLoan ? 'have' : 'do not have'} existing loans. 
+          </p>
+          
           <button 
             onClick={() => onChange('hasExistingLoan', null)}
-            className="text-xs font-bold text-emerald-600 hover:text-emerald-700 underline"
+            className="mt-6 text-xs font-bold text-emerald-600 hover:text-emerald-700 underline flex items-center gap-1"
           >
-            Change Choice
+            <FiInfo size={12} />
+            Change my answer
           </button>
         </div>
       )}
 
-        {data.hasExistingLoan && (
-          <div className="space-y-6">
-            {data.loans.map((loan, index) => (
-              <div key={index} className="p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
-                <div className="flex justify-between items-center mb-6">
-                  <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest">Loan {index + 1}</span>
-                  {index > 0 && (
-                    <button 
-                      onClick={() => handleRemoveLoan(index)}
-                      className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    >
-                      <FiTrash2 size={18} />
-                    </button>
-                  )}
-                </div>
-
-                <div className="space-y-6">
-                  <InputGroup 
-                    label="Who or which bank did you borrow from?" 
-                    value={loan.lender}
-                    onChange={(e) => handleLoanChange(index, 'lender', e.target.value)}
-                    icon={<FiHelpCircle />} 
-                  />
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputGroup 
-                      label="How much did you borrow?" 
-                      value={loan.amount}
-                      onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/\D/g, ''))}
-                      icon={<FiCreditCard />} 
-                    />
-                    <InputGroup 
-                      label="How much do you still owe?" 
-                      value={loan.balance}
-                      onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/\D/g, ''))}
-                      icon={<FiCreditCard />} 
-                    />
-                  </div>
-
-                  <InputGroup 
-                    label="How much do you pay regularly? (weekly/monthly)" 
-                    value={loan.repayment}
-                    onChange={(e) => handleLoanChange(index, 'repayment', e.target.value.replace(/\D/g, ''))}
-                    icon={<FiCreditCard />} 
-                  />
-                </div>
-              </div>
-            ))}
-
-            <button
-              onClick={handleAddLoan}
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-xl border-2 border-dashed border-emerald-300 text-emerald-600 font-bold hover:bg-emerald-50 transition-all"
-            >
-              <FiPlus /> Add another loan
-            </button>
-          </div>
-        )}
-
-        <div className="flex gap-4 mt-10">
-          <button
-            onClick={onBack}
-            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
-          >
-            Back
-          </button>
-          <button
-            onClick={onContinue}
-            disabled={data.hasExistingLoan === null || (data.hasExistingLoan && data.loans.some(l => !l.lender || !l.amount))}
-            className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
-          >
-            Review Details
-          </button>
-        </div>
+      <div className="flex gap-4 mt-12 border-t border-gray-100 pt-8">
+        <button
+          onClick={onBack}
+          className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
+        >
+          Back
+        </button>
+        <button
+          onClick={onContinue}
+          disabled={data.hasExistingLoan === null}
+          className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+        >
+          Proceed to Review
+        </button>
       </div>
     </div>
   );
 };
-
-const InputGroup = ({ label, value, onChange, icon }) => (
-  <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-      {label}
-    </label>
-    <div className="relative group">
-      <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
-        {icon}
-      </div>
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-white pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
-      />
-    </div>
-  </div>
-);
 
 export default ExistingLoans;
