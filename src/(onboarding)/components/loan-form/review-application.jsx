@@ -38,6 +38,12 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel }) => {
 
         <ReviewSection title="Financial History" icon={<FiCreditCard />} onEdit={() => onEdit(3)}>
           <InfoItem label="Existing Loans" value={data.hasExistingLoan ? "Yes" : "No"} />
+          {data.hasExistingLoan && (
+            <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+              <InfoItem label="Lender" value={data.existingLenderName} />
+              <InfoItem label="Outstanding" value={`₦${Number(data.outstandingAmount).toLocaleString()}`} />
+            </div>
+          )}
         </ReviewSection>
 
         <div className="flex flex-col gap-4 pt-8">

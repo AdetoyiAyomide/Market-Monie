@@ -73,6 +73,8 @@ const LoanApplication = () => {
 
     // Step 6: Loans
     hasExistingLoan: null,
+    existingLenderName: "",
+    outstandingAmount: "",
     loans: []
   });
 
