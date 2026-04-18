@@ -44,8 +44,8 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
 
       <div className="mt-8 space-y-6">
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-             How much do you want to borrow?
+          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+             How Much Do You Want To Borrow?
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-emerald-600 font-bold">
@@ -80,6 +80,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
           }}
           options={filteredBanks}
           dropdownRef={bankDropdownRef}
+          placeholder="Select your bank"
           icon={<FiActivity />} 
         />
 
@@ -87,7 +88,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
           label="What is your account number?" 
           value={data.accountNumber} 
           onChange={(e) => onChange('accountNumber', e.target.value.replace(/\D/g, ''))}
-          placeholder="Enter 10-digit account number"
+          placeholder="Enter 10 digit account number"
           icon={<FiCreditCard />} 
         />
 
@@ -113,7 +114,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
       {label}
     </label>
     <div className="relative group">
@@ -131,9 +132,9 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, icon, disabled = false, dropdownRef }) => (
+const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, icon, disabled = false, dropdownRef, placeholder }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+    <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
       {label}
     </label>
     <div className="relative group" ref={dropdownRef}>
@@ -147,7 +148,7 @@ const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChang
         onClick={() => !disabled && onToggle()}
         onChange={onInputChange}
         disabled={disabled}
-        placeholder={disabled ? "Loading..." : `Select ${label}`}
+        placeholder={disabled ? "Loading..." : placeholder || `Select ${label}`}
         className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
           disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
         }`}

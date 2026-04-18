@@ -56,6 +56,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         {/* Entry Point */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/location-select" element={<LandingPage2 />} />
         <Route path="/select-state" element={<SelectState />} />
         <Route path="/hub-selection" element={<LegacyHubSelection />} />
         <Route path="/create-account" element={<LegacyCreateAccount />} />
@@ -65,7 +66,7 @@ function AnimatedRoutes() {
         <Route path="/business" element={<LegacyBusiness />} />
         <Route path="/loan" element={<LegacyLoan />} />
         <Route path="/preview" element={<LegacyPreviewPage />} />
-        <Route path="/landing-2" element={<LandingPage2 />} />
+
         <Route path="/legacy-login" element={<LegacyLogin />} />
         
         {/* Onboarding & Application Routes */}

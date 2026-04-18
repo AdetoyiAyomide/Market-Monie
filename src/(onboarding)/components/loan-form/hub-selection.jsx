@@ -91,9 +91,9 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
       <div className="mt-10 space-y-6">
         {/* State Selection */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
             Select
-            the state where your business operates
+            the State Where Your Business Operates
           </label>
           <div className="relative group" ref={stateDropdownRef}>
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
@@ -141,8 +141,8 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
         {/* Hub Selection */}
         {hasHubs ? (
           <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-              Available Hubs in {selectedState}
+            <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+              Available Hubs In {selectedState}
             </label>
             <div className="relative group" ref={hubDropdownRef}>
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 group-focus-within:text-emerald-600 transition-colors">
@@ -179,7 +179,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
 
             {selectedHub && (
               <div className="p-4 bg-emerald-50/50 rounded-xl border border-emerald-100 mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">Hub Full Address</p>
+                <p className="text-xs font-bold text-emerald-700 tracking-wider mb-1">Hub Full Address</p>
                 <p className="text-sm text-emerald-900 leading-relaxed font-sans font-medium italic">
                   {selectedHub.address}
                 </p>
@@ -203,7 +203,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
           disabled={!selectedState || (hasHubs && !selectedHub)}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins mt-8 group"
         >
-          {hasHubs ? "Continue" : "Continue anyway"}
+          {hasHubs ? "Continue" : "Continue Anyway"}
           <FiChevronRight className="transition-transform group-hover:translate-x-1" />
         </button>
       </div>

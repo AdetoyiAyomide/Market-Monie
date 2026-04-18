@@ -43,7 +43,7 @@ const PhoneVerification = () => {
 
       <form className="mt-10 space-y-8" onSubmit={handleContinue}>
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
             Phone Number
           </label>
           <div className="phone-input-container">
@@ -79,7 +79,7 @@ const PhoneVerification = () => {
       <div className="mt-12 pt-8 border-t border-gray-100">
           <div className="flex items-center justify-between">
               <div className="flex flex-col">
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-widest">Progress</span>
+                  <span className="text-xs text-gray-400 font-bold tracking-widest">Progress</span>
                   <span className="text-sm font-semibold text-gray-700">Phone Verification</span>
               </div>
               <div className="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">

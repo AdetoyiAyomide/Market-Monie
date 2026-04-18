@@ -50,6 +50,8 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
               }`}
             >
               Yes
+             <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">Yes</span>
+<span className="block text-[10px] font-medium opacity-50 tracking-widest">I Have Other Loans</span>
             </button>
             <button
               onClick={() => handleToggle(false)}
@@ -60,6 +62,8 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
               }`}
             >
               No
+              <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">No</span>
+<span className="block text-[10px] font-medium opacity-50 tracking-widest">No Active Loans</span>
             </button>
           </div>
         </>

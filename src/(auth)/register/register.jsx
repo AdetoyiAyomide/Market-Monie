@@ -66,8 +66,8 @@ const Register = () => {
     }
 
     console.log("Register Data:", data);
-    navigate("/verify-email", {
-      state: { email: data.email || "user@email.com" },
+    navigate("/verify-otp", {
+      state: { phone: data.phone },
     });
   };
 
@@ -78,12 +78,12 @@ const Register = () => {
 
       <div className="text-left font-poppins">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Create an account
+          Create An Account
         </h2>
         <p className="mt-2 text-sm text-gray-600">
           Already have an account?{" "}
           <Link to="/login" className="font-semibold text-emerald-600 hover:text-emerald-500">
-            Sign in
+            Sign In
           </Link>
         </p>
       </div>
@@ -236,7 +236,7 @@ const Register = () => {
                       />
                     ))}
                   </div>
-                  <div className="flex justify-between items-center text-[10px] font-medium uppercase tracking-wider">
+                  <div className="flex justify-between items-center text-[10px] font-medium tracking-wider">
                     <span className="text-gray-500">Strength: {strength.label}</span>
                   </div>
                 </div>
@@ -302,9 +302,9 @@ const Register = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full justify-center rounded-lg bg-emerald-600 px-3 py-4 text-sm font-bold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins uppercase tracking-widest"
+              className="flex w-full justify-center rounded-lg bg-emerald-600 px-3 py-4 text-sm font-bold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins tracking-widest"
             >
-              {isSubmitting ? "Creating account..." : "Complete Registration"}
+              {isSubmitting ? "Creating Account..." : "Complete Registration"}
             </button>
           </div>
         </form>

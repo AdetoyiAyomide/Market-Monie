@@ -1,48 +1,48 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  phone: z.string().min(10, "Phone number is too short").max(15, "Phone number is too long"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  phone: z.string().min(10, "Phone Number Is Too Short").max(15, "Phone Number Is Too Long"),
+  password: z.string().min(6, "Password Must Be At Least 6 Characters"),
 });
 
 export const registerSchema = z.object({
   title: z.enum(["Mr", "Mrs", "Ms", "Miss", "Dr"], {
-    errorMap: () => ({ message: "Please select a title" }),
+    errorMap: () => ({ message: "Please Select A Title" }),
   }),
-  firstName: z.string().min(2, "First name is too short"),
-  lastName: z.string().min(2, "Last name is too short"),
-  phone: z.string().min(10, "Phone number is too short").max(15, "Phone number is too long"),
-  email: z.string().email("Invalid email address").optional().or(z.literal("")),
+  firstName: z.string().min(2, "First Name Is Too Short"),
+  lastName: z.string().min(2, "Last Name Is Too Short"),
+  phone: z.string().min(10, "Phone Number Is Too Short").max(15, "Phone Number Is Too Long"),
+  email: z.string().email("Invalid Email Address").optional().or(z.literal("")),
   password: z
     .string()
-    .length(6, "PIN must be exactly 6 digits")
-    .regex(/^\d+$/, "PIN must contain only numbers"),
+    .length(6, "PIN Must Be Exactly 6 Digits")
+    .regex(/^\d+$/, "PIN Must Contain Only Numbers"),
   confirmPassword: z.string(),
-  agreeTerms: z.boolean().refine((val) => val === true, "You must accept the terms and conditions"),
+  agreeTerms: z.boolean().refine((val) => val === true, "You Must Accept The Terms And Conditions"),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "PINs don't match",
+  message: "PINs Don't Match",
   path: ["confirmPassword"],
 });
 
 export const forgotPasswordSchema = z.object({
-  phone: z.string().min(10, "Phone number is too short").max(15, "Phone number is too long"),
+  phone: z.string().min(10, "Phone Number Is Too Short").max(15, "Phone Number Is Too Long"),
 });
 
 export const otpSchema = z.object({
-  otp: z.string().length(6, "OTP must be 6 digits"),
+  otp: z.string().length(6, "OTP Must Be 6 Digits"),
 });
 
 export const resetPasswordSchema = z
   .object({
     password: z
       .string()
-      .min(6, "Password must be at least 6 characters")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[0-9]/, "Password must contain at least one number")
-      .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+      .min(6, "Password Must Be At Least 6 Characters")
+      .regex(/[A-Z]/, "Password Must Contain At Least One Uppercase Letter")
+      .regex(/[0-9]/, "Password Must Contain At Least One Number")
+      .regex(/[^A-Za-z0-9]/, "Password Must Contain At Least One Special Character"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Passwords Don't Match",
     path: ["confirmPassword"],
   });

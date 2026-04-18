@@ -107,10 +107,10 @@ const ForgotPassword = () => {
                 className="inline-flex items-center text-sm font-medium text-emerald-600 hover:text-emerald-500 mb-6 group transition-all"
               >
                 <FiArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to login
+                Back To Login
               </Link>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-poppins">
-                Forgot password?
+                Forgot Password?
               </h2>
               <p className="mt-2 text-sm text-gray-600 font-poppins">
                 Enter your phone number to receive a reset code.
@@ -145,7 +145,7 @@ const ForgotPassword = () => {
                 disabled={isPhoneSubmitting}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isPhoneSubmitting ? "Sending..." : "Reset password"}
+                {isPhoneSubmitting ? "Sending..." : "Reset Password"}
               </button>
             </form>
           </motion.div>
@@ -166,7 +166,7 @@ const ForgotPassword = () => {
                 className="inline-flex items-center text-sm font-medium text-emerald-600 hover:text-emerald-500 mb-6 group transition-all"
               >
                 <FiArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" />
-                Change phone
+                Change Phone
               </button>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-poppins">
                 Enter OTP
@@ -211,7 +211,7 @@ const ForgotPassword = () => {
                   disabled={isOtpSubmitting}
                   className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
                 >
-                  {isOtpSubmitting ? "Verifying..." : "Verify OTP"}
+                  {isOtpSubmitting ? "Verifying..." : "Verify Otp"}
                 </button>
                 <p className="text-center text-sm text-gray-600">
                   Didn't receive the code?{" "}
@@ -220,7 +220,7 @@ const ForgotPassword = () => {
                     className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors"
                     onClick={() => toast.success("OTP resent!")}
                   >
-                    Click to resend
+                    Click To Resend
                   </button>
                 </p>
               </div>
@@ -239,7 +239,7 @@ const ForgotPassword = () => {
           >
             <div>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-poppins">
-                Set new password
+                Set New Password
               </h2>
               <p className="mt-2 text-sm text-gray-600 font-poppins">
                 Must be at least 8 characters with a mix of letters, numbers & symbols.
@@ -325,7 +325,7 @@ const ForgotPassword = () => {
                 disabled={isResetSubmitting}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isResetSubmitting ? "Updating..." : "Reset password"}
+                {isResetSubmitting ? "Updating..." : "Reset Password"}
               </button>
             </form>
           </motion.div>

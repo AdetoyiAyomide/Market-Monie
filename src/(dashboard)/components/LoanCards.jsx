@@ -19,7 +19,7 @@ export const WelcomeCard = ({ user }) => (
     />
     
     <div className="relative z-10 flex-1">
-      <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold tracking-widest mb-4">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -65,9 +65,9 @@ export const ApplicationStatusCard = () => {
         <div className="flex justify-between items-start mb-10">
           <div>
             <h2 className="text-lg font-bold text-gray-900 font-poppins">Loan Application Status</h2>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">Ref: MM-94202 • Submitted Apr 11, 2026</p>
+            <p className="text-xs text-gray-400 font-medium mt-1">Ref: MM-94202 • Submitted Apr 11, 2026</p>
           </div>
-          <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-blue-100">
+          <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[10px] font-bold border border-blue-100">
             In Progress
           </div>
         </div>
@@ -83,7 +83,7 @@ export const ApplicationStatusCard = () => {
               }`}>
                 {s.done ? <FiCheckCircle size={20} /> : s.active ? <FiClock size={20} /> : <FiUserCheck size={20} />}
               </div>
-              <span className={`text-[9px] font-bold uppercase tracking-widest ${s.active ? "text-gray-900" : "text-gray-300"}`}>{s.name}</span>
+              <span className={`text-[9px] font-bold ${s.active ? "text-gray-900" : "text-gray-300"}`}>{s.name}</span>
             </div>
           ))}
         </div>
@@ -115,7 +115,7 @@ export const LoanSummaryCard = () => (
     <div className="relative z-10">
       <div className="flex justify-between items-start mb-12">
         <div>
-          <p className="text-emerald-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-2 font-poppins">Active Loan Principal</p>
+          <p className="text-emerald-400 text-[10px] font-bold mb-2 font-poppins">Active Loan Principal</p>
           <h2 className="text-4xl font-bold font-poppins tracking-tight">₦450,000.00</h2>
         </div>
         <button className="h-12 w-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10 hover:bg-white/20 transition-all backdrop-blur-md">
@@ -125,11 +125,11 @@ export const LoanSummaryCard = () => (
 
       <div className="grid grid-cols-2 gap-12 pt-8 border-t border-white/10">
         <div>
-          <p className="text-white/40 text-[9px] font-bold uppercase tracking-widest mb-2">Next Payment Date</p>
+          <p className="text-white/40 text-[9px] font-bold mb-2">Next Payment Date</p>
           <p className="text-lg font-bold font-poppins">May 11, 2026</p>
         </div>
         <div>
-          <p className="text-white/40 text-[9px] font-bold uppercase tracking-widest mb-2">Amount Due</p>
+          <p className="text-white/40 text-[9px] font-bold mb-2">Amount Due</p>
           <p className="text-lg font-bold font-poppins">₦45,000.00</p>
         </div>
       </div>

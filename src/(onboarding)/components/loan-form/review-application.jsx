@@ -64,7 +64,7 @@ const ReviewSection = ({ title, icon, children, onEdit }) => (
     <div className="flex justify-between items-center mb-4">
       <div className="flex items-center gap-2 text-emerald-600 font-bold">
         {icon}
-        <span className="text-sm uppercase tracking-widest">{title}</span>
+        <span className="text-sm tracking-widest">{title}</span>
       </div>
       <button onClick={onEdit} className="text-gray-400 hover:text-emerald-600 transition-colors">
         <FiEdit3 size={18} />

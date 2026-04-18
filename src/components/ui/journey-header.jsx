@@ -16,7 +16,7 @@ const JourneyHeader = ({ activeStep }) => {
   return (
     <div className="mb-8">
       <div className="mb-3">
-        <div className="flex justify-between text-[11px] uppercase tracking-wider w-full">
+        <div className="flex justify-between text-[11px] tracking-wider w-full">
           <p className="text-slate-400 font-semibold">Application Journey</p>
           <p className="text-emerald-700 font-bold">
             Step {currentStep} <span className="text-slate-300 mx-1">/</span> {steps.length}
@@ -49,7 +49,7 @@ const JourneyHeader = ({ activeStep }) => {
                 }`}
               >
                 <span className="text-lg">{step.icon}</span>
-                <span className="mt-1 text-[11px] font-bold uppercase tracking-wider sm:text-xs">
+                <span className="mt-1 text-[11px] font-bold tracking-wider sm:text-xs">
                   {step.label}
                 </span>
               </div>

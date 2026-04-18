@@ -124,7 +124,7 @@ const BvnVerification = () => {
 
       <form className="mt-10 space-y-6" onSubmit={handleVerify}>
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
             Bank Verification Number (BVN)
           </label>
           <div className="relative group">
@@ -148,7 +148,7 @@ const BvnVerification = () => {
         <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-3">
           <FiAlertCircle className="text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-800 leading-relaxed italic">
-            Don&apos;t know your bvn?. Dial <span className="font-bold">*565*0#</span> on your registered mobile number to retrieve your BVN.
+            Don&apos;t know your BVN?. Dial <span className="font-bold">*565*0#</span> on your registered mobile number to retrieve your BVN.
           </p>
         </div>
 
@@ -169,7 +169,7 @@ const BvnVerification = () => {
       <div className="mt-12 pt-8 border-t border-gray-100">
           <div className="flex items-center justify-between">
               <div className="flex flex-col">
-                  <span className="text-xs text-gray-400 uppercase font-bold tracking-widest">Next Step</span>
+                  <span className="text-xs text-gray-400 font-bold tracking-widest">Next Step</span>
                   <span className="text-sm font-semibold text-gray-700">Identity Verification</span>
               </div>
               <div className="h-2 w-24 bg-gray-100 rounded-full overflow-hidden">

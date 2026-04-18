@@ -115,7 +115,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack }) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
             Phone Number
           </label>
           <div className="phone-input-container">
@@ -130,7 +130,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack }) => {
         </div>
 
         <div className="space-y-2">
-          <label className={`text-xs font-bold uppercase tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : 'text-gray-400'}`}>
+          <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : 'text-gray-400'}`}>
             Date of Birth
           </label>
           <div className="grid grid-cols-3 gap-3">
@@ -162,7 +162,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack }) => {
         <div className="pt-6 border-t border-gray-100 space-y-6">
           <div className="flex items-center gap-2 text-emerald-600 mb-2">
             <FiHome />
-            <h3 className="text-xs font-bold uppercase tracking-widest">Residential Address</h3>
+            <h3 className="text-xs font-bold tracking-widest">Residential Address</h3>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

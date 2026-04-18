@@ -26,7 +26,7 @@ const LandingPage = () => {
       title: "Empower Your Business Growth",
       desc: "Get quick, reliable financial support tailored for your business needs. Apply in minutes.",
       cta: "Request for Loan",
-      path: "/register",
+      path: "/location-select",
       icon: <FiUserPlus />,
       color: "emerald",
       bg: "/monie.jpg"
@@ -136,7 +136,7 @@ const LandingPage = () => {
               ))}
             </div>
             <div className="h-16 w-[1px] bg-white/10" />
-            <p className="[writing-mode:vertical-lr] text-[9px] uppercase font-bold tracking-[6px] text-white/20">
+            <p className="[writing-mode:vertical-lr] text-[9px] font-bold tracking-[6px] text-white/20">
               MarketMonie
             </p>
           </div>
@@ -152,7 +152,7 @@ const LandingPage = () => {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className="max-w-2xl flex flex-col items-start text-left"
               >
-                <div className={`px-4 py-1.5 rounded-full bg-${modes[activeMode].color}-500/10 border border-${modes[activeMode].color}-500/20 text-${modes[activeMode].color}-500 text-[10px] font-bold uppercase tracking-widest mb-8`}>
+                <div className={`px-4 py-1.5 rounded-full bg-${modes[activeMode].color}-500/10 border border-${modes[activeMode].color}-500/20 text-${modes[activeMode].color}-500 text-[10px] font-bold tracking-widest mb-8`}>
                   {modes[activeMode].label}
                 </div>
 
@@ -182,7 +182,7 @@ const LandingPage = () => {
                       maskImage: 'url(/Pattern.svg)',
                     }}
                   />
-                  <div className="relative z-10 flex items-center justify-center gap-3 font-bold uppercase tracking-widest text-sm">
+                  <div className="relative z-10 flex items-center justify-center gap-3 font-bold tracking-widest text-sm">
                     {modes[activeMode].cta} <FiArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
                   </div>
                 </motion.button>
@@ -193,7 +193,7 @@ const LandingPage = () => {
           {/* Right Section: Mode Carousel Switcher */}
           <div className="hidden lg:col-span-3 lg:flex flex-col items-end">
             <div className="w-full max-w-[280px] space-y-4">
-              <p className="text-[10px] font-bold uppercase tracking-[2px] text-white/30 text-right pr-4">Personalize View</p>
+              <p className="text-[10px] font-bold tracking-[2px] text-white/30 text-right pr-4">Personalize View</p>
 
               <div className="relative p-1 bg-white/5 rounded-4xl border border-white/10 backdrop-blur-xl">
                 <motion.div
@@ -207,14 +207,14 @@ const LandingPage = () => {
                     className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 0 ? 'text-white' : 'text-white/40'}`}
                   >
                     <FiUserPlus size={20} className="mb-2" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider">New Loan</span>
+                    <span className="text-[10px] font-bold tracking-wider">New Loan</span>
                   </button>
                   <button
                     onClick={() => setActiveMode(1)}
                     className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 1 ? 'text-white' : 'text-white/40'}`}
                   >
                     <FiUserCheck size={20} className="mb-2" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider">Returning</span>
+                    <span className="text-[10px] font-bold tracking-wider">Returning</span>
                   </button>
                 </div>
               </div>
@@ -222,7 +222,7 @@ const LandingPage = () => {
               <div className="p-6 rounded-3xl bg-white/5 border border-white/5 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Market Context</span>
+                  <span className="text-[9px] font-bold text-gray-500 tracking-widest">Market Context</span>
                 </div>
                 <p className="text-[11px] text-gray-400 font-medium leading-relaxed italic">
                   "Market Monie helped me scale my kiosk to a mini-mart in just 3 months."
@@ -238,7 +238,7 @@ const LandingPage = () => {
         </div>
 
         {/* Global Footer */}
-        <footer className="mt-auto py-6 border-t border-white/5 flex justify-between items-center text-gray-600 text-[10px] uppercase font-bold tracking-[2px]">
+        <footer className="mt-auto py-6 border-t border-white/5 flex justify-between items-center text-gray-600 text-[10px] font-bold tracking-[2px]">
           <p>© 2026 Market Monie. Empowering Entrepreneurs.</p>
           <div className="flex gap-10">
             <span className="hover:text-white cursor-pointer transition-colors">Privacy</span>

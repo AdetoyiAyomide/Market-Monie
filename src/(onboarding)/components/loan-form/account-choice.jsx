@@ -34,7 +34,7 @@ const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
                 </p>
               </div>
             </div>
-            <span className="rounded-full bg-emerald-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+            <span className="rounded-full bg-emerald-600 px-3 py-1 text-[10px] font-bold tracking-wider text-white">
               Recommended
             </span>
           </div>

@@ -34,7 +34,7 @@ const TopBar = ({ user, loanStage, toggleMobile }) => {
               )}
             </h1>
           </div>
-          <p className="text-[9px] md:text-[10px] text-emerald-600 font-bold uppercase tracking-[0.2em]">
+          <p className="text-[9px] md:text-[10px] text-emerald-600 font-bold tracking-[0.2em]">
             {getTitle()}
           </p>
         </div>
@@ -61,7 +61,7 @@ const TopBar = ({ user, loanStage, toggleMobile }) => {
           <button className="flex items-center gap-3 pl-2 pr-1 py-1 rounded-xl hover:bg-gray-50 transition-all">
             <div className="hidden sm:flex flex-col items-end">
               <span className="text-sm font-bold text-gray-900 leading-none">{user.firstname} {user.lastname}</span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Verified Merchant</span>
+              <span className="text-[10px] text-gray-400 font-medium">Verified Merchant</span>
             </div>
             <div className="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold border-2 border-emerald-50 shadow-sm shadow-emerald-100">
               {user.firstname[0]}{user.lastname[0]}

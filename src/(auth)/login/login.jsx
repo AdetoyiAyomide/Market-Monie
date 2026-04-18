@@ -26,12 +26,12 @@ const Login = () => {
     <div>
       <div className="text-left font-poppins">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Welcome back
+          Welcome Back
         </h2>
         <p className="mt-2 text-sm text-gray-600">
-          New here?{" "}
+          New Here?{" "}
           <Link to="/register" className="font-semibold text-emerald-600 hover:text-emerald-500">
-            Create an account
+            Create An Account
           </Link>
         </p>
       </div>
@@ -87,13 +87,13 @@ const Login = () => {
                 className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
               />
               <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-700">
-                Remember me
+                Remember Me
               </label>
             </div>
 
             <div className="text-sm leading-6">
               <Link to="/forgot-password" title="Recover password" className="font-semibold text-emerald-600 hover:text-emerald-500">
-                Forgot password?
+                Forgot Password?
               </Link>
             </div>
           </div>
@@ -104,7 +104,7 @@ const Login = () => {
               disabled={isSubmitting}
               className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all"
             >
-              {isSubmitting ? "Signing in..." : "Sign in"}
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </button>
           </div>
         </form>

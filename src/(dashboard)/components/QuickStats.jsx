@@ -183,10 +183,10 @@ const QuickStats = () => {
             </div>
             
             <div className="mt-auto">
-               <p className="text-[10px] text-gray-500 font-bold uppercase tracking-[1.5px] group-hover:text-gray-700 transition-colors">{stat.label}</p>
+               <p className="text-[10px] text-gray-500 font-bold tracking-[1.5px] group-hover:text-gray-700 transition-colors">{stat.label}</p>
                <h3 className="text-2xl font-bold text-gray-900 mt-1 font-poppins tracking-tight group-hover:translate-x-1 transition-transform duration-300">{stat.value}</h3>
                {(stat.isPositive === null) && (
-                  <p className="text-[9px] text-gray-400 font-bold mt-1.5 uppercase tracking-wider">{stat.trend}</p>
+                  <p className="text-[9px] text-gray-400 font-bold mt-1.5 tracking-wider">{stat.trend}</p>
                )}
             </div>
           </div>

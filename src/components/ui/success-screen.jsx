@@ -51,7 +51,7 @@ const SuccessScreen = ({
           ))}
         </div>
         <div className="flex flex-col items-center gap-1">
-          <p className="text-sm font-semibold text-emerald-600 uppercase tracking-widest">
+          <p className="text-sm font-semibold text-emerald-600 tracking-widest">
             Redirecting in {timer}s
           </p>
           <button 

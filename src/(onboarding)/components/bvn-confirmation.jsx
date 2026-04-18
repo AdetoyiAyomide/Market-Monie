@@ -30,7 +30,7 @@ const BvnConfirmation = ({ userData, onConfirm, onBack }) => {
           <div className="h-24 w-24 rounded-full border-4 border-white shadow-lg overflow-hidden bg-emerald-100 mb-4">
              <img src={userData.photo} alt="User Avatar" className="h-full w-full object-cover" />
           </div>
-          <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest">Retrieved Photo</span>
+          <span className="text-xs font-bold text-emerald-600 tracking-widest">Retrieved Photo</span>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -54,7 +54,7 @@ const BvnConfirmation = ({ userData, onConfirm, onBack }) => {
 const DetailItem = ({ label, value, icon }) => (
   <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100">
     <div className="flex flex-col">
-      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</span>
+      <span className="text-[10px] font-bold text-gray-400 tracking-widest">{label}</span>
       <span className="text-sm font-semibold text-gray-900">{value}</span>
     </div>
     {icon || <FiUser className="text-gray-400" />}
