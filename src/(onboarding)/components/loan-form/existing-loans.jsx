@@ -152,7 +152,6 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
