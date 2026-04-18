@@ -26,7 +26,7 @@ const LandingPage = () => {
       title: "Empower Your Business Growth",
       desc: "Get quick, reliable financial support tailored for your business needs. Apply in minutes.",
       cta: "Request for Loan",
-      path: "/register",
+      path: "/location-select",
       icon: <FiUserPlus />,
       color: "emerald",
       bg: "/monie.jpg"

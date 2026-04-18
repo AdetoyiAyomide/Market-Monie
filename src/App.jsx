@@ -55,7 +55,8 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Entry Point */}
-        <Route path="/" element={<LandingPage2 />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/location-select" element={<LandingPage2 />} />
         <Route path="/select-state" element={<SelectState />} />
         <Route path="/hub-selection" element={<LegacyHubSelection />} />
         <Route path="/create-account" element={<LegacyCreateAccount />} />
