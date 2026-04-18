@@ -37,7 +37,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
 
       <div className="mt-8 space-y-6">
         <div className="space-y-2">
-          <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${errors.loanAmount ? 'text-red-500' : 'text-gray-400'}`}>
+          <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.loanAmount ? 'text-red-500' : 'text-gray-400'}`}>
              How much do you want to borrow?
           </label>
           <div className="relative group">
@@ -108,7 +108,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, icon, placeholder, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
@@ -133,7 +133,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error = null })
 
 const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">

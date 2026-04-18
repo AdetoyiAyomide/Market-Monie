@@ -112,7 +112,7 @@ const LandingPage2 = () => {
                 />
               ))}
             </div>
-            <span className="text-[10px] uppercase tracking-widest font-bold text-white/40">Step 0{step} / 03</span>
+            <span className="text-[10px] tracking-widest font-bold text-white/40">Step 0{step} / 03</span>
           </div>
         </header>
 
@@ -202,7 +202,7 @@ const LandingPage2 = () => {
                     <FiArrowLeft />
                   </button>
                   <div className="text-center space-y-2">
-                    <h2 className="text-emerald-500 text-sm font-bold uppercase tracking-[0.3em]">{selectedState} State</h2>
+                    <h2 className="text-emerald-500 text-sm font-bold tracking-[0.3em]">{selectedState} State</h2>
                     <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Choose a <span className="text-emerald-500">Hub</span></h1>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ const LandingPage2 = () => {
                                   </div>
                                   <div className="flex-1">
                                     <p className={`font-medium leading-snug transition-colors ${selectedHub === hub ? 'text-emerald-400' : 'text-white/80'} group-hover:text-emerald-400`}>{hub}</p>
-                                    <p className="text-white/30 text-[10px] font-bold uppercase tracking-wider">Business Center</p>
+                                    <p className="text-white/30 text-[10px] font-bold tracking-wider">Business Center</p>
                                   </div>
                                   <FiArrowRight className={`transition-all ${selectedHub === hub ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} text-emerald-500`} />
                                 </button>
@@ -285,14 +285,14 @@ const LandingPage2 = () => {
                         You can still proceed with your application, and an agent will reach out to you within 5 working days.
                       </p>
                     </div>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleContinueNoHub}
-                      className="px-10 py-4 rounded-full bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs hover:bg-emerald-500 transition-colors shadow-lg shadow-emerald-500/20"
-                    >
-                      Continue Application
-                    </motion.button>
+                      <button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleContinueNoHub}
+                        className="px-10 py-4 rounded-full bg-emerald-600 text-white font-bold tracking-widest text-xs hover:bg-emerald-500 transition-colors shadow-lg shadow-emerald-500/20"
+                      >
+                        Continue Application
+                      </button>
                   </div>
                 )}
               </motion.div>
@@ -340,7 +340,7 @@ const LandingPage2 = () => {
                       <h3 className="text-2xl font-bold">Create Account</h3>
                       <p className="text-white/70 text-sm leading-relaxed">Track
                         application, faster re-apply, repayment history.</p>
-                      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4">
+                      <div className="flex items-center gap-2 text-xs font-bold tracking-widest pt-4">
                         Get Started <FiArrowRight />
                       </div>
                     </div>
@@ -364,7 +364,7 @@ const LandingPage2 = () => {
                       <h3 className="text-2xl font-bold">Continue as Guest</h3>
                       <p className="text-white/40 text-sm leading-relaxed">Apply without
                         creating an account.</p>
-                      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest pt-4 text-emerald-500">
+                      <div className="flex items-center gap-2 text-xs font-bold tracking-widest pt-4 text-emerald-500">
                         Explore Now <FiArrowRight />
                       </div>
                     </div>
@@ -374,9 +374,9 @@ const LandingPage2 = () => {
                 <div className="text-center">
                   <button
                     onClick={handleBack}
-                    className="text-white/30 text-xs font-bold uppercase tracking-widest hover:text-white transition-colors"
+                    className="text-white/30 text-xs font-bold tracking-widest hover:text-white transition-colors"
                   >
-                    Change location
+                    Change Location
                   </button>
                 </div>
               </motion.div>
@@ -386,7 +386,7 @@ const LandingPage2 = () => {
 
         {/* Footer */}
         <footer className="mt-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
+          <div className="flex items-center gap-6 text-[10px] font-bold tracking-widest text-white/20">
             <span>© 2026 MARKET MONIE</span>
             <span className="hidden md:inline">|</span>
             <span className="hover:text-emerald-500 cursor-pointer transition-colors">Safety Center</span>
@@ -399,7 +399,7 @@ const LandingPage2 = () => {
                 <div key={i} className="h-6 w-6 rounded-full border-2 border-[#0a0f0d] bg-gray-800" />
               ))}
             </div>
-            <span className="text-[10px] font-medium text-white/40 uppercase tracking-tighter">Trusted by 50k+ entrepreneurs</span>
+            <span className="text-[10px] font-medium text-white/40 tracking-tighter">Trusted by 50K+ Entrepreneurs</span>
           </div>
         </footer>
       </div>

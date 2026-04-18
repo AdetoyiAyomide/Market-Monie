@@ -52,7 +52,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
         <section className="space-y-4">
           <div className="flex items-center gap-2 text-emerald-600 mb-2">
             <div className="h-2 w-2 rounded-full bg-emerald-600" />
-            <h3 className="text-xs font-bold uppercase tracking-widest">Government Issued ID</h3>
+            <h3 className="text-xs font-bold tracking-widest">Government Issued ID</h3>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -96,7 +96,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
         <section className="space-y-4 pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2 text-emerald-600 mb-2">
             <div className="h-2 w-2 rounded-full bg-emerald-600" />
-            <h3 className="text-xs font-bold uppercase tracking-widest">Proof of Residence</h3>
+            <h3 className="text-xs font-bold tracking-widest">Proof of Residence</h3>
           </div>
 
           <SelectGroup 
@@ -169,7 +169,7 @@ const FileUpload = ({ file, onFileSelect, label, description, error = null }) =>
         <p className={`text-sm font-bold ${file ? "text-emerald-700" : error ? "text-red-700" : "text-gray-900"}`}>
           {file ? file.name : label}
         </p>
-        <p className={`text-[10px] text-center uppercase tracking-wider font-medium ${error ? 'text-red-500' : 'text-gray-500'}`}>
+        <p className={`text-[10px] text-center tracking-wider font-medium ${error ? 'text-red-500' : 'text-gray-500'}`}>
            {description}
         </p>
       </div>
@@ -180,7 +180,7 @@ const FileUpload = ({ file, onFileSelect, label, description, error = null }) =>
 
 const InputGroup = ({ label, value, onChange, icon, placeholder, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
@@ -205,7 +205,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error = null })
 
 const SelectGroup = ({ label, value, onChange, options, icon, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">

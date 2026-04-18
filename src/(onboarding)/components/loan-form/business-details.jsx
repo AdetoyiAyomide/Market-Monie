@@ -80,7 +80,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         />
 
         <div className="space-y-4 pt-2 pb-2">
-          <label className="text-xs font-bold text-emerald-600 uppercase tracking-widest ml-1">
+          <label className="text-xs font-bold text-emerald-600 tracking-widest ml-1">
              Business Location
           </label>
           <div className="grid grid-cols-2 gap-4">
@@ -197,7 +197,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, icon, placeholder, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
@@ -222,7 +222,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error = null })
 
 const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">

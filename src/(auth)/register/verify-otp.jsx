@@ -123,7 +123,7 @@ const VerifyOTP = () => {
           <FiArrowLeft /> Back
         </button>
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Verify your phone
+          Verify Your Phone
         </h2>
         <p className="mt-2 text-sm text-gray-600">
           Enter the 6-digit code sent via SMS to <span className="font-semibold text-gray-900">{phone}</span>
