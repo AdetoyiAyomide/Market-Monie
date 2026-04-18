@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiUser, FiMail, FiCalendar, FiHome, FiMapPin, FiMap, FiType, FiLoader, FiHash } from "react-icons/fi";
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+
 import { getDaysInMonth, eachMonthOfInterval, startOfYear, endOfYear, format } from 'date-fns';
 import { useQuery } from "@tanstack/react-query";
 import { locationService } from "../../../services/locationService";
@@ -89,8 +88,8 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-left font-poppins">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="hidden sm:block text-left font-poppins">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
           Personal Details
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
@@ -117,19 +116,40 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+          <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
             Phone Number
           </label>
-          <div className="phone-input-container">
-            <PhoneInput
-              placeholder="Enter phone number"
-              defaultCountry="NG"
-              value={data.phone}
-              onChange={(val) => onChange('phone', val)}
-              className="flex w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 px-4 py-5 sm:text-sm focus-within:ring-4 focus-within:ring-emerald-500/10 focus-within:border-emerald-600 outline-none transition-all"
+          <div className="relative group">
+            <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (data.phone ? 'text-emerald-500' : 'text-gray-400')}`}>
+              +234 (0)
+            </div>
+            <input
+              type="tel"
+              value={(data.phone || "").replace(/^\+234/, '')}
+              onChange={(e) => {
+                onChange('phone', e.target.value);
+                if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
+              }}
+              placeholder="812 345 6789"
+              className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-[88px] pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm ${
+                errors.phone 
+                  ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                  : data.phone
+                    ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                    : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              }`}
             />
           </div>
+          {errors.phone && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.phone}</p>}
         </div>
+
+        <InputGroup 
+          label="Email Address (Optional)" 
+          value={data.email} 
+          onChange={(e) => onChange('email', e.target.value)}
+          placeholder="e.g. john@example.com"
+          icon={<FiMail />} 
+        />
 
         <div className="space-y-2">
           <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : 'text-gray-400'}`}>
@@ -237,11 +257,11 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
 const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = false, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (value && !readOnly ? 'text-emerald-600' : 'text-gray-400')}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
+      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (value && !readOnly ? 'text-emerald-500' : 'text-gray-400')}`}>
         {icon}
       </div>
       <input
@@ -255,7 +275,9 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
             ? "bg-gray-100/80 text-gray-500 cursor-not-allowed border-gray-100" 
             : error 
               ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
-              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              : value
+                ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
         }`}
       />
     </div>
@@ -268,7 +290,7 @@ const SelectGroupSimple = ({ value, onChange, options, placeholder, error }) => 
     value={value}
     onChange={onChange}
     className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
-        error ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-emerald-600'
+        error ? 'border-red-300 focus:border-red-500' : value ? 'border-emerald-500 focus:border-emerald-600' : 'border-gray-200 focus:border-emerald-600'
     }`}
   >
     <option value="">{placeholder}</option>
@@ -276,38 +298,88 @@ const SelectGroupSimple = ({ value, onChange, options, placeholder, error }) => 
   </select>
 );
 
-const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, error = null }) => (
-  <div className="space-y-2">
-    <label className={`text-xs font-bold uppercase tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : 'text-gray-400'}`}>
-      {label}
-    </label>
-    <div className="relative group">
-      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : 'text-gray-400'}`}>
-        {icon}
+const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, error = null }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const dropdownRef = useRef(null);
+
+  const filteredOptions = options.filter(opt => 
+    opt.toLowerCase().includes(query.toLowerCase())
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+        setQuery("");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (opt) => {
+    onChange({ target: { value: opt } });
+    setIsOpen(false);
+    setQuery("");
+  };
+
+  return (
+    <div className="space-y-2" ref={dropdownRef}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (value ? 'text-emerald-600' : 'text-gray-400')}`}>
+        {label}
+      </label>
+      <div className="relative group">
+        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors z-10 ${error ? 'text-red-400' : 'text-gray-400'}`}>
+          {icon}
+        </div>
+        <input
+          type="text"
+          value={isOpen ? query : (value || "")}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            if (!isOpen) setIsOpen(true);
+          }}
+          onFocus={() => setIsOpen(true)}
+          readOnly={disabled}
+          placeholder={`Select ${label}`}
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-10 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+            disabled 
+              ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+              : error
+                ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                : value
+                  ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+          }`}
+        />
+        <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+           <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+        </div>
+
+        {isOpen && !disabled && (
+          <div className="absolute z-50 w-full mt-2 bg-white border border-gray-100 rounded-xl shadow-2xl max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+            <ul className="py-2">
+              {filteredOptions.length > 0 ? (
+                filteredOptions.map((opt, i) => (
+                  <li
+                    key={i}
+                    onClick={() => handleSelect(opt)}
+                    className="px-4 py-3 hover:bg-emerald-50 hover:text-emerald-700 cursor-pointer text-sm font-medium transition-colors border-b border-gray-50 last:border-0"
+                  >
+                    {opt}
+                  </li>
+                ))
+              ) : (
+                <li className="px-4 py-3 text-gray-400 text-sm italic">No results found for "{query}"</li>
+              )}
+            </ul>
+          </div>
+        )}
       </div>
-      <select
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium appearance-none ${
-          disabled 
-            ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
-            : error
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-        }`}
-      >
-        <option value="">{disabled && !value ? "Loading..." : `Select ${label}`}</option>
-        {options.map((opt, i) => (
-          <option key={i} value={opt}>{opt}</option>
-        ))}
-      </select>
-      <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400`}>
-         <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-      </div>
+      {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
     </div>
-    {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
-  </div>
-);
+  );
+};
 
 export default PersonalDetails;

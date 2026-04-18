@@ -22,7 +22,7 @@ const JourneyHeader = ({ activeStep }) => {
   const progress = (currentStep / steps.length) * 100;
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 hidden sm:block">
       <div className="mb-3">
         <div className="flex justify-between text-[11px] tracking-wider w-full">
           <p className="text-slate-400 font-semibold">Application Journey</p>

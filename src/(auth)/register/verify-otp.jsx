@@ -14,6 +14,9 @@ const VerifyOTP = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const phone = location.state?.phone || "08123456789";
+  const maskedPhone = phone.length >= 7 
+    ? phone.slice(0, 3) + "****" + phone.slice(-4) 
+    : phone;
   
   const [otpValue, setOtpValue] = useState("");
   const [timer, setTimer] = useState(60);
@@ -128,7 +131,7 @@ const VerifyOTP = () => {
           Verify your phone
         </h2>
         <p className="mt-2 text-sm text-gray-600">
-          Enter the 6-digit code sent via SMS to <span className="font-semibold text-gray-900">{phone}</span>
+          Enter the 6-digit code sent via SMS to <span className="font-semibold text-gray-900">{maskedPhone}</span>
         </p>
       </div>
 

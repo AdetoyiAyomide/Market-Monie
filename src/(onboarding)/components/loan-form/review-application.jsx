@@ -3,7 +3,7 @@ import { FiEdit3, FiUser, FiHome, FiBriefcase, FiCreditCard, FiFileText } from "
 const ReviewApplication = ({ data, onEdit, onSubmit, onCancel, isGuest }) => {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
-      <div className="text-left font-poppins">
+      <div className="hidden sm:block text-left font-poppins">
         {isGuest && (
           <div className="mb-6 p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-center justify-between gap-4 animate-in slide-in-from-top-4 duration-500">
             <div className="flex items-center gap-3">
@@ -27,10 +27,10 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel, isGuest }) => {
             </button>
           </div>
         )}
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
            Review Details
         </h2>
-        <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+        <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
           Please double-check your information before submitting your application.
         </p>
       </div>

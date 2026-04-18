@@ -75,15 +75,15 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="text-left font-poppins">
+      <div className="hidden sm:block text-left font-poppins">
         <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
           <FiMapPin size={24} />
         </div>
 
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
           Select Your Hub
         </h2>
-        <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+        <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
           Please select your current state and the nearest Market Monie office to process your application.
         </p>
       </div>
@@ -124,7 +124,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                       <li
                         key={state}
                         onClick={() => handleStateSelect(state)}
-                        className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                        className="cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                       >
                         {state}
                       </li>
@@ -167,7 +167,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                       <li
                         key={hub.address}
                         onClick={() => handleHubSelect(hub)}
-                        className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                        className="cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
                       >
                         {hub.name}
                       </li>

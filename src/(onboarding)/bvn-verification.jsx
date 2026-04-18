@@ -9,8 +9,6 @@ const BvnVerification = () => {
   const navigate = useNavigate();
   const [bvn, setBvn] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [userData, setUserData] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [redirectTimer, setRedirectTimer] = useState(5);
 
@@ -47,23 +45,23 @@ const BvnVerification = () => {
       setIsVerifying(false);
       
       if (bvn === "12345678901") {
-        setUserData({
-          photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-          firstname: "Samuel",
-          lastname: "Peter",
-          middlename: "Blessing",
-          dob: "27th Jan 2000"
-        });
-        setShowConfirmation(true);
-        toast.success("BVN Details Retrieved");
+        // Mock BVN Details
+        const bvnFirstName = "Samuel";
+        const bvnLastName = "Peter";
+        
+        const inputFirst = localStorage.getItem("firstName") || "John";
+        const inputLast = localStorage.getItem("lastName") || "Doe";
+
+        if (inputFirst.toLowerCase() === bvnFirstName.toLowerCase() && inputLast.toLowerCase() === bvnLastName.toLowerCase()) {
+           toast.success("BVN Verified Successfully!");
+           setIsConfirmed(true);
+        } else {
+           toast.error("Name mismatch: The name on this BVN does not match the name you registered with.");
+        }
       } else {
         toast.error("Invalid BVN. Please check and try again.");
       }
     }, 2000);
-  };
-
-  const handleConfirm = () => {
-    setIsConfirmed(true);
   };
 
   if (isConfirmed) {
@@ -92,32 +90,21 @@ const BvnVerification = () => {
     );
   }
 
-  if (showConfirmation) {
-    return (
-      <div>
-        <JourneyHeader activeStep="bvn" />
-        <BvnConfirmation 
-          userData={userData} 
-          onConfirm={handleConfirm} 
-          onBack={() => setShowConfirmation(false)} 
-        />
-      </div>
-    );
-  }
+
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
       <JourneyHeader activeStep="bvn" />
 
-      <div className="text-left font-poppins">
+      <div className="hidden sm:block text-left font-poppins">
         <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
           <FiShield size={24} />
         </div>
         
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
           BVN Verification
         </h2>
-        <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+        <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
           We need your Bank Verification Number to verify your identity. This is a secure one-time process.
         </p>
       </div>
@@ -166,7 +153,7 @@ const BvnVerification = () => {
         </button>
       </form>
 
-      <div className="mt-12 pt-8 border-t border-gray-100">
+      <div className="mt-12 pt-8 border-t border-gray-100 hidden sm:block">
           <div className="flex items-center justify-between">
               <div className="flex flex-col">
                   <span className="text-xs text-gray-400 font-bold tracking-widest">Next Step</span>

@@ -3,15 +3,15 @@ import { FiUserPlus, FiUserCheck, FiArrowRight } from "react-icons/fi";
 const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-left font-poppins">
+      <div className="hidden sm:block text-left font-poppins">
         <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
           <FiUserPlus size={24} />
         </div>
 
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
           How would you like to continue?
         </h2>
-        <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+        <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
           Create an account to track your application, or continue as a guest for a faster flow.
         </p>
       </div>
@@ -29,7 +29,7 @@ const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Create an Account</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-xs sm:text-sm text-gray-500">
                   Track application, faster re-apply, repayment history.
                 </p>
               </div>
@@ -62,7 +62,7 @@ const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Continue as Guest</h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-xs sm:text-sm text-gray-500">
                 Apply without creating an account for now.
               </p>
             </div>

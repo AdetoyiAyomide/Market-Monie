@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import { isGuestGlobal } from "../store/Data";
+
 import { FiArrowRight, FiPhone } from "react-icons/fi";
 import { toast } from "sonner";
 
@@ -9,6 +9,12 @@ const PhoneVerification = () => {
   const [value, setValue] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isGuestGlobal) {
+      navigate("/onboarding/bvn", { replace: true });
+    }
+  }, [navigate]);
 
   const handleContinue = async (e) => {
     e.preventDefault();
@@ -46,13 +52,16 @@ const PhoneVerification = () => {
           <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
             Phone Number
           </label>
-          <div className="phone-input-container">
-            <PhoneInput
-              placeholder="Enter phone number"
-              defaultCountry="NG"
-              value={value}
-              onChange={setValue}
-              className="flex w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 px-4 py-3 sm:text-sm focus-within:ring-4 focus-within:ring-emerald-500/10 focus-within:border-emerald-600 outline-none transition-all"
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm">
+              +234 (0)
+            </div>
+            <input
+              type="tel"
+              value={(value || "").replace(/^\+234/, '')}
+              onChange={(e) => setValue(e.target.value)}
+              placeholder="812 345 6789"
+              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-[88px] pr-4 py-3 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium sm:text-sm"
             />
           </div>
         </div>

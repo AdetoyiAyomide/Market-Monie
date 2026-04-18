@@ -117,8 +117,8 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-left font-poppins">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="hidden sm:block text-left font-poppins">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
            Business Details
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
@@ -170,10 +170,10 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             />
           </div>
           <InputGroup 
-            label="Street / Area Name" 
+            label="Shop / House Number" 
             value={data.businessArea} 
             onChange={(e) => onChange('businessArea', e.target.value)}
-            placeholder="e.g. 12, Market Road"
+            placeholder="e.g. Shop 12 or House 12, Market Road"
             icon={<FiMapPin />} 
           />
         </div>
@@ -256,7 +256,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
@@ -268,7 +268,11 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          value 
+            ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       />
     </div>
   </div>
@@ -289,7 +293,7 @@ const SearchableSelectGroup = ({
   dropdownRef,
 }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group" ref={dropdownRef}>
@@ -304,8 +308,12 @@ const SearchableSelectGroup = ({
         onChange={onInputChange}
         disabled={disabled}
         placeholder={disabled ? "Loading..." : `Select ${label}`}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
-          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          disabled 
+            ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+            : value
+              ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
         }`}
       />
       <button
@@ -324,7 +332,7 @@ const SearchableSelectGroup = ({
                 <li
                   key={opt}
                   onClick={() => onSelect(opt)}
-                  className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
                     value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
                   }`}
                 >
@@ -343,7 +351,7 @@ const SearchableSelectGroup = ({
 
 const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, disabled = false, dropdownRef, placeholder }) => (
   <div className="space-y-2">
-    <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group" ref={dropdownRef}>
@@ -354,8 +362,12 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
         type="button"
         onClick={onToggle}
         disabled={disabled}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
-          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
+          disabled 
+            ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+            : value
+              ? "border-emerald-500 text-gray-900 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              : "border-gray-200 text-gray-400 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
         }`}
       >
         <span className={value ? "text-gray-900" : "text-gray-400"}>
@@ -374,7 +386,7 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
               <li
                 key={opt}
                 onClick={() => onSelect(opt)}
-                className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
                   value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
                 }`}
               >

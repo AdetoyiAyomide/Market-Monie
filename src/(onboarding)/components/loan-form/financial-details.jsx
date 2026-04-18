@@ -33,8 +33,8 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-left font-poppins">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="hidden sm:block text-left font-poppins">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
            Loan & Bank Details
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
@@ -57,7 +57,11 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
               value={data.loanAmount}
               onChange={(e) => onChange('loanAmount', e.target.value.replace(/\D/g, ''))}
               placeholder="e.g. 100,000"
-              className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-bold text-lg"
+              className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-bold text-lg ${
+                data.loanAmount 
+                  ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
+                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              }`}
             />
           </div>
         </div>
@@ -126,7 +130,11 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          value 
+            ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
+            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        }`}
       />
     </div>
   </div>
@@ -149,8 +157,12 @@ const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChang
         onChange={onInputChange}
         disabled={disabled}
         placeholder={disabled ? "Loading..." : placeholder || `Select ${label}`}
-        className={`block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium ${
-          disabled ? "opacity-50 grayscale cursor-not-allowed" : ""
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          disabled 
+            ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+            : value
+              ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
         }`}
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
@@ -164,7 +176,7 @@ const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChang
                 <li
                   key={opt}
                   onClick={() => onSelect(opt)}
-                  className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
                     value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
                   }`}
                 >

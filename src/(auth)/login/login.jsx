@@ -24,11 +24,11 @@ const Login = () => {
 
   return (
     <div>
-      <div className="text-left font-poppins">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="hidden sm:block text-left font-poppins">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
           Welcome Back
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-xs sm:text-sm text-gray-600">
           New Here?{" "}
           <Link to="/register" className="font-semibold text-emerald-600 hover:text-emerald-500">
             Create An Account
@@ -39,15 +39,18 @@ const Login = () => {
       <div className="mt-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label className="block text-sm font-medium leading-6 text-gray-900">
+            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
               Phone Number
             </label>
-            <div className="mt-2">
+            <div className="mt-2 relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm">
+                +234 (0)
+              </div>
               <input
                 {...register("phone")}
                 type="tel"
-                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
-                placeholder="e.g. 08123456789"
+                className="block w-full rounded-lg border-0 py-3.5 pl-[88px] pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                placeholder="812 345 6789"
               />
               {errors.phone && (
                 <p className="mt-2 text-xs text-red-500 font-medium">{errors.phone.message}</p>
@@ -56,7 +59,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium leading-6 text-gray-900">
+            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
               Password
             </label>
             <div className="mt-2 relative">

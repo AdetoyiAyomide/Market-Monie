@@ -17,10 +17,10 @@ const OnboardingLayout = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-emerald-200 hover:text-emerald-700"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 p-2 sm:px-4 sm:py-2 text-sm font-medium text-slate-600 transition-colors hover:border-emerald-200 hover:text-emerald-700"
           >
             <FiArrowLeft className="text-base" />
-            Back
+            <span className="hidden sm:inline">Back</span>
           </button>
           <img src="/market-monie.png" alt="Market Monie" className="h-8 w-auto" />
         </div>

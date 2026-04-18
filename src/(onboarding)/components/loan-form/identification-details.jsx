@@ -10,8 +10,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
   const idOptions = [
     "Driver’s License", 
     "International Passport", 
-    "NIN", 
-    "Voter’s Card"
+    "NIN"
   ];
 
   const proofOptions = [
@@ -45,8 +44,8 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-left font-poppins">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+      <div className="hidden sm:block text-left font-poppins">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
            Identification & Residence
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
@@ -215,7 +214,7 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
               <li
                 key={opt}
                 onClick={() => onSelect(opt)}
-                className={`cursor-pointer px-4 py-3 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
                   value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
                 }`}
               >

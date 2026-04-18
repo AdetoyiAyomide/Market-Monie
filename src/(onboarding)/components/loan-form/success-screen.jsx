@@ -17,7 +17,7 @@ const ApplicationSuccess = ({ referenceId }) => {
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold font-poppins text-gray-900 mb-4 px-4">
+        <h2 className="text-xl sm:text-3xl font-bold font-poppins text-gray-900 mb-4 px-4">
           Application Received!
         </h2>
         
