@@ -1,6 +1,7 @@
 import { FiEdit3, FiFileText, FiMail, FiShield, FiUserPlus } from "react-icons/fi";
+import { isGuestGlobal } from "../../store/Data";
 
-const steps = [
+const allSteps = [
   { key: "account", label: "Account", icon: <FiUserPlus /> },
   { key: "email", label: "Email", icon: <FiMail /> },
   { key: "bvn", label: "BVN", icon: <FiShield /> },
@@ -9,6 +10,13 @@ const steps = [
 ];
 
 const JourneyHeader = ({ activeStep }) => {
+  const isGuest = isGuestGlobal;
+  
+  // If Guest, only show Application and Review
+  const steps = isGuest 
+    ? allSteps.filter(s => ["application", "review"].includes(s.key))
+    : allSteps;
+
   const activeIndex = steps.findIndex((step) => step.key === activeStep);
   const currentStep = activeIndex >= 0 ? activeIndex + 1 : 1;
   const progress = (currentStep / steps.length) * 100;
@@ -32,7 +40,7 @@ const JourneyHeader = ({ activeStep }) => {
       </div>
 
       <div className="rounded-2xl bg-gray-100/90 p-1.5">
-        <div className="grid grid-cols-5 gap-1.5">
+        <div className={`grid ${isGuest ? 'grid-cols-2' : 'grid-cols-5'} gap-1.5`}>
           {steps.map((step, index) => {
             const isActive = index === activeIndex;
             const isCompleted = activeIndex > index;
