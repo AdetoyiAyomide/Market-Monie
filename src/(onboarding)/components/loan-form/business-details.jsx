@@ -148,11 +148,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
            Business Details
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
-          Tell us about your business to help us understand your needs.
+           Tell us about your business to help us understand your needs.
         </p>
       </div>
 
-      <div className="mt-8 space-y-6">
+      <div className="mt-3 space-y-4">
         <InputGroup 
           label="Enter business name" 
           placeholder="e.g. Mama T store"
@@ -161,7 +161,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             onChange('businessName', e.target.value);
             setErrors(prev => ({ ...prev, businessName: null }));
           }}
-          icon={<FiBriefcase />} 
           error={errors.businessName}
         />
 
@@ -181,7 +180,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
               options={states}
               filteredOptions={filteredStates}
               dropdownRef={stateDropdownRef}
-              icon={loadingStates ? <FiLoader className="animate-spin" /> : <FiMapPin />} 
               disabled={loadingStates}
               error={errors.businessState}
             />
@@ -198,7 +196,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
               options={lgas}
               dropdownRef={lgaDropdownRef}
               disabled={!data.businessState || loadingLgas}
-              icon={loadingLgas ? <FiLoader className="animate-spin text-emerald-600" /> : <FiType />} 
               error={errors.businessLga}
             />
           </div>
@@ -210,7 +207,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
               setErrors(prev => ({ ...prev, businessArea: null }));
             }}
             placeholder="e.g. Shop 12 or House 12, Market Road"
-            icon={<FiMapPin />} 
             error={errors.businessArea}
           />
         </div>
@@ -223,7 +219,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           onSelect={handleBusinessTypeSelect}
           options={businessKinds}
           dropdownRef={businessTypeDropdownRef}
-          icon={<FiBriefcase />} 
           placeholder="e.g. Trading"
           error={errors.businessType}
         />
@@ -238,7 +233,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
                 setErrors(prev => ({ ...prev, otherBusiness: null }));
               }}
               placeholder="e.g. Trading"
-              icon={<FiType />} 
               error={errors.otherBusiness}
             />
           </div>
@@ -254,7 +248,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             options={yearOptions}
             dropdownRef={businessYearsDropdownRef}
             placeholder="Select years in business"
-            icon={<FiClock />} 
             error={errors.businessYears}
           />
           <CustomSelectGroup 
@@ -266,7 +259,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
             options={saleOptions}
             placeholder="Select daily sales range"
             dropdownRef={dailySalesDropdownRef}
-            icon={<FiTrendingUp />} 
             error={errors.dailySales}
           />
         </div>
@@ -280,7 +272,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
           </button>
           <button
             onClick={handleContinue}
-            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
+            className="flex-1 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Continue
           </button>
@@ -290,7 +282,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
+const InputGroup = ({ label, value, onChange, placeholder, error }) => {
   const isValid = !error && value && value !== "";
   return (
     <div className="space-y-2">
@@ -298,15 +290,12 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <input
           type="text"
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             error 
               ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
@@ -329,7 +318,6 @@ const SearchableSelectGroup = ({
   onSelect,
   options,
   filteredOptions,
-  icon,
   disabled = false,
   dropdownRef,
   error
@@ -341,9 +329,6 @@ const SearchableSelectGroup = ({
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <input
           type="text"
           value={query}
@@ -352,7 +337,7 @@ const SearchableSelectGroup = ({
           onChange={onInputChange}
           disabled={disabled}
           placeholder={disabled ? "Loading..." : `Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
@@ -396,7 +381,7 @@ const SearchableSelectGroup = ({
   );
 };
 
-const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, disabled = false, dropdownRef, placeholder, error }) => {
+const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, disabled = false, dropdownRef, placeholder, error }) => {
   const isValid = !error && value && value !== "";
   return (
     <div className="space-y-2">
@@ -404,14 +389,11 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <button
           type="button"
           onClick={onToggle}
           disabled={disabled}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error

@@ -57,7 +57,6 @@ const DetailItem = ({ label, value, icon }) => (
       <span className="text-[10px] font-bold text-gray-400 tracking-widest">{label}</span>
       <span className="text-sm font-semibold text-gray-900">{value}</span>
     </div>
-    {icon || <FiUser className="text-gray-400" />}
   </div>
 );
 

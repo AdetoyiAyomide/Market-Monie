@@ -35,7 +35,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel, isGuest }) => {
         </p>
       </div>
 
-      <div className="mt-10 space-y-8">
+      <div className="mt-3 space-y-8">
         <ReviewSection title="Personal Info" icon={<FiUser />} onEdit={() => onEdit(0)}>
           <InfoItem label="Full Name" value={`${data.firstname} ${data.middlename || ''} ${data.lastname}`} />
           <InfoItem label="Phone Number" value={data.phone} />

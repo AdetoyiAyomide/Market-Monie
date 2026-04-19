@@ -17,12 +17,12 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitted },
     setValue,
     watch,
   } = useForm({
     resolver: zodResolver(registerSchema),
-    mode: "onChange",
+    mode: "onSubmit",
     defaultValues: {
       title: "Mr"
     }
@@ -32,7 +32,7 @@ const Register = () => {
   const titleValue = watchedFields.title;
 
   const getInputClassName = (fieldName, isPhone = false) => {
-    const hasError = !!errors[fieldName];
+    const hasError = isSubmitted && !!errors[fieldName];
     const value = watchedFields[fieldName];
     const isValid = !hasError && value && value.toString().length > 0;
     
@@ -46,7 +46,7 @@ const Register = () => {
   };
 
   const getLabelClassName = (fieldName) => {
-    const hasError = !!errors[fieldName];
+    const hasError = isSubmitted && !!errors[fieldName];
     const value = watchedFields[fieldName];
     const isValid = !hasError && value && value.toString().length > 0;
 
@@ -67,22 +67,29 @@ const Register = () => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8 py-10 sm:py-20 font-poppins">
-      <JourneyHeader activeStep="account" />
+    <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
+      <div className="flex flex-col lg:flex-row gap-4 items-start">
+        {/* Progress Sidebar - Placed at the very edge */}
+        <aside className="shrink-0 lg:sticky lg:top-4 pl-0">
+          <JourneyHeader activeStep="account" orientation="vertical" />
+        </aside>
 
-      <div className="text-left mt-8">
-        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-900">
-          Create account
-        </h1>
-        <p className="mt-2 text-sm sm:text-lg leading-8 text-gray-600">
-          Join us today! It only takes a minute to set up your account.
-        </p>
-      </div>
+        {/* Main Form Content - Expanded and centered in remaining space */}
+        <div className="flex-1 flex justify-center w-full">
+          <div className="w-full max-w-3xl px-4 sm:px-0">
+            <div className="text-left">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+                Create account
+              </h1>
+              <p className="mt-1 text-xs sm:text-sm text-gray-600">
+                Join us today! It only takes a minute to set up your account.
+              </p>
+            </div>
 
-      <div className="mt-10">
-        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+      <div className="mt-3">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Row (Title, First, Last) */}
-          <div className="grid grid-cols-2 md:grid-cols-12 gap-x-4 gap-y-5 items-end">
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-x-4 gap-y-4 items-end">
             {/* Title */}
             <div className="col-span-2 md:col-span-2">
               <label className={getLabelClassName("title")}>
@@ -292,7 +299,10 @@ const Register = () => {
         </form>
       </div>
     </div>
-  );
+  </div>
+</div>
+</div>
+);
 };
 
 export default Register;

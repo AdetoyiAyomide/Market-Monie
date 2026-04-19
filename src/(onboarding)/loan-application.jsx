@@ -115,9 +115,20 @@ const LoanApplication = () => {
   };
 
   const withJourneyHeader = (content, activeStep = "application") => (
-    <div>
-      <JourneyHeader activeStep={activeStep} />
-      {content}
+    <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
+      <div className="flex flex-col lg:flex-row gap-4 items-start">
+        {/* Progress Sidebar - Placed at the very edge */}
+        <aside className="shrink-0 lg:sticky lg:top-4 pl-0">
+          <JourneyHeader activeStep={activeStep} orientation="vertical" />
+        </aside>
+
+        {/* Main Form Content - Expanded and centered in remaining space */}
+        <div className="flex-1 flex justify-center w-full">
+          <div className="w-full max-w-3xl px-4 sm:px-0">
+            {content}
+          </div>
+        </div>
+      </div>
     </div>
   );
 

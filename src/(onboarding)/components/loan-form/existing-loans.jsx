@@ -60,7 +60,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
             </p>
           </div>
 
-          <div className="mt-8 flex gap-4">
+          <div className="mt-3 flex gap-4">
             <button
               onClick={() => handleToggle(true)}
               className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
@@ -91,7 +91,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
             </p>
           </div>
 
-          <div className="mt-8 space-y-8">
+          <div className="mt-3 space-y-4">
             {data.loans.map((loan, index) => (
               <div key={index} className="p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
                 <div className="flex justify-between items-center mb-6">
@@ -106,7 +106,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                   )}
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <SearchableSelectGroup 
                     label="Which bank or lender did you borrow from?" 
                     value={loan.lender}
@@ -127,7 +127,6 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                     }}
                     options={banks}
                     dropdownRef={(el) => dropdownRefs.current[index] = el}
-                    icon={<FiBriefcase />} 
                     placeholder="Search bank or lender"
                   />
                   
@@ -136,14 +135,12 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                       label="How much did you borrow?" 
                       value={loan.amount}
                       onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/\D/g, ''))}
-                      icon={<FiCreditCard />} 
                       placeholder="e.g. 100,000"
                     />
                     <InputGroup 
                       label="How much do you still owe?" 
                       value={loan.balance}
                       onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/\D/g, ''))}
-                      icon={<FiCreditCard />} 
                       placeholder="e.g. 10,000"
                     />
                   </div>
@@ -152,7 +149,6 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                     label="Regular repayment amount (weekly/monthly)" 
                     value={loan.repayment}
                     onChange={(e) => handleLoanChange(index, 'repayment', e.target.value.replace(/\D/g, ''))}
-                    icon={<FiCreditCard />} 
                     placeholder="e.g. 5,000"
                   />
                 </div>
@@ -204,7 +200,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
         <button
           onClick={onContinue}
           disabled={data.hasExistingLoan === null || (data.hasExistingLoan === true && data.loans.some(l => !l.lender || !l.amount))}
-          className="flex-[2] rounded-xl bg-emerald-600 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
+          className="flex-1 rounded-xl bg-emerald-600 py-4 text-sm font-bold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
         >
            {data.hasExistingLoan === true && data.loans.some(l => !l.lender || !l.amount) ? "Fill All Details" : "Proceed to Review"}
         </button>
@@ -213,21 +209,18 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
+const InputGroup = ({ label, value, onChange, placeholder }) => (
   <div className="space-y-2">
     <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
       {label}
     </label>
     <div className="relative group">
-      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${value ? 'text-emerald-500' : 'text-gray-400'}`}>
-        {icon}
-      </div>
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
           value 
             ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
             : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
@@ -237,7 +230,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder }) => (
   </div>
 );
 
-const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, icon, disabled = false, dropdownRef, placeholder }) => {
+const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, disabled = false, dropdownRef, placeholder }) => {
   const filteredOptions = options.filter(opt => 
     opt.toLowerCase().includes(query.toLowerCase())
   );
@@ -248,9 +241,6 @@ const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputC
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors z-10 ${value ? 'text-emerald-500' : 'text-gray-400'}`}>
-          {icon}
-        </div>
         <input
           type="text"
           value={isOpen ? query : (value || "")}
@@ -259,7 +249,7 @@ const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputC
           onChange={onInputChange}
           disabled={disabled}
           placeholder={disabled ? "Loading..." : placeholder || `Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : value

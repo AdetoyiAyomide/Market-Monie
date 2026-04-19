@@ -9,8 +9,9 @@ const allSteps = [
   { key: "review", label: "Review", icon: <FiEdit3 /> },
 ];
 
-const JourneyHeader = ({ activeStep }) => {
+const JourneyHeader = ({ activeStep, orientation = "horizontal" }) => {
   const isGuest = isGuestGlobal;
+  const isVertical = orientation === "vertical";
   
   // If Guest, only show Application and Review
   const steps = isGuest 
@@ -21,11 +22,45 @@ const JourneyHeader = ({ activeStep }) => {
   const currentStep = activeIndex >= 0 ? activeIndex + 1 : 1;
   const progress = (currentStep / steps.length) * 100;
 
+  if (isVertical) {
+    return (
+      <div className="hidden lg:block w-28 h-full py-2">
+        <div className="space-y-3">
+          {steps.map((step, index) => {
+            const isActive = index === activeIndex;
+            const isCompleted = activeIndex > index;
+
+            return (
+              <div
+                key={step.key}
+                className={`flex flex-col items-center justify-center rounded-2xl p-3 text-center transition-all duration-300 ${
+                  isActive
+                    ? "bg-white text-emerald-700 shadow-lg shadow-emerald-100/50 ring-1 ring-emerald-100"
+                    : isCompleted
+                      ? "bg-emerald-50/50 text-emerald-600 opacity-60"
+                      : "text-gray-300"
+                }`}
+              >
+                <span className="text-lg mb-1">{step.icon}</span>
+                <span className="text-[9px] font-extrabold tracking-widest uppercase">
+                  {step.label}
+                </span>
+                {isActive && (
+                   <div className="mt-2 w-6 h-1 bg-emerald-500 rounded-full animate-pulse" />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-8 hidden sm:block">
       <div className="mb-3">
         <div className="flex justify-between text-[11px] tracking-wider w-full">
-          <p className="text-slate-400 font-semibold">Application Journey</p>
+          <p className="text-slate-400 font-semibold uppercase tracking-widest">Application Journey</p>
           <p className="text-emerald-700 font-bold">
             Step {currentStep} <span className="text-slate-300 mx-1">/</span> {steps.length}
           </p>
@@ -39,7 +74,7 @@ const JourneyHeader = ({ activeStep }) => {
         </div>
       </div>
 
-      <div className="rounded-2xl bg-gray-100/90 p-1.5">
+      <div className="rounded-2xl bg-gray-50/80 p-1.5">
         <div className={`grid ${isGuest ? 'grid-cols-2' : 'grid-cols-5'} gap-1.5`}>
           {steps.map((step, index) => {
             const isActive = index === activeIndex;
@@ -57,7 +92,7 @@ const JourneyHeader = ({ activeStep }) => {
                 }`}
               >
                 <span className="text-lg">{step.icon}</span>
-                <span className="mt-1 text-[11px] font-bold tracking-wider sm:text-xs">
+                <span className="mt-1 text-[11px] font-bold tracking-wider sm:text-xs uppercase">
                   {step.label}
                 </span>
               </div>

@@ -62,11 +62,11 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
            Identification & Residence
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
-          Your documents help us verify your identity and residential address.
+           Your documents help us verify your identity and residential address.
         </p>
       </div>
 
-      <div className="mt-8 space-y-8">
+      <div className="mt-3 space-y-4">
         {/* Government ID Section */}
         <section className="space-y-4">
           <div className="flex items-center gap-2 text-emerald-600 mb-2">
@@ -87,7 +87,6 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               }}
               options={idOptions}
               dropdownRef={idTypeDropdownRef}
-              icon={<FiFileText />} 
               error={errors.idType}
             />
             <InputGroup 
@@ -98,7 +97,6 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
                 setErrors(prev => ({ ...prev, idNumber: false }));
               }}
               placeholder="Enter ID number"
-              icon={<FiType />} 
               error={errors.idNumber}
             />
           </div>
@@ -134,7 +132,6 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
             }}
             options={proofOptions}
             dropdownRef={proofTypeDropdownRef}
-            icon={<FiFileText />} 
             error={errors.proofType}
           />
 
@@ -159,7 +156,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
           </button>
           <button
             onClick={handleContinue}
-            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
+            className="flex-1 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Continue
           </button>
@@ -202,7 +199,7 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
   </div>
 );
 
-const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
+const InputGroup = ({ label, value, onChange, placeholder, error }) => {
   const isValid = !error && value && value !== "";
   return (
     <div className="space-y-2">
@@ -210,15 +207,12 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <input
           type="text"
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
             error 
               ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
@@ -231,7 +225,7 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
   );
 };
 
-const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, dropdownRef, error }) => {
+const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, dropdownRef, error }) => {
   const isValid = !error && value && value !== "";
   return (
     <div className="space-y-2">
@@ -239,13 +233,10 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <button
           type="button"
           onClick={onToggle}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium text-sm ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium text-sm ${
             error 
               ? "border-red-300"
               : isValid

@@ -12,7 +12,7 @@ const OnboardingLayout = () => {
       transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 sm:px-6"
     >
-      <div className="w-full max-w-4xl rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-8 lg:p-10">
+      <div className="w-full max-w-5xl rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:p-8 lg:p-10">
         <div className="mb-8 flex items-center justify-between gap-4">
           <button
             type="button"
@@ -25,7 +25,7 @@ const OnboardingLayout = () => {
           <img src="/market-monie.png" alt="Market Monie" className="h-8 w-auto" />
         </div>
 
-        <div className="mx-auto w-full max-w-xl">
+        <div className="w-full">
           <Outlet />
         </div>
       </div>

@@ -14,16 +14,13 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
       {label}
     </label>
     <div className="relative group">
-      <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (value && !readOnly ? 'text-emerald-500' : 'text-gray-400')}`}>
-        {icon}
-      </div>
       <input
         type="text"
         value={value}
         onChange={onChange}
         readOnly={readOnly}
         placeholder={placeholder}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
           readOnly 
             ? "bg-gray-100/80 text-gray-500 cursor-not-allowed border-gray-100" 
             : error 
@@ -91,9 +88,6 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors z-10 ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
-          {icon}
-        </div>
         <input
           type="text"
           value={isOpen ? query : (value || "")}
@@ -104,7 +98,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
           onFocus={() => setIsOpen(true)}
           readOnly={disabled}
           placeholder={`Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-10 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-10 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
@@ -291,7 +285,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         </p>
       </div>
 
-      <div className="mt-8 space-y-6 pb-20">
+      <div className="mt-3 space-y-4 pb-20">
         {/* Title, First, and Last Name Row */}
         <div className="grid grid-cols-2 md:grid-cols-12 gap-4 items-end">
           <div className="col-span-2 md:col-span-2">
@@ -302,7 +296,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                 <button
                   type="button"
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
-                  className={`flex h-[52px] w-full items-center justify-between rounded-xl border-2 px-4 transition-all outline-none font-medium ${
+                  className={`flex h-[60px] w-full items-center justify-between rounded-xl border-2 px-4 transition-all outline-none font-medium ${
                     errors.title 
                       ? "border-red-300 bg-red-50/10" 
                       : data.title 
@@ -361,7 +355,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="space-y-2">
             <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
               Phone Number
@@ -470,7 +464,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-gray-100 space-y-6">
+        <div className="pt-6 border-t border-gray-100 space-y-4">
           <div className="flex items-center gap-2 text-emerald-600 mb-2">
             <FiHome />
             <h3 className="text-xs font-bold tracking-widest">Residential Address</h3>
@@ -508,7 +502,8 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             label="Area / Street" 
             value={data.area} 
             onChange={(e) => {
-              onChange('area', e.target.value);
+              const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+              onChange('area', val);
               if (errors.area) setErrors(prev => ({ ...prev, area: null }));
             }}
             error={errors.area}
@@ -539,7 +534,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           </button>
           <button
             onClick={handleContinue}
-            className="flex-2 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
+            className="flex-1 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 transition-all font-poppins"
           >
             Continue
           </button>
