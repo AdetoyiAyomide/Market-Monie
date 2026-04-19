@@ -63,7 +63,7 @@ const handleChange = (e) => {
                 </div>
 
                 <div className='flex flex-col w-full gap-1'>
-                    <label htmlFor="businessAddress" className='text-sm font-medium'>Business Address <span className='text-slate-400'>(optional)</span></label>
+                    <label htmlFor="businessAddress" className='text-sm font-medium'>Business Address</label>
                     <input
                         type="text"
                         name="business-address"

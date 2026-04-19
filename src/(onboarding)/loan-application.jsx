@@ -46,7 +46,7 @@ const LoanApplication = () => {
     selectedState: selectedStateGlobal || location.state?.state || "", 
 
     // Step 1: Personal (Pre-populated from mock BVN/Register data)
-
+    title: "",
     firstname: "Samuel",
     lastname: "Peter",
     middlename: "Blessing",
@@ -55,7 +55,7 @@ const LoanApplication = () => {
     dob: "2000-01-27",
 
     // Step 2: Address
-    state: selectedStateGlobal || location.state?.state || "",
+    state: "", 
     lga: "",
 
     area: "",
@@ -70,7 +70,7 @@ const LoanApplication = () => {
 
     // Step 4: Business
     businessName: "",
-    businessState: "",
+    businessState: selectedStateGlobal || location.state?.state || "",
     businessLga: "",
     businessArea: "",
     businessType: "",

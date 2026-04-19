@@ -91,7 +91,7 @@ const isOtpComplete = otp.every(d => d !== "");
                 </div>
 
                 <div className='flex flex-col gap-3 items-start justify-start w-full '>
-                    <label htmlFor="email">Email Address <span className='text-slate-400'>(optional)</span></label>
+                    <label htmlFor="email">Email Address</label>
                     <input type="email" id="email" placeholder='you@example.com' className='border border-gray-300 rounded-lg p-2 w-full' />
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>

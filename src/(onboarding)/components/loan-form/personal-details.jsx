@@ -66,15 +66,50 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
     enabled: !!data.state,
   });
 
+  const titleOptions = ["Mr", "Mrs", "Miss"];
+  const idOptions = ["NIN", "International Passport", "Driver’s License"];
+
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    // Real-time validation
+    const newErrors = {};
+    if (data.dob) {
+      const parts = data.dob.split('-');
+      if (!parts[0] || !parts[1] || !parts[2]) newErrors.dob = "Incomplete date of birth";
+    }
+    
+    // We only set these if they've been touched or if we're in "error mode"
+    // For now, let's just clear errors as they are fixed
+    setErrors(prev => {
+      const updated = { ...prev };
+      if (data.firstname && updated.firstname) delete updated.firstname;
+      if (data.lastname && updated.lastname) delete updated.lastname;
+      if (data.phone && updated.phone) delete updated.phone;
+      if (data.state && updated.state) delete updated.state;
+      if (data.lga && updated.lga) delete updated.lga;
+      if (data.area && updated.area) delete updated.area;
+      if (data.houseAddress && updated.houseAddress) delete updated.houseAddress;
+      if (data.idType && updated.idType) delete updated.idType;
+      if (data.idNumber && updated.idNumber) delete updated.idNumber;
+      return updated;
+    });
+  }, [data]);
 
   const validate = () => {
     const newErrors = {};
-    if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Date of birth is required";
-    if (!data.phone) newErrors.phone = "Phone number is required";
-    if (!data.state) newErrors.state = "State is required";
-    if (!data.lga) newErrors.lga = "LGA is required";
-    if (!data.area) newErrors.area = "Area is required";
+    if (!data.title) newErrors.title = "Required";
+    if (!data.firstname) newErrors.firstname = "Required";
+    if (!data.lastname) newErrors.lastname = "Required";
+    if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Required";
+    if (!data.phone) newErrors.phone = "Required";
+    if (!data.state) newErrors.state = "Required";
+    if (!data.lga) newErrors.lga = "Required";
+    if (!data.area) newErrors.area = "Required";
+    if (!data.houseAddress) newErrors.houseAddress = "Required";
+    if (!data.idType) newErrors.idType = "Required";
+    if (!data.idNumber) newErrors.idNumber = "Required";
+    if (isGuest && !data.email) newErrors.email = "Required";
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -98,61 +133,97 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
       </div>
 
       <div className="mt-8 space-y-6 pb-20">
-        <div className="grid grid-cols-2 gap-4">
-          <InputGroup 
-            label="First Name" 
-            value={data.firstname} 
-            onChange={(e) => onChange('firstname', e.target.value)}
-            icon={<FiUser />} 
-            readOnly={!isGuest}
-          />
+        {/* Title and Name Alignment */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-4 gap-3 items-end">
+            <div className="col-span-1">
+               <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors ${errors.title ? 'text-red-500' : (data.title ? 'text-emerald-600' : 'text-gray-400')}`}>
+                 TITLE
+               </label>
+               <div className="mt-2 flex h-[52px] items-center gap-2 px-2 border-2 rounded-xl bg-gray-50/30 border-gray-200">
+                 {titleOptions.map((t) => (
+                   <button
+                     key={t}
+                     type="button"
+                     onClick={() => onChange('title', t)}
+                     className={`text-xs font-bold transition-all ${
+                       data.title === t 
+                         ? "text-emerald-600 underline decoration-2 underline-offset-4" 
+                         : "text-gray-400 hover:text-emerald-500"
+                     }`}
+                   >
+                     {t}
+                   </button>
+                 ))}
+               </div>
+            </div>
+            <div className="col-span-3">
+              <InputGroup 
+                label="First Name" 
+                value={data.firstname} 
+                onChange={(e) => onChange('firstname', e.target.value)}
+                icon={<FiUser />} 
+                readOnly={!isGuest}
+                error={errors.firstname}
+              />
+            </div>
+          </div>
+          
           <InputGroup 
             label="Last Name" 
             value={data.lastname} 
             onChange={(e) => onChange('lastname', e.target.value)}
             icon={<FiUser />} 
             readOnly={!isGuest}
+            error={errors.lastname}
           />
         </div>
 
-        <div className="space-y-2">
-          <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
-            Phone Number
-          </label>
-          <div className="relative group">
-            <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (data.phone ? 'text-emerald-500' : 'text-gray-400')}`}>
-              +234 (0)
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
+              Phone Number
+            </label>
+            <div className="relative group">
+              <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (data.phone ? 'text-emerald-500' : 'text-gray-400')}`}>
+                +234 (0)
+              </div>
+              <input
+                type="tel"
+                value={(data.phone || "").replace(/^\+234/, '').replace(/^\(\+234\) 0/, '').replace(/^\+234 \(0\)/, '').trim()}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  onChange('phone', val);
+                  if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
+                }}
+                placeholder="812 345 6789"
+                className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-[88px] pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm ${
+                  errors.phone 
+                    ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                    : data.phone
+                      ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                      : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                }`}
+              />
             </div>
-            <input
-              type="tel"
-              value={(data.phone || "").replace(/^\+234/, '')}
-              onChange={(e) => {
-                onChange('phone', e.target.value);
-                if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
-              }}
-              placeholder="812 345 6789"
-              className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-[88px] pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm ${
-                errors.phone 
-                  ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
-                  : data.phone
-                    ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                    : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-              }`}
-            />
+            {errors.phone && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.phone}</p>}
           </div>
-          {errors.phone && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.phone}</p>}
+
+          {/* Email Address - Only for Guests */}
+          {isGuest && (
+            <InputGroup 
+              label="Email Address" 
+              value={data.email} 
+              onChange={(e) => onChange('email', e.target.value)}
+              placeholder="e.g. john@example.com"
+              icon={<FiMail />} 
+              error={errors.email}
+            />
+          )}
         </div>
 
-        <InputGroup 
-          label="Email Address (Optional)" 
-          value={data.email} 
-          onChange={(e) => onChange('email', e.target.value)}
-          placeholder="e.g. john@example.com"
-          icon={<FiMail />} 
-        />
-
         <div className="space-y-2">
-          <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : 'text-gray-400'}`}>
+          <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : (data.dob ? 'text-emerald-600' : 'text-gray-400')}`}>
             Date of Birth
           </label>
           <div className="grid grid-cols-3 gap-3">
@@ -162,6 +233,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               options={days.map(d => ({ label: d, value: d }))}
               placeholder="Day"
               error={!!errors.dob}
+              isValid={!!currentDay}
             />
             <SelectGroupSimple
               value={currentMonth}
@@ -169,6 +241,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               options={months.map(m => ({ label: m.name, value: m.value }))}
               placeholder="Month"
               error={!!errors.dob}
+              isValid={!!currentMonth}
             />
             <SelectGroupSimple
               value={currentYear}
@@ -176,9 +249,43 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               options={years.map(y => ({ label: y, value: y }))}
               placeholder="Year"
               error={!!errors.dob}
+              isValid={!!currentYear}
             />
           </div>
           {errors.dob && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.dob}</p>}
+        </div>
+
+        {/* New ID Section */}
+        <div className="pt-6 border-t border-gray-100 space-y-4">
+          <div className="flex items-center gap-2 text-emerald-600 mb-2">
+            <FiHash />
+            <h3 className="text-xs font-bold tracking-widest">Identity Verification</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <SelectGroup 
+              label="ID Type" 
+              value={data.idType} 
+              onChange={(val) => {
+                onChange('idType', val);
+                if (errors.idType) setErrors(prev => ({ ...prev, idType: null }));
+              }}
+              error={errors.idType}
+              options={idOptions}
+              icon={<FiType />} 
+            />
+            <InputGroup 
+              label="ID Number" 
+              value={data.idNumber} 
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, ''); // Numbers only
+                onChange('idNumber', val);
+                if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
+              }}
+              error={errors.idNumber}
+              placeholder="Enter ID number"
+              icon={<FiHash />} 
+            />
+          </div>
         </div>
 
         <div className="pt-6 border-t border-gray-100 space-y-6">
@@ -191,8 +298,8 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             <SelectGroup 
               label="State" 
               value={data.state} 
-              onChange={(e) => {
-                 onChange('state', e.target.value);
+              onChange={(val) => {
+                 onChange('state', val);
                  onChange('lga', ''); 
                  if (errors.state) setErrors(prev => ({ ...prev, state: null }));
               }}
@@ -204,8 +311,8 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             <SelectGroup 
               label="LGA" 
               value={data.lga} 
-              onChange={(e) => {
-                onChange('lga', e.target.value);
+              onChange={(val) => {
+                onChange('lga', val);
                 if (errors.lga) setErrors(prev => ({ ...prev, lga: null }));
               }}
               error={errors.lga}
@@ -230,7 +337,12 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           <InputGroup 
             label="House Number" 
             value={data.houseAddress} 
-            onChange={(e) => onChange('houseAddress', e.target.value)}
+            onChange={(e) => {
+              const val = e.target.value.replace(/\D/g, ''); // Numbers only
+              onChange('houseAddress', val);
+              if (errors.houseAddress) setErrors(prev => ({ ...prev, houseAddress: null }));
+            }}
+            error={errors.houseAddress}
             placeholder="Enter house number"
             icon={<FiHome />} 
           />
@@ -285,12 +397,12 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
   </div>
 );
 
-const SelectGroupSimple = ({ value, onChange, options, placeholder, error }) => (
+const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isValid }) => (
   <select
     value={value}
     onChange={onChange}
     className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
-        error ? 'border-red-300 focus:border-red-500' : value ? 'border-emerald-500 focus:border-emerald-600' : 'border-gray-200 focus:border-emerald-600'
+        error ? 'border-red-300 focus:border-red-500' : isValid ? 'border-emerald-500 focus:border-emerald-600' : 'border-gray-200 focus:border-emerald-600'
     }`}
   >
     <option value="">{placeholder}</option>
@@ -319,18 +431,20 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
   }, []);
 
   const handleSelect = (opt) => {
-    onChange({ target: { value: opt } });
+    onChange(opt);
     setIsOpen(false);
     setQuery("");
   };
 
+  const isValid = !error && value && value !== "";
+
   return (
     <div className="space-y-2" ref={dropdownRef}>
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (value ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors z-10 ${error ? 'text-red-400' : 'text-gray-400'}`}>
+        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors z-10 ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
           {icon}
         </div>
         <input
@@ -348,7 +462,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
                 ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-                : value
+                : isValid
                   ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                   : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}

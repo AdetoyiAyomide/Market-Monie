@@ -12,23 +12,21 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isTitleOpen, setIsTitleOpen] = useState(false);
-  const titleDropdownRef = useRef(null);
-  const titleOptions = ["Mr", "Mrs", "Ms", "Miss", "Dr"];
+  const titleOptions = ["Mr", "Mrs", "Miss"];
 
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
-    setError: setFormError,
     formState: { errors, isSubmitting },
+    setValue,
+    watch,
   } = useForm({
     resolver: zodResolver(registerSchema),
+    mode: "onChange",
   });
 
   const watchedFields = watch();
-  const passwordValue = watchedFields.password || "";
-  const titleValue = watchedFields.title || "";
+  const titleValue = watchedFields.title;
 
   const getInputClassName = (fieldName, isPhone = false) => {
     const hasError = !!errors[fieldName];
@@ -44,86 +42,73 @@ const Register = () => {
     }`;
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (titleDropdownRef.current && !titleDropdownRef.current.contains(event.target)) {
-        setIsTitleOpen(false);
-      }
-    };
+  const getLabelClassName = (fieldName) => {
+    const hasError = !!errors[fieldName];
+    const value = watchedFields[fieldName];
+    const isValid = !hasError && value && value.toString().length > 0;
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-
-  const onSubmit = async (data) => {
-    // Mock check for existing phone
-    if (data.phone === "08123456789") {
-      setFormError("phone", {
-        type: "manual",
-        message: "This phone number is already registered."
-      });
-      return;
-    }
-
-    console.log("Register Data:", data);
-    localStorage.setItem("firstName", data.firstName);
-    localStorage.setItem("lastName", data.lastName);
-    navigate("/verify-otp", {
-      state: { phone: data.phone },
-    });
+    return `block text-xs sm:text-sm font-medium leading-6 transition-colors ${
+      hasError 
+        ? "text-red-500" 
+        : isValid 
+          ? "text-emerald-600" 
+          : "text-gray-900"
+    }`;
   };
 
+  const onSubmit = (data) => {
+    console.log("Form Data:", data);
+    localStorage.setItem("firstName", data.firstName);
+    localStorage.setItem("lastName", data.lastName);
+    navigate("/register/success");
+  };
 
   return (
-    <div>
+    <div className="mx-auto w-full max-w-2xl px-4 sm:px-6 lg:px-8 py-10 sm:py-20 font-poppins">
       <JourneyHeader activeStep="account" />
 
-      <div className="hidden sm:block text-left font-poppins">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
-          Create An Account
-        </h2>
-        <p className="mt-2 text-xs sm:text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link to="/login" className="font-semibold text-emerald-600 hover:text-emerald-500">
-            Sign In
-          </Link>
+      <div className="text-left mt-8">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-gray-900">
+          Create account
+        </h1>
+        <p className="mt-2 text-sm sm:text-lg leading-8 text-gray-600">
+          Join us today! It only takes a minute to set up your account.
         </p>
       </div>
 
       <div className="mt-10">
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          {/* Title and Name Grid (TOP) */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="md:col-span-1">
-              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
-                Title <span className="text-gray-400 font-normal">(Optional)</span>
-              </label>
-              <input type="hidden" {...register("title")} />
-              <div className="mt-2 flex min-h-[52px] w-full items-center flex-wrap gap-3">
-                {titleOptions.map((title) => (
-                  <button
-                    key={title}
-                    type="button"
-                    onClick={() => setValue("title", title, { shouldValidate: true, shouldDirty: true })}
-                    className={`text-sm font-medium transition-all ${
-                      titleValue === title 
-                        ? "text-emerald-600 underline decoration-2 underline-offset-4" 
-                        : "text-gray-400 hover:text-emerald-500"
-                    }`}
-                  >
-                    {title}
-                  </button>
-                ))}
+          {/* Main Grid for Alignment */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+            {/* Title & First Name Group */}
+            <div className="grid grid-cols-4 gap-4 items-end">
+              <div className="col-span-1">
+                <label className={getLabelClassName("title")}>
+                  Title
+                </label>
+                <input type="hidden" {...register("title")} />
+                <div className="mt-2 flex min-h-[52px] w-full items-center justify-around border-b border-gray-100 pb-1">
+                  {titleOptions.map((title) => (
+                    <button
+                      key={title}
+                      type="button"
+                      onClick={() => setValue("title", title, { shouldValidate: true, shouldDirty: true })}
+                      className={`text-sm font-bold transition-all ${
+                        titleValue === title 
+                          ? "text-emerald-600 underline decoration-2 underline-offset-8" 
+                          : "text-gray-400 hover:text-emerald-500"
+                      }`}
+                    >
+                      {title}
+                    </button>
+                  ))}
+                </div>
+                {errors.title && (
+                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+                )}
               </div>
-              {errors.title && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
-              )}
-            </div>
-
-            <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+              <div className="col-span-3">
+                <label className={getLabelClassName("firstName")}>
                   First Name
                 </label>
                 <input
@@ -136,31 +121,31 @@ const Register = () => {
                   <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName.message}</p>
                 )}
               </div>
-              <div>
-                <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
-                  Last Name
-                </label>
-                <input
-                  {...register("lastName")}
-                  type="text"
-                  placeholder="e.g. Doe"
-                  className={`mt-2 ${getInputClassName("lastName")}`}
-                />
-                {errors.lastName && (
-                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName.message}</p>
-                )}
-              </div>
             </div>
-          </div>
 
-          {/* Contact Info (Beneath Name) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Last Name */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+              <label className={getLabelClassName("lastName")}>
+                Last Name
+              </label>
+              <input
+                {...register("lastName")}
+                type="text"
+                placeholder="e.g. Doe"
+                className={`mt-2 ${getInputClassName("lastName")}`}
+              />
+              {errors.lastName && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName.message}</p>
+              )}
+            </div>
+
+            {/* Phone Number */}
+            <div>
+              <label className={getLabelClassName("phone")}>
                 Phone Number
               </label>
               <div className="mt-2 relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm z-10">
+                <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (watchedFields.phone ? 'text-emerald-500' : 'text-gray-500')}`}>
                   +234 (0)
                 </div>
                 <input
@@ -174,9 +159,11 @@ const Register = () => {
                 <p className="mt-2 text-xs text-red-500 font-medium">{errors.phone.message}</p>
               )}
             </div>
+
+            {/* Email Address */}
             <div>
-              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
-                Email Address <span className="text-gray-400 font-normal">(Optional)</span>
+              <label className={getLabelClassName("email")}>
+                Email Address
               </label>
               <input
                 {...register("email")}

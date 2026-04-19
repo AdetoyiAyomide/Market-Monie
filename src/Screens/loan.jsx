@@ -122,7 +122,7 @@ const currentStep = 7;
                     />
                 </div>
                 <div className='flex flex-col w-full gap-2'>
-                    <label htmlFor="existingLoans">Existing Loans <span className='text-sm text-slate-400'>(optional)</span></label>
+                    <label htmlFor="existingLoans">Existing Loans</label>
                     <input type="text" id="existingLoans"
                     value={formData.existingLoans} onChange={(e) => setFormData({ ...formData, existingLoans: e.target.value})} placeholder='e.g. Lender name & outstanding amount, if any' className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors' />
                 </div>
