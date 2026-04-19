@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { locationService } from "../../../services/locationService";
 
 const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
+  const [isTitleOpen, setIsTitleOpen] = useState(false);
   // Split DOB YYYY-MM-DD
   const dobParts = data.dob ? data.dob.split('-') : ['', '', ''];
   const currentYear = dobParts[0] || "";
@@ -66,7 +67,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
     enabled: !!data.state,
   });
 
-  const titleOptions = ["Mr", "Mrs", "Miss"];
+  const titleOptions = ["Mr", "Mrs", "Ms"];
   const idOptions = ["NIN", "International Passport", "Driver’s License"];
 
   const [errors, setErrors] = useState({});
@@ -143,53 +144,76 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
       </div>
 
       <div className="mt-8 space-y-6 pb-20">
-        {/* Title and Name Alignment */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="grid grid-cols-4 gap-3 items-end">
-            <div className="col-span-1">
-               <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors ${errors.title ? 'text-red-500' : (data.title ? 'text-emerald-600' : 'text-gray-400')}`}>
-                 TITLE
-               </label>
-               <div className="mt-2 flex h-[52px] items-center gap-2 px-2 border-2 rounded-xl bg-gray-50/30 border-gray-200">
-                 {titleOptions.map((t) => (
-                   <button
-                     key={t}
-                     type="button"
-                     onClick={() => onChange('title', t)}
-                     className={`text-xs font-bold transition-all ${
-                       data.title === t 
-                         ? "text-emerald-600 underline decoration-2 underline-offset-4" 
-                         : "text-gray-400 hover:text-emerald-500"
-                     }`}
-                   >
-                     {t}
-                   </button>
-                 ))}
-               </div>
-            </div>
-            <div className="col-span-3">
-              <InputGroup 
-                label="First Name" 
-                value={data.firstname} 
-                onChange={(e) => onChange('firstname', e.target.value)}
-                icon={<FiUser />} 
-                readOnly={!isGuest}
-                error={errors.firstname}
-              />
-            </div>
+        {/* Title, First, and Last Name Row */}
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-4 items-end">
+          <div className="col-span-2 md:col-span-2">
+             <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors ${errors.title ? 'text-red-500' : (data.title ? 'text-emerald-600' : 'text-gray-400')}`}>
+               TITLE
+             </label>
+             <div className="mt-2 relative">
+                <button
+                  type="button"
+                  onClick={() => setIsTitleOpen(!isTitleOpen)}
+                  className={`flex h-[52px] w-full items-center justify-between rounded-xl border-2 px-4 transition-all outline-none font-medium ${
+                    errors.title 
+                      ? "border-red-300 bg-red-50/10" 
+                      : data.title 
+                        ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
+                        : "border-gray-200 bg-gray-50/30 text-gray-400"
+                  }`}
+                >
+                  <span className="text-xs font-bold">
+                    {data.title || "Mr"}
+                  </span>
+                  {isTitleOpen ? <FiChevronUp /> : <FiChevronDown />}
+                </button>
+
+                {isTitleOpen && (
+                  <div className="absolute z-50 mt-2 w-full rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                    <div className="py-1">
+                      {titleOptions.map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          onClick={() => {
+                            onChange('title', t);
+                            setIsTitleOpen(false);
+                          }}
+                          className={`block w-full text-left px-4 py-3 text-sm transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                            data.title === t ? "bg-emerald-50 text-emerald-700 font-bold" : "text-gray-700"
+                          }`}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+             </div>
           </div>
-          
-          <InputGroup 
-            label="Last Name" 
-            value={data.lastname} 
-            onChange={(e) => onChange('lastname', e.target.value)}
-            icon={<FiUser />} 
-            readOnly={!isGuest}
-            error={errors.lastname}
-          />
+          <div className="col-span-1 md:col-span-5">
+            <InputGroup 
+              label="First Name" 
+              value={data.firstname} 
+              onChange={(e) => onChange('firstname', e.target.value)}
+              icon={<FiUser />} 
+              readOnly={!isGuest}
+              error={errors.firstname}
+            />
+          </div>
+          <div className="col-span-1 md:col-span-5">
+            <InputGroup 
+              label="Last Name" 
+              value={data.lastname} 
+              onChange={(e) => onChange('lastname', e.target.value)}
+              icon={<FiUser />} 
+              readOnly={!isGuest}
+              error={errors.lastname}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-6">
           <div className="space-y-2">
             <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
               Phone Number

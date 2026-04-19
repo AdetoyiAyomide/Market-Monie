@@ -12,7 +12,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isTitleOpen, setIsTitleOpen] = useState(false);
-  const titleOptions = ["Mr", "Mrs", "Miss"];
+  const titleOptions = ["Mr", "Mrs", "Ms"];
 
   const {
     register,
@@ -23,6 +23,9 @@ const Register = () => {
   } = useForm({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
+    defaultValues: {
+      title: "Mr"
+    }
   });
 
   const watchedFields = watch();
@@ -78,53 +81,76 @@ const Register = () => {
 
       <div className="mt-10">
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          {/* Main Grid for Alignment */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-            {/* Title & First Name Group */}
-            <div className="grid grid-cols-4 gap-4 items-end">
-              <div className="col-span-1">
-                <label className={getLabelClassName("title")}>
-                  Title
-                </label>
-                <input type="hidden" {...register("title")} />
-                <div className="mt-2 flex min-h-[52px] w-full items-center justify-around border-b border-gray-100 pb-1">
-                  {titleOptions.map((title) => (
-                    <button
-                      key={title}
-                      type="button"
-                      onClick={() => setValue("title", title, { shouldValidate: true, shouldDirty: true })}
-                      className={`text-sm font-bold transition-all ${
-                        titleValue === title 
-                          ? "text-emerald-600 underline decoration-2 underline-offset-8" 
-                          : "text-gray-400 hover:text-emerald-500"
-                      }`}
-                    >
-                      {title}
-                    </button>
-                  ))}
-                </div>
-                {errors.title && (
-                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+          {/* Name Row (Title, First, Last) */}
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-x-4 gap-y-5 items-end">
+            {/* Title */}
+            <div className="col-span-2 md:col-span-2">
+              <label className={getLabelClassName("title")}>
+                Title
+              </label>
+              <div className="mt-2 relative">
+                <button
+                  type="button"
+                  onClick={() => setIsTitleOpen(!isTitleOpen)}
+                  className={`flex w-full items-center justify-between rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                    errors.title 
+                      ? "ring-red-500 focus:ring-red-600" 
+                      : titleValue 
+                        ? "ring-emerald-500 focus:ring-emerald-600" 
+                        : "ring-gray-300 focus:ring-emerald-600"
+                  }`}
+                >
+                  <span className={titleValue ? "text-gray-900" : "text-gray-400"}>
+                    {titleValue || "Mr"}
+                  </span>
+                  {isTitleOpen ? <FiChevronUp className="text-gray-400" /> : <FiChevronDown className="text-gray-400" />}
+                </button>
+
+                {isTitleOpen && (
+                  <div className="absolute z-50 mt-2 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                    <div className="py-1">
+                      {titleOptions.map((title) => (
+                        <button
+                          key={title}
+                          type="button"
+                          onClick={() => {
+                            setValue("title", title, { shouldValidate: true, shouldDirty: true });
+                            setIsTitleOpen(false);
+                          }}
+                          className={`block w-full text-left px-4 py-3 text-sm transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                            titleValue === title ? "bg-emerald-50 text-emerald-700 font-bold" : "text-gray-700"
+                          }`}
+                        >
+                          {title}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
-              <div className="col-span-3">
-                <label className={getLabelClassName("firstName")}>
-                  First Name
-                </label>
-                <input
-                  {...register("firstName")}
-                  type="text"
-                  placeholder="e.g. John"
-                  className={`mt-2 ${getInputClassName("firstName")}`}
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName.message}</p>
-                )}
-              </div>
+              {errors.title && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+              )}
+            </div>
+
+            {/* First Name */}
+            <div className="col-span-1 md:col-span-5">
+              <label className={getLabelClassName("firstName")}>
+                First Name
+              </label>
+              <input
+                {...register("firstName")}
+                type="text"
+                placeholder="e.g. John"
+                className={`mt-2 ${getInputClassName("firstName")}`}
+              />
+              {errors.firstName && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.firstName.message}</p>
+              )}
             </div>
 
             {/* Last Name */}
-            <div>
+            <div className="col-span-1 md:col-span-5">
               <label className={getLabelClassName("lastName")}>
                 Last Name
               </label>
@@ -138,9 +164,11 @@ const Register = () => {
                 <p className="mt-1 text-xs text-red-500 font-medium">{errors.lastName.message}</p>
               )}
             </div>
+          </div>
 
+          <div className="space-y-5">
             {/* Phone Number */}
-            <div>
+            <div className="w-full">
               <label className={getLabelClassName("phone")}>
                 Phone Number
               </label>
@@ -161,7 +189,7 @@ const Register = () => {
             </div>
 
             {/* Email Address */}
-            <div>
+            <div className="w-full">
               <label className={getLabelClassName("email")}>
                 Email Address
               </label>
@@ -177,8 +205,8 @@ const Register = () => {
             </div>
           </div>
 
-          {/* PIN Setup (Vertical Flow) */}
-          <div className="space-y-5">
+          {/* PIN Setup (Horizontal Flow) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             <div className="relative">
               <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
                 Create 6-Digit PIN
