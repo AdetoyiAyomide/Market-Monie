@@ -12,8 +12,8 @@ const OnboardingLayout = () => {
       transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="flex min-h-screen bg-white"
     >
-      <div className="w-full px-6 py-10 sm:px-10 lg:px-16">
-        <div className="mb-8 flex items-center justify-between gap-4">
+      <div className="w-full px-6 py-6 sm:px-10 lg:px-16">
+        <div className="mb-2 flex items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => navigate(-1)}

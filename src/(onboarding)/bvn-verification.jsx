@@ -85,7 +85,7 @@ const BvnVerification = () => {
 
 
   return (
-    <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
+    <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-0 pb-10 font-poppins">
       <div className="flex flex-col lg:flex-row gap-4 items-start">
         {/* Progress Sidebar - Placed at the very edge */}
         <aside className="shrink-0 lg:sticky lg:top-4 pl-0">
@@ -94,22 +94,22 @@ const BvnVerification = () => {
 
         {/* Main Form Content - Expanded and centered in remaining space */}
         <div className="flex-1 w-full flex justify-center">
-          <div className="w-full max-w-xl px-4 sm:px-0">
+          <div className="w-full max-w-md px-4 sm:px-0">
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
               <div className="hidden sm:block text-left font-poppins">
-                <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
+                <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-3 text-emerald-600">
                   <FiShield size={24} />
                 </div>
                 
                 <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
                   BVN Verification
                 </h2>
-                <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
+                <p className="mt-2 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
                   We need your Bank Verification Number to verify your identity. This is a secure one-time process.
                 </p>
               </div>
 
-              <form className="mt-8 space-y-6" onSubmit={handleVerify}>
+              <form className="mt-4 space-y-6" onSubmit={handleVerify}>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
                     Bank Verification Number (BVN)

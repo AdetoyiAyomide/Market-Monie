@@ -287,16 +287,16 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
       <div className="mt-3 space-y-4 pb-20">
         {/* Title, First, and Last Name Row */}
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-4 items-end">
-          <div className="col-span-2 md:col-span-2">
-             <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors ${errors.title ? 'text-red-500' : (data.title ? 'text-emerald-600' : 'text-gray-400')}`}>
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 items-end">
+          <div className="col-span-2 md:col-span-2 flex md:block items-center justify-between md:justify-start gap-4">
+             <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors whitespace-nowrap mb-0 md:mb-2 ${errors.title ? 'text-red-500' : 'text-black'}`}>
                TITLE
              </label>
-             <div className="mt-2 relative">
+             <div className="relative w-24 md:w-full">
                 <button
                   type="button"
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
-                  className={`flex h-[60px] w-full items-center justify-between rounded-xl border-2 px-4 transition-all outline-none font-medium ${
+                  className={`flex h-[50px] md:h-[60px] w-full items-center justify-between rounded-xl border-2 px-3 md:px-4 transition-all outline-none font-medium ${
                     errors.title 
                       ? "border-red-300 bg-red-50/10" 
                       : data.title 
@@ -311,7 +311,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                 </button>
 
                 {isTitleOpen && (
-                  <div className="absolute z-50 mt-2 w-full rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                  <div className="absolute z-50 mt-2 w-32 rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden left-auto right-0 md:right-auto md:left-0">
                     <div className="py-1">
                       {titleOptions.map((t) => (
                         <button

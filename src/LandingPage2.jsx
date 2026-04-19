@@ -100,7 +100,7 @@ const LandingPage2 = () => {
         />
       </div>
 
-      <div className="relative z-10 flex flex-col min-h-screen px-6 md:px-12 py-8">
+      <div className="relative z-10 flex flex-col min-h-screen px-6 md:px-12 py-4">
         {/* Header */}
         <header className="flex justify-between items-center mb-2">
           <motion.div
@@ -136,7 +136,7 @@ const LandingPage2 = () => {
                 className="w-full space-y-4"
               >
                 <div className="text-center space-y-2">
-                  <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-gray-900">Select
+                  <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900">Select
                     the state where your <span className="text-emerald-500">business</span> operates</h1>
                   <p className="text-gray-500 text-xs md:text-sm max-w-sm mx-auto">This helps us send an agent closest to you.</p>
                 </div>
@@ -210,7 +210,7 @@ const LandingPage2 = () => {
                   </button>
                   <div className="text-center space-y-0.5">
                     <h2 className="text-emerald-600 text-[9px] font-bold tracking-[0.3em] uppercase">{selectedState} State</h2>
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">Choose a <span className="text-emerald-500">Hub</span></h1>
+                    <h1 className="text-xl md:text-2xl font-bold tracking-tight text-gray-900">Choose a <span className="text-emerald-500">Hub</span></h1>
                     <p className="text-gray-400 text-center text-[10px] sm:text-xs max-w-xs mx-auto pt-0.5">Select the Market Monie office closest to your business.</p>
                   </div>
                 </div>

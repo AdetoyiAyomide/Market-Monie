@@ -12,9 +12,9 @@ const AuthLayout = () => {
       transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
       className="flex min-h-screen bg-white"
     >
-      <div className="w-full py-10 px-6 sm:px-10 lg:px-16">
-        <div className="pt-5 px-5 sm:px-8 lg:px-10">
-          <div className="flex items-center justify-between gap-4">
+      <div className="w-full py-6 px-6 sm:px-10 lg:px-16">
+        <div className="pt-2 px-5 sm:px-8 lg:px-10">
+          <div className="flex items-center justify-between gap-4 mb-2">
             <button
               type="button"
               onClick={() => navigate(-1)}

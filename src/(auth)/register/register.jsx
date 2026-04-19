@@ -76,7 +76,7 @@ const Register = () => {
 
         {/* Main Form Content - Expanded and centered in remaining space */}
         <div className="flex-1 w-full flex justify-center">
-          <div className="w-full max-w-4xl px-4 sm:px-0">
+          <div className="w-full max-w-2xl px-4 sm:px-0">
             <div className="text-left">
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
                 Create account
@@ -90,16 +90,16 @@ const Register = () => {
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           {/* Name Row (Title, First, Last) */}
           <div className="grid grid-cols-2 md:grid-cols-12 gap-x-4 gap-y-4 items-end">
-            {/* Title */}
-            <div className="col-span-2 md:col-span-2">
-              <label className={getLabelClassName("title")}>
+            {/* Title - Horizontal on Mobile */}
+            <div className="col-span-2 md:col-span-2 flex md:block items-center justify-between md:justify-start gap-4">
+              <label className="text-xs sm:text-sm font-medium leading-6 transition-colors pb-0 md:pb-2 whitespace-nowrap text-black">
                 Title
               </label>
-              <div className="mt-2 relative">
+              <div className="relative w-24 md:w-full">
                 <button
                   type="button"
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
-                  className={`flex w-full items-center justify-between rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  className={`flex w-full items-center justify-between rounded-lg border-0 py-2.5 md:py-3.5 px-3 md:px-4 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
                     errors.title 
                       ? "ring-red-500 focus:ring-red-600" 
                       : titleValue 
@@ -114,7 +114,7 @@ const Register = () => {
                 </button>
 
                 {isTitleOpen && (
-                  <div className="absolute z-50 mt-2 w-full rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                  <div className="absolute z-50 mt-2 w-32 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden left-auto right-0 md:right-auto md:left-0">
                     <div className="py-1">
                       {titleOptions.map((title) => (
                         <button
@@ -136,7 +136,7 @@ const Register = () => {
                 )}
               </div>
               {errors.title && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
+                <p className="hidden md:block mt-1 text-xs text-red-500 font-medium">{errors.title.message}</p>
               )}
             </div>
 

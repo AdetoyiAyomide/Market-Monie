@@ -156,7 +156,7 @@ const LandingPage = () => {
                   {modes[activeMode].label}
                 </div>
 
-                <h1 className="text-5xl md:text-7xl font-bold text-white leading-[1.05] tracking-tighter mb-8 ">
+                <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.05] tracking-tighter mb-8 ">
                   {modes[activeMode].id === 0 ? (
                     <>Empower Your <br /><span className="text-emerald-500 ">Business</span> Growth</>
                   ) : (
