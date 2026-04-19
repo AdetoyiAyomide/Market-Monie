@@ -80,7 +80,7 @@ function AnimatedRoutes() {
           <SuccessScreen 
             title="Account Created!" 
             description="Your account has been successfully verified. You are being redirected to complete your profile."
-            redirectPath="/apply/hub"
+            redirectPath="/onboarding/phone"
             countdownSeconds={5}
           />
         } />
