@@ -135,7 +135,7 @@ const LandingPage2 = () => {
                 exit={{ opacity: 0, y: -20 }}
                 className="w-full space-y-4"
               >
-                <div className="text-center space-y-2">
+                <div className="text-center space-y-2 mt-5">
                   <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900">Select
                     the state where your <span className="text-emerald-500">business</span> operates</h1>
                   <p className="text-gray-500 text-xs md:text-sm max-w-sm mx-auto">This helps us send an agent closest to you.</p>
