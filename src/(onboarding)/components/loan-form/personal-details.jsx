@@ -109,7 +109,17 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
     if (!data.houseAddress) newErrors.houseAddress = "Required";
     if (!data.idType) newErrors.idType = "Required";
     if (!data.idNumber) newErrors.idNumber = "Required";
-    if (isGuest && !data.email) newErrors.email = "Required";
+    
+    if (isGuest) {
+      if (!data.email) {
+        newErrors.email = "Required";
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+          newErrors.email = "Invalid email format";
+        }
+      }
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

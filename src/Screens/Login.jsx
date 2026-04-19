@@ -10,26 +10,29 @@ const Login = () => {
       const [password, setPassword] = useState("");
         const [email, setEmail] = useState("");
         const [error, setError] = useState("");
-        const handleLogin = () => {
+  const handleLogin = () => {
+    setError("");
 
-  setError("");
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      return;
+    }
 
-  if (!email || !password) {
-    setError("Please enter both email and password");
-    return;
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
 
-  // Fake check (for now)
-  // API call
-// const res = await fetch("/api/login")
-  if (email !== "test@gmail.com" || password !== "123456") {
-    setError("Invalid email or password");
-    return;
-  }
+    // Fake check (for now)
+    if (email !== "test@gmail.com" || password !== "123456") {
+      setError("Invalid email or password");
+      return;
+    }
 
-  // Success
-  alert("Login successful!");
-};
+    // Success
+    alert("Login successful!");
+  };
   return (
     <>
        <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>

@@ -12,14 +12,21 @@ const AccountCreation = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timer, setTimer] = useState(180); // 3 minutes in seconds
   const [isOtpSent, setIsOtpSent] = useState(false);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isEmailValid = email.trim() === "" || emailRegex.test(email);
+
   const isFormValid =
     fullName.trim() &&
     phone.length === 10 &&
+    email.trim() &&
+    emailRegex.test(email) &&
     password.length >= 6 &&
     confirmPassword === password;
 
@@ -91,8 +98,16 @@ const isOtpComplete = otp.every(d => d !== "");
                 </div>
 
                 <div className='flex flex-col gap-3 items-start justify-start w-full '>
-                    <label htmlFor="email">Email Address</label>
-                    <input type="email" id="email" placeholder='you@example.com' className='border border-gray-300 rounded-lg p-2 w-full' />
+                    <label htmlFor="email">Email Address <span className='text-red-500'>*</span></label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder='you@example.com' 
+                      className={`border rounded-lg p-2 w-full outline-none transition-all ${email && !isEmailValid ? 'border-red-500 bg-red-50' : (email && isEmailValid ? 'border-green-500 bg-green-50' : 'border-gray-300')}`} 
+                    />
+                    {email && !isEmailValid && (<p className="text-xs text-red-500">Invalid email address</p>)}
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>
                     <label htmlFor="password">Password <span className='text-red-500'>*</span></label>
