@@ -36,6 +36,15 @@ const LoanApplication = () => {
         phone: "",
         dob: ""
       }));
+    } else {
+      // If Registered (has account), pre-populate from localStorage
+      setFormData(prev => ({
+        ...prev,
+        title: localStorage.getItem("title") || prev.title,
+        firstname: localStorage.getItem("firstName") || prev.firstname,
+        lastname: localStorage.getItem("lastName") || prev.lastname,
+        phone: localStorage.getItem("phone") || prev.phone,
+      }));
     }
   }, []);
 

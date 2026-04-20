@@ -67,6 +67,7 @@ const PhoneVerification = () => {
       setIsLoading(false);
       if (otp === "123456") {
         toast.success("Phone verified successfully!");
+        localStorage.setItem("phone", "+234 " + phone);
         navigate("/apply/hub");
       } else {
         toast.error("Invalid OTP. Try 123456");

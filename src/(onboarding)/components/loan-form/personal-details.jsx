@@ -295,21 +295,24 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                TITLE
              </label>
              <div className="relative w-24 md:w-full">
-                <button
+                 <button
                   type="button"
+                  disabled={!isGuest}
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
                   className={`flex h-[50px] md:h-[60px] w-full items-center justify-between rounded-xl border-2 px-3 md:px-4 transition-all outline-none font-medium ${
-                    errors.title 
-                      ? "border-red-300 bg-red-50/10" 
-                      : data.title 
-                        ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
-                        : "border-gray-200 bg-gray-50/30 text-gray-400"
+                    !isGuest
+                      ? "border-gray-100 bg-gray-100/50 text-gray-500 cursor-not-allowed opacity-80"
+                      : errors.title 
+                        ? "border-red-300 bg-red-50/10" 
+                        : data.title 
+                          ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
+                          : "border-gray-200 bg-gray-50/30 text-gray-400"
                   }`}
                 >
                   <span className="text-xs font-bold">
                     {data.title || "Mr"}
                   </span>
-                  {isTitleOpen ? <FiChevronUp /> : <FiChevronDown />}
+                  {isGuest && (isTitleOpen ? <FiChevronUp /> : <FiChevronDown />)}
                 </button>
 
                 {isTitleOpen && (
@@ -368,6 +371,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               </div>
               <input
                 type="tel"
+                readOnly={!isGuest}
                 value={(data.phone || "").replace(/^\+234/, '').replace(/^\(\+234\) 0/, '').replace(/^\+234 \(0\)/, '').trim()}
                 onChange={(e) => {
                   const val = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -375,12 +379,14 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
                 }}
                 placeholder="812 345 6789"
-                className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-[88px] pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm ${
-                  errors.phone 
-                    ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
-                    : data.phone
-                      ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                      : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                className={`block w-full rounded-xl border-2 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm pl-[88px] pr-4 ${
+                  !isGuest
+                    ? "bg-gray-100/80 text-gray-500 cursor-not-allowed border-gray-100"
+                    : errors.phone 
+                      ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+                      : data.phone
+                        ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                        : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                 }`}
               />
             </div>
