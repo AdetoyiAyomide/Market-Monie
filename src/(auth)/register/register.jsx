@@ -200,7 +200,7 @@ const Register = () => {
             {/* Email Address */}
             <div className="w-full">
               <label className={getLabelClassName("email")}>
-                Email Address
+                Email Address (optional)
               </label>
               <input
                 {...register("email")}
