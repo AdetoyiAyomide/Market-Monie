@@ -5,7 +5,10 @@ import {
   FiArrowRight, FiArrowLeft, FiMapPin, FiHome, FiUser, FiUserPlus,
   FiSearch, FiCheckCircle, FiAlertCircle
 } from "react-icons/fi";
-import { locations, branchAddresses, setSelectedStateGlobal, setSelectedHubGlobal, setNoHubStateGlobal, setIsGuestGlobal } from "./store/Data";
+import {
+  locations, branchAddresses, setSelectedStateGlobal, setSelectedHubGlobal,
+  setNoHubStateGlobal, setIsGuestGlobal
+} from "./store/Data";
 
 const LandingPage2 = () => {
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ const LandingPage2 = () => {
     setSelectedStateGlobal(state);
     setSelectedHub(""); // Reset hub selection when state changes
     const hubs = branchAddresses[state] || [];
-    
+
     if (hubs.length > 0) {
       setNoHubAlert(false);
       setNoHubStateGlobal(false);
@@ -276,7 +279,7 @@ const LandingPage2 = () => {
                   )}
 
                   {noHubAlert && (
-                    <motion.div 
+                    <motion.div
                       key="no-hub-alert"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
@@ -291,7 +294,7 @@ const LandingPage2 = () => {
                         <div className="space-y-1">
                           <h4 className="text-sm font-bold text-amber-900">No hub in {selectedState} yet</h4>
                           <p className="text-xs text-amber-800/80 leading-relaxed">
-                            We don't have a physical hub in this state, but you can still apply! 
+                            We don't have a physical hub in this state, but you can still apply!
                             An agent will contact you within 5 working days.
                           </p>
                         </div>
@@ -303,124 +306,124 @@ const LandingPage2 = () => {
                 {/* Options Section (Premium Cards) */}
                 <AnimatePresence>
                   {(selectedHub || noHubAlert) && (
-    <motion.div
-                        key="options-section"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="w-full space-y-6 pt-4"
-                        >
-                        <div className="text-center space-y-2">
-                            <div className="flex items-center justify-center gap-2 mb-2">
-                            <div className="h-[1px] w-8 bg-gray-100" />
-                            <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase">
-                                Final Step
-                            </p>
-                            <div className="h-[1px] w-8 bg-gray-100" />
-                            </div>
-                            <h2 className="text-lg md:text-xl font-bold text-gray-900">How would you like to proceed?</h2>
+                    <motion.div
+                      key="options-section"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      className="w-full space-y-6 pt-4"
+                    >
+                      <div className="text-center space-y-2">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <div className="h-[1px] w-8 bg-gray-100" />
+                          <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase">
+                            Final Step
+                          </p>
+                          <div className="h-[1px] w-8 bg-gray-100" />
                         </div>
+                        <h2 className="text-lg md:text-xl font-bold text-gray-900">How would you like to proceed?</h2>
+                      </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto w-full px-2">
-                            <motion.button
-                            whileHover={{ y: -4, scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                                setIsGuestGlobal(false);
-                                navigate("/register");
-                            }}
-                            className="group hidden md:block relative overflow-hidden p-6 rounded-[2rem] bg-emerald-600 text-white text-left shadow-2xl shadow-emerald-900/20 h-45 md:h-60"
-                            >
-                            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <FiUserPlus size={48} />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto w-full px-2">
+                        <motion.button
+                          whileHover={{ y: -4, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setIsGuestGlobal(false);
+                            navigate("/register");
+                          }}
+                          className="group hidden md:block relative overflow-hidden p-6 rounded-[2rem] bg-emerald-600 text-white text-left shadow-2xl shadow-emerald-900/20 h-45 md:h-60"
+                        >
+                          <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <FiUserPlus size={48} />
+                          </div>
+                          <div className="relative z-10 space-y-4">
+                            <div className="p-3 w-fit rounded-2xl bg-white/20 backdrop-blur-md">
+                              <FiUserPlus size={24} />
                             </div>
-                            <div className="relative z-10 space-y-4">
-                                <div className="p-3 w-fit rounded-2xl bg-white/20 backdrop-blur-md">
-                                <FiUserPlus size={24} />
-                                </div>
-                                <div>
-                                <h3 className="text-lg font-bold leading-tight">Create Account</h3>
-                                <p className="text-white/70 text-xs mt-1 leading-relaxed">Track your application and repayment history easily.</p>
-                                </div>
-                                <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest -mt-1 md:pt-2 group-hover:gap-3 transition-all duration-400">
-                                GET STARTED <FiArrowRight />
-                                </div>
+                            <div>
+                              <h3 className="text-lg font-bold leading-tight">Create Account</h3>
+                              <p className="text-white/70 text-xs mt-1 leading-relaxed">Track your application and repayment history easily.</p>
                             </div>
+                            <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest -mt-1 md:pt-2 group-hover:gap-3 transition-all duration-400">
+                              GET STARTED <FiArrowRight />
+                            </div>
+                          </div>
                         </motion.button>
 
-                        
 
-                            <motion.button
-                            whileHover={{ y: -4, scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => {
-                                setIsGuestGlobal(true);
-                                navigate("/apply/hub");
-                            }}
-                            className="group relative hidden md:block overflow-hidden p-6 rounded-[2rem] bg-white border border-gray-100 text-gray-900 text-left hover:bg-gray-50/50 h-45 md:h-60 transition-all shadow-xl shadow-gray-200/50"
-                            >
-                            <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
-                                <FiUser size={48} />
+
+                        <motion.button
+                          whileHover={{ y: -4, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setIsGuestGlobal(true);
+                            navigate("/apply/hub");
+                          }}
+                          className="group relative hidden md:block overflow-hidden p-6 rounded-[2rem] bg-white border border-gray-100 text-gray-900 text-left hover:bg-gray-50/50 h-45 md:h-60 transition-all shadow-xl shadow-gray-200/50"
+                        >
+                          <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
+                            <FiUser size={48} />
+                          </div>
+                          <div className="relative z-10 space-y-4">
+                            <div className="p-3 w-fit rounded-2xl bg-emerald-50 text-emerald-600">
+                              <FiUser size={24} />
                             </div>
-                            <div className="relative z-10 space-y-4">
-                                <div className="p-3 w-fit rounded-2xl bg-emerald-50 text-emerald-600">
-                                <FiUser size={24} />
-                                </div>
-                                <div>
-                                <h3 className="text-lg font-bold leading-tight">Continue as Guest</h3>
-                                <p className="text-gray-500 text-xs mt-1 leading-relaxed">Apply quickly without creating a permanent account.</p>
-                                </div>
-                                <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest -mt-1 md:pt-2 text-emerald-600 group-hover:gap-3 transition-all duration-400">
-                                EXPLORE NOW <FiArrowRight />
-                                </div>
+                            <div>
+                              <h3 className="text-lg font-bold leading-tight">Continue as Guest</h3>
+                              <p className="text-gray-500 text-xs mt-1 leading-relaxed">Apply quickly without creating a permanent account.</p>
                             </div>
-                            </motion.button>
+                            <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest -mt-1 md:pt-2 text-emerald-600 group-hover:gap-3 transition-all duration-400">
+                              EXPLORE NOW <FiArrowRight />
+                            </div>
+                          </div>
+                        </motion.button>
 
-                            
-                        </div>
 
-                        <div className="md:hidden flex gap-3">
-                          <motion.button
-                                whileHover={{ y: -4, scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={() => {
-                                    setIsGuestGlobal(false);
-                                    navigate("/register");
-                                }}
-                                className="group relative md:hidden overflow-hidden p-6 rounded-[2rem] bg-emerald-600 text-white text-left shadow-2xl shadow-emerald-900/20 h-fit"
-                                >
-                                <div className="relative z-10 space-y-4">
-                                    <div>
-                                    <h3 className="text-md font-bold leading-tight">Create Account</h3>
-                                    </div>
-                                </div>
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ y: -4, scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                onClick={() => {
-                                    setIsGuestGlobal(true);
-                                    navigate("/apply/hub");
-                                }}
-                                className="group relative md:hidden overflow-hidden p-6 rounded-[2rem] bg-white border border-gray-100 text-gray-900 text-left hover:bg-gray-50/50 h-fit transition-all shadow-xl shadow-gray-200/50">
+                      </div>
 
-                                <div className="relative z-10 space-y-4">
-                                    <div>
-                                    <h3 className="text-md font-bold leading-tight">Continue as Guest</h3>
-                                    </div>
-                                </div>
-                                </motion.button>
-                        </div>
+                      <div className="md:hidden flex gap-3">
+                        <motion.button
+                          whileHover={{ y: -4, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setIsGuestGlobal(false);
+                            navigate("/register");
+                          }}
+                          className="group relative md:hidden overflow-hidden p-6 rounded-[2rem] bg-emerald-600 text-white text-left shadow-2xl shadow-emerald-900/20 h-fit"
+                        >
+                          <div className="relative z-10 space-y-4">
+                            <div>
+                              <h3 className="text-md font-bold leading-tight">Create Account</h3>
+                            </div>
+                          </div>
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ y: -4, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => {
+                            setIsGuestGlobal(true);
+                            navigate("/apply/hub");
+                          }}
+                          className="group relative md:hidden overflow-hidden p-6 rounded-[2rem] bg-white border border-gray-100 text-gray-900 text-left hover:bg-gray-50/50 h-fit transition-all shadow-xl shadow-gray-200/50">
 
-                        <div className="text-center pt-4">
-                            <button
-                            onClick={handleBack}
-                            className="text-gray-400 text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-colors uppercase"
-                            >
-                            Change Location
-                            </button>
-                        </div>
-                        </motion.div>
+                          <div className="relative z-10 space-y-4">
+                            <div>
+                              <h3 className="text-md font-bold leading-tight">Continue as Guest</h3>
+                            </div>
+                          </div>
+                        </motion.button>
+                      </div>
+
+                      <div className="text-center pt-4">
+                        <button
+                          onClick={handleBack}
+                          className="text-gray-400 text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-colors uppercase"
+                        >
+                          Change Location
+                        </button>
+                      </div>
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </motion.div>
