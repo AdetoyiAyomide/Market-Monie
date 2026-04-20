@@ -346,7 +346,7 @@ const LandingPage2 = () => {
                               GET STARTED <FiArrowRight />
                             </div>
                           </div>
-                        </motion.button>
+                      </motion.button>
 
                         <motion.button
                           whileHover={{ y: -4, scale: 1.02 }}
