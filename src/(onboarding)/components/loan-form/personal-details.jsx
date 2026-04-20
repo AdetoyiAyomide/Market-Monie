@@ -396,7 +396,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           {/* Email Address - Only for Guests */}
           {isGuest && (
             <InputGroup 
-              label="Email Address (optional)" 
+              label={<>Email Address <span className="text-gray-400 font-normal normal-case ml-1">(optional)</span></>} 
               value={data.email} 
               onChange={(e) => onChange('email', e.target.value)}
               placeholder="e.g. john@example.com"
