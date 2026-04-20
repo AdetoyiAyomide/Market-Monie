@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { isGuestGlobal } from "../store/Data";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiArrowRight, FiPhone, FiLock, FiSmartphone, FiEdit3 } from "react-icons/fi";
@@ -13,6 +13,7 @@ const STAGES = {
 };
 
 const PhoneVerification = () => {
+  const { state } = useLocation();
   const [stage, setStage] = useState(STAGES.PHONE);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -20,12 +21,22 @@ const PhoneVerification = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isGuestGlobal) {
+    if (state?.phone) {
+      // Clean and pre-fill the phone
+      const cleaned = state.phone.replace(/\D/g, '').slice(-10);
+      setPhone(cleaned);
+      setStage(STAGES.OTP);
+      toast.success(`Verification code sent to +234 ${cleaned}`);
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (isGuestGlobal && !state?.phone) {
       // For guests, we skip this to go to BVN/Personal Details? 
       // Actually, if they are guests, they might still need phone verification.
       // But the previous code had a replace. I'll keep it for now.
     }
-  }, [navigate]);
+  }, [navigate, state]);
 
   const handleSendOtp = async (e) => {
     e.preventDefault();

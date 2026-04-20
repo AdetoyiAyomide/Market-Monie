@@ -63,7 +63,8 @@ const Register = () => {
     console.log("Form Data:", data);
     localStorage.setItem("firstName", data.firstName);
     localStorage.setItem("lastName", data.lastName);
-    navigate("/register/success");
+    // Navigate directly to phone verification with pre-filled phone
+    navigate("/onboarding/phone", { state: { phone: data.phone } });
   };
 
   return (
