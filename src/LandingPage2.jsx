@@ -15,6 +15,7 @@ const LandingPage2 = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
+  const [noHubAlert, setNoHubAlert] = useState(false);
   const dropdownRef = useRef(null);
   const hubDropdownRef = useRef(null);
 
@@ -39,9 +40,20 @@ const LandingPage2 = () => {
   const handleStateSelect = (state) => {
     setSelectedState(state);
     setSelectedStateGlobal(state);
-    setNoHubStateGlobal(false); // Reset on new state selection
+    const hubs = branchAddresses[state] || [];
+    
+    if (hubs.length > 0) {
+      setStep(2);
+      setNoHubAlert(false);
+      setNoHubStateGlobal(false);
+    } else {
+      setStep(1); // Stay on step 1
+      setNoHubAlert(true);
+      setNoHubStateGlobal(true);
+      setSelectedHub("No Hub (Remote)");
+      setSelectedHubGlobal("No Hub (Remote)");
+    }
     setSearchQuery("");
-    setStep(2);
   };
 
   const handleHubSelect = (hub) => {
@@ -140,7 +152,6 @@ const LandingPage2 = () => {
                     the state where your <span className="text-emerald-500">business</span> operates</h1>
                   <p className="text-gray-500 text-xs md:text-sm max-w-sm mx-auto">This helps us send an agent closest to you.</p>
                 </div>
-
                 <div className="relative max-w-md mx-auto z-50" ref={dropdownRef}>
                   <div className="relative">
                     <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -192,6 +203,75 @@ const LandingPage2 = () => {
                     )}
                   </AnimatePresence>
                 </div>
+                <AnimatePresence>
+                  {noHubAlert && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="space-y-6 pt-4"
+                    >
+                      {/* No Hub Alert */}
+                      <div className="flex gap-3 bg-amber-50 border border-amber-100 rounded-2xl p-4 text-left">
+                        <div className="shrink-0 p-2 rounded-lg bg-amber-100 text-amber-600 h-fit">
+                          <FiAlertCircle size={20} />
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-bold text-amber-900">No hub in {selectedState} yet</h4>
+                          <p className="text-xs text-amber-800/80 leading-relaxed">
+                            We don't have a physical hub in this state, but you can still apply! 
+                            An agent will contact you within 72 hours for remote verification.
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Options */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button
+                          onClick={() => {
+                            setIsGuestGlobal(false);
+                            navigate("/register");
+                          }}
+                          className="group flex flex-col p-5 rounded-2xl bg-emerald-600 text-white shadow-xl shadow-emerald-900/20 text-left transition-all hover:translate-y-[-2px]"
+                        >
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="p-2 rounded-lg bg-white/20">
+                              <FiUserPlus size={18} />
+                            </div>
+                            <h3 className="text-sm font-bold uppercase tracking-wider">Create Account</h3>
+                          </div>
+                          <p className="text-[10px] text-white/70 leading-relaxed mb-4">
+                            Track application, repayment history.
+                          </p>
+                          <div className="mt-auto flex items-center gap-2 text-[10px] font-bold tracking-widest pt-2 group-hover:gap-3 transition-all duration-300">
+                            Get Started <FiArrowRight />
+                          </div>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setIsGuestGlobal(true);
+                            navigate("/apply/hub");
+                          }}
+                          className="group flex flex-col p-5 rounded-2xl bg-white border border-gray-200 text-gray-900 hover:bg-gray-50 transition-all hover:translate-y-[-2px] text-left shadow-sm"
+                        >
+                          <div className="flex items-center gap-3 mb-3">
+                            <div className="p-2 rounded-lg bg-emerald-100 text-emerald-600">
+                              <FiUser size={18} />
+                            </div>
+                            <h3 className="text-sm font-bold uppercase tracking-wider">Continue as Guest</h3>
+                          </div>
+                          <p className="text-[10px] text-gray-500 leading-relaxed mb-4">
+                            Apply without creating an account.
+                          </p>
+                          <div className="mt-auto flex items-center gap-2 text-[10px] font-bold tracking-widest pt-2 text-emerald-600 group-hover:gap-3 transition-all duration-300">
+                            Explore Now <FiArrowRight />
+                          </div>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
 
               </motion.div>
