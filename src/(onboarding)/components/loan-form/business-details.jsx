@@ -212,7 +212,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         </div>
 
         <CustomSelectGroup 
-          label="What kind of business are you into?" 
+          label="What is the nature of your business?" 
           value={data.businessType} 
           isOpen={isBusinessTypeOpen}
           onToggle={() => setIsBusinessTypeOpen((prev) => !prev)}
