@@ -506,8 +506,10 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               value={data.idNumber} 
               onChange={(e) => {
                 const val = e.target.value.replace(/\D/g, ''); // Numbers only
-                onChange('idNumber', val);
-                if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
+                if (val.length <= 11) {
+                  onChange('idNumber', val);
+                  if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
+                }
               }}
               error={errors.idNumber}
               placeholder="Enter ID number"

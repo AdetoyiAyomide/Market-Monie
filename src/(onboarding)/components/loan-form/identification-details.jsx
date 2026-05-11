@@ -93,8 +93,11 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               label="ID Number" 
               value={data.idNumber} 
               onChange={(e) => {
-                onChange('idNumber', e.target.value);
-                setErrors(prev => ({ ...prev, idNumber: false }));
+                const value = e.target.value.replace(/\D/g, ""); // Only allow digits
+                if (value.length <= 11) {
+                  onChange('idNumber', value);
+                  setErrors(prev => ({ ...prev, idNumber: false }));
+                }
               }}
               placeholder="Enter ID number"
               error={errors.idNumber}
