@@ -14,7 +14,7 @@ const Loan = () => {
     const [error, setError] = useState(false);
     
     const isFormValid =
-    loanAmount.replace(/\D/g, "").length > 0 &&
+    loanAmount.length > 0 && !isNaN(parseFloat(loanAmount)) &&
     bankName &&
     accountNumber.length === 10 &&
   accountName.trim().length > 0;
@@ -61,13 +61,16 @@ const currentStep = 7;
                    <input
                     type="text"
                     id="loanAmount"
-                    value={formatCurrency(loanAmount)}
-                    onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      loanAmount: e.target.value.replace(/\D/g, "")
-                    })
-                    }
+                    value={loanAmount}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/[^0-9.]/g, "");
+                      const parts = value.split('.');
+                      const sanitizedValue = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : value;
+                      setFormData({
+                        ...formData,
+                        loanAmount: sanitizedValue
+                      });
+                    }}
                     placeholder="Enter amount"
                     className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors"/>
                     <div className='flex flex-wrap gap-2 text-sm font-light text-slate-600'>

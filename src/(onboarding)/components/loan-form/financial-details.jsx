@@ -50,10 +50,15 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
           <div className="relative group">
             <input
               type="text"
-              inputMode="numeric"
+              inputMode="decimal"
               value={data.loanAmount}
-              onChange={(e) => onChange('loanAmount', e.target.value.replace(/\D/g, ''))}
-              placeholder="e.g. 100,000"
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9.]/g, '');
+                const parts = value.split('.');
+                const sanitizedValue = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : value;
+                onChange('loanAmount', sanitizedValue);
+              }}
+              placeholder="e.g. 100,000.00"
               className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-bold text-lg ${
                 data.loanAmount 
                   ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
