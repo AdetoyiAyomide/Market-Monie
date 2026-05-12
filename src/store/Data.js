@@ -1,4 +1,7 @@
 export let selectedStateGlobal = "";
+export let selectedLgaGlobal = "";
+export let selectedTownGlobal = "";
+export let selectedAreaGlobal = "";
 export let selectedHubGlobal = "";
 export let isNoHubStateGlobal = false;
 export let isGuestGlobal = false;
@@ -6,6 +9,18 @@ export let applicationModeGlobal = "";
 
 export const setSelectedStateGlobal = (state) => {
   selectedStateGlobal = state;
+};
+
+export const setSelectedLgaGlobal = (lga) => {
+  selectedLgaGlobal = lga;
+};
+
+export const setSelectedTownGlobal = (town) => {
+  selectedTownGlobal = town;
+};
+
+export const setSelectedAreaGlobal = (area) => {
+  selectedAreaGlobal = area;
 };
 
 export const setSelectedHubGlobal = (hub) => {

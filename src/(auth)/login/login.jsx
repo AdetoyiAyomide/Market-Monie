@@ -25,7 +25,7 @@ const Login = () => {
   return (
     <div>
       <div className="hidden sm:block text-left font-poppins">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Welcome Back
         </h2>
         <p className="mt-2 text-xs sm:text-sm text-gray-600">
@@ -39,7 +39,7 @@ const Login = () => {
       <div className="mt-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900 dark:text-white">
               Phone Number
             </label>
             <div className="mt-2 relative">
@@ -49,7 +49,7 @@ const Login = () => {
               <input
                 {...register("phone")}
                 type="tel"
-                className="block w-full rounded-lg border-0 py-3.5 pl-[88px] pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className="block w-full rounded-lg border-0 py-3.5 pl-[88px] pr-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 dark:bg-black dark:text-white dark:placeholder-white"
                 placeholder="812 345 6789"
               />
               {errors.phone && (
@@ -59,14 +59,14 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+            <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900 dark:text-white">
               Password
             </label>
             <div className="mt-2 relative">
               <input
                 {...register("password")}
                 type={showPassword ? "text" : "password"}
-                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50"
+                className="block w-full rounded-lg border-0 py-3.5 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 dark:bg-black dark:text-white dark:placeholder-white"
                 placeholder="••••••••"
               />
               <button
@@ -89,7 +89,7 @@ const Login = () => {
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
               />
-              <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-700">
+              <label htmlFor="remember-me" className="ml-3 block text-sm leading-6 text-gray-700 dark:text-white">
                 Remember Me
               </label>
             </div>

@@ -9,6 +9,9 @@ import ApplicationSuccess from "./components/loan-form/success-screen";
 import {
   isGuestGlobal,
   selectedStateGlobal,
+  selectedLgaGlobal,
+  selectedTownGlobal,
+  selectedAreaGlobal,
   selectedHubGlobal,
   setIsGuestGlobal,
 } from "../store/Data";
@@ -81,8 +84,9 @@ const LoanApplication = () => {
     // Step 4: Business
     businessName: "",
     businessState: selectedStateGlobal || location.state?.state || "",
-    businessLga: "",
-    businessArea: "",
+    businessLga: selectedLgaGlobal || "",
+    businessTown: selectedTownGlobal || "",
+    businessArea: selectedAreaGlobal || "",
     businessType: "",
     otherBusiness: "",
     businessYears: "",

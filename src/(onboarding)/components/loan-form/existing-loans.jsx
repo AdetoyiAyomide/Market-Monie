@@ -52,10 +52,10 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
       {data.hasExistingLoan === null ? (
         <>
           <div className="hidden sm:block text-left font-poppins">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                Existing Loans
             </h2>
-            <p className="mt-2 text-gray-500 text-sm">
+            <p className="mt-2 text-gray-500 dark:text-white text-sm">
               Are you currently paying back any loan to another bank or lender?
             </p>
           </div>
@@ -63,14 +63,14 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
           <div className="mt-3 flex gap-4">
             <button
               onClick={() => handleToggle(true)}
-              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
+              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 dark:text-white hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
             >
               <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">Yes</span>
               <span className="block text-[10px] font-medium opacity-50 tracking-widest">I Have Other Loans</span>
             </button>
             <button
               onClick={() => handleToggle(false)}
-              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
+              className="flex-1 py-6 rounded-2xl border-2 border-gray-100 text-gray-400 dark:text-white hover:border-emerald-200 hover:text-emerald-700 hover:bg-emerald-50/30 transition-all font-bold group"
             >
               <span className="block text-lg mb-1 group-hover:scale-110 transition-transform">No</span>
               <span className="block text-[10px] font-medium opacity-50 tracking-widest">No Active Loans</span>
@@ -83,10 +83,10 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
             <FiArrowLeft /> BACK TO SELECTION
           </div>
           <div className="hidden sm:block text-left font-poppins">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                Credit History Details
             </h2>
-            <p className="mt-2 text-gray-500 text-sm">
+            <p className="mt-2 text-gray-500 dark:text-white text-sm">
               Please provide details about all your active existing loan(s).
             </p>
           </div>
@@ -175,8 +175,8 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
           <div className="h-20 w-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6 shadow-inner">
             <FiCheckCircle size={40} />
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">No Active Loans</h2>
-          <p className="text-xs sm:text-sm text-gray-500 text-center max-w-[240px]">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No Active Loans</h2>
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-white text-center max-w-[240px]">
             You've marked that you do not have any existing loans to repay.
           </p>
           
@@ -193,7 +193,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
       <div className="flex gap-4 mt-12 border-t border-gray-100 pt-8">
         <button
           onClick={onBack}
-          className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
+          className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 dark:text-white hover:bg-gray-50 transition-all font-poppins"
         >
           Back
         </button>
@@ -211,7 +211,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, placeholder }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400 dark:text-white'}`}>
       {label}
     </label>
     <div className="relative group">
@@ -220,7 +220,7 @@ const InputGroup = ({ label, value, onChange, placeholder }) => (
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
           value 
             ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
             : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
@@ -237,7 +237,7 @@ const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputC
 
   return (
     <div className="space-y-2" ref={dropdownRef}>
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400'}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400 dark:text-white'}`}>
         {label}
       </label>
       <div className="relative group">
@@ -249,19 +249,19 @@ const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputC
           onChange={onInputChange}
           disabled={disabled}
           placeholder={disabled ? "Loading..." : placeholder || `Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-11 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
             disabled 
-              ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+              ? "opacity-50 grayscale cursor-not-allowed border-gray-100 dark:border-gray-800" 
               : value
                 ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                 : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         />
-        <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+        <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 dark:text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
           {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
         </div>
         {isOpen && !disabled && (
-          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl max-h-56 overflow-y-auto py-2">
+          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-50 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-black shadow-xl max-h-56 overflow-y-auto py-2">
             <ul>
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((opt) => (
@@ -276,7 +276,7 @@ const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputC
                   </li>
                 ))
               ) : (
-                <li className="px-4 py-3 text-sm text-gray-400">No results found</li>
+                <li className="px-4 py-3 text-sm text-gray-400 dark:text-white">No results found</li>
               )}
             </ul>
           </div>

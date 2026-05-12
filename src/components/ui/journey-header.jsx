@@ -37,7 +37,7 @@ const JourneyHeader = ({ activeStep, orientation = "horizontal" }) => {
                   isActive
                     ? "bg-white text-emerald-700 shadow-lg shadow-emerald-100/50 ring-1 ring-emerald-100"
                     : isCompleted
-                      ? "bg-emerald-50/50 text-emerald-600 opacity-60"
+                      ? "bg-emerald-50/50 dark:bg-emerald-50/100 text-emerald-600 opacity-60"
                       : "text-gray-300"
                 }`}
               >

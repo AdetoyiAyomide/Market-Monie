@@ -24,7 +24,7 @@ const FormHeader = () => {
       <div className='flex gap-4 w-full items-center justify-between text-sm'>
         <button 
           onClick={() => navigate(-1)}
-          className="p-2 text-gray-500 hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition shrink-0"
+          className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition shrink-0"
         >
           <FaArrowLeft />
         </button>
@@ -48,7 +48,7 @@ const FormHeader = () => {
                 className={`relative z-10 flex flex-col items-center rounded-xl p-2 transition-all duration-300 ${
                   isActive
                     ? "text-green-800 font-bold bg-white shadow-sm"
-                    : "text-slate-500 hover:text-slate-700 hover:bg-slate-300/50"
+                    : "text-slate-500 dark:text-white hover:text-slate-700 hover:bg-slate-300/50"
                 }`}
               >
                 <span className="text-lg mb-0.5">{step.icon}</span>

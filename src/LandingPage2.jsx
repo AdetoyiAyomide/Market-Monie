@@ -3,28 +3,43 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FiArrowRight, FiArrowLeft, FiMapPin, FiHome, FiUser, FiUserPlus,
-  FiSearch, FiCheckCircle, FiAlertCircle
+  FiSearch, FiCheckCircle, FiAlertCircle, FiMap
 } from "react-icons/fi";
 import {
   locations, branchAddresses, setSelectedStateGlobal, setSelectedHubGlobal,
-  setNoHubStateGlobal, setIsGuestGlobal
+  setNoHubStateGlobal, setIsGuestGlobal, setSelectedLgaGlobal, setSelectedAreaGlobal,
+  setSelectedTownGlobal
 } from "./store/Data";
+import { stateLgaMapping } from "./store/LgaData";
 
 const LandingPage2 = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1); // 1: State, 2: Hub/No Hub Alert + Options, 3: Options (if Hub selected)
+  const [step, setStep] = useState(1); // 1: Location (State + LGA + Town + Area), 2: Hub/No Hub Alert + Options, 3: Options (if Hub selected)
   const [selectedState, setSelectedState] = useState("");
+  const [selectedLga, setSelectedLga] = useState("");
+  const [selectedTown, setSelectedTown] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
   const [selectedHub, setSelectedHub] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLgaDropdownOpen, setIsLgaDropdownOpen] = useState(false);
   const [isHubDropdownOpen, setIsHubDropdownOpen] = useState(false);
   const [noHubAlert, setNoHubAlert] = useState(false);
   const dropdownRef = useRef(null);
+  const lgaDropdownRef = useRef(null);
   const hubDropdownRef = useRef(null);
 
 
   const filteredStates = locations.filter(state =>
     state.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const availableLgas = useMemo(() => {
+    return selectedState ? stateLgaMapping[selectedState] || [] : [];
+  }, [selectedState]);
+
+  const filteredLgas = availableLgas.filter(lga =>
+    lga.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const availableHubs = useMemo(() => {
@@ -43,8 +58,31 @@ const LandingPage2 = () => {
   const handleStateSelect = (state) => {
     setSelectedState(state);
     setSelectedStateGlobal(state);
+    setSelectedLga(""); // Reset LGA when state changes
+    setSelectedLgaGlobal("");
+    setSelectedTown("");
+    setSelectedTownGlobal("");
+    setSelectedArea("");
+    setSelectedAreaGlobal("");
     setSelectedHub(""); // Reset hub selection when state changes
-    const hubs = branchAddresses[state] || [];
+    setSearchQuery("");
+    setIsDropdownOpen(false);
+    // Stay on step 1 to show LGA selection
+  };
+
+  const handleLgaSelect = (lga) => {
+    setSelectedLga(lga);
+    setSelectedLgaGlobal(lga);
+    setIsLgaDropdownOpen(false);
+    setSearchQuery("");
+    // Stay on step 1 to show Town input
+  };
+
+  const handleLocationContinue = () => {
+    setSelectedTownGlobal(selectedTown);
+    setSelectedAreaGlobal(selectedArea);
+    
+    const hubs = branchAddresses[selectedState] || [];
 
     if (hubs.length > 0) {
       setNoHubAlert(false);
@@ -55,8 +93,7 @@ const LandingPage2 = () => {
       setSelectedHub("No Hub (Remote)");
       setSelectedHubGlobal("No Hub (Remote)");
     }
-    setSearchQuery("");
-    setStep(2);
+    setStep(2); // Move to Hub selection or No Hub alert
   };
 
   const handleHubSelect = (hub) => {
@@ -80,6 +117,9 @@ const LandingPage2 = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
+      if (lgaDropdownRef.current && !lgaDropdownRef.current.contains(event.target)) {
+        setIsLgaDropdownOpen(false);
+      }
       if (hubDropdownRef.current && !hubDropdownRef.current.contains(event.target)) {
         setIsHubDropdownOpen(false);
       }
@@ -95,7 +135,7 @@ const LandingPage2 = () => {
       setSelectedHub("");
     } else if (step === 2) {
       setStep(1);
-      setSelectedState("");
+      setSelectedLga("");
       setNoHubAlert(false);
     }
   };
@@ -105,16 +145,42 @@ const LandingPage2 = () => {
       <div className="text-center space-y-2">
         <div className="flex items-center justify-center gap-2 mb-2">
           <div className="h-[1px] w-8 bg-gray-100" />
-          <p className="text-gray-400 text-[9px] font-bold tracking-[0.2em] uppercase">
+          <p className="text-gray-400 dark:text-white text-[9px] font-bold tracking-[0.2em] uppercase">
             Final Step
           </p>
           <div className="h-[1px] w-8 bg-gray-100" />
         </div>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900">How would you like to proceed?</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">How would you like to proceed?</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto w-full px-2">
+       
         <motion.button
+          whileHover={{ y: -4, scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => {
+            setIsGuestGlobal(true);
+            navigate("/apply/hub");
+          }}
+          className="group relative overflow-hidden p-6 md:p-8 rounded-[2rem] bg-white border border-gray-100 text-gray-900 dark:text-white dark:bg-black text-left min-h-[160px] md:min-h-[240px] transition-all shadow-xl shadow-gray-200/50 flex flex-col justify-between"
+        >
+          <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
+            <FiUser size={48} />
+          </div>
+          <div className="relative z-10 space-y-4">
+            <div className="p-3 w-fit rounded-2xl bg-emerald-50 text-emerald-600">
+              <FiUser size={24} />
+            </div>
+            <div>
+              <h3 className="text-lg md:text-xl font-bold leading-tight dark:text-white">Continue as Guest</h3>
+              <p className="text-gray-500 dark:text-white text-xs md:text-sm mt-1 leading-relaxed max-w-[200px]">Apply without creating an account.</p>
+            </div>
+          </div>
+          <div className="relative z-10 flex items-center gap-2 text-[10px] font-bold tracking-widest text-emerald-600 group-hover:gap-3 transition-all duration-400">
+            EXPLORE NOW <FiArrowRight />
+          </div>
+        </motion.button>
+         <motion.button
           whileHover={{ y: -4, scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => {
@@ -131,8 +197,8 @@ const LandingPage2 = () => {
               <FiUserPlus size={24} />
             </div>
             <div>
-              <h3 className="text-lg md:text-xl font-bold leading-tight">Create Account</h3>
-              <p className="text-white/70 text-xs md:text-sm mt-1 leading-relaxed max-w-[200px]">Track your application and repayment history easily.</p>
+              <h3 className="text-lg md:text-xl font-bold leading-tight dark:text-white">Create Account</h3>
+              <p className="text-white/70 text-xs md:text-sm mt-1 leading-relaxed max-w-[200px]">Track Application, View Repayment History, Access Your Dashboard</p>
             </div>
           </div>
           <div className="relative z-10 flex items-center gap-2 text-[10px] font-bold tracking-widest group-hover:gap-3 transition-all duration-400">
@@ -140,37 +206,12 @@ const LandingPage2 = () => {
           </div>
         </motion.button>
 
-        <motion.button
-          whileHover={{ y: -4, scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => {
-            setIsGuestGlobal(true);
-            navigate("/apply/hub");
-          }}
-          className="group relative overflow-hidden p-6 md:p-8 rounded-[2rem] bg-white border border-gray-100 text-gray-900 text-left hover:bg-gray-50/50 min-h-[160px] md:min-h-[240px] transition-all shadow-xl shadow-gray-200/50 flex flex-col justify-between"
-        >
-          <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
-            <FiUser size={48} />
-          </div>
-          <div className="relative z-10 space-y-4">
-            <div className="p-3 w-fit rounded-2xl bg-emerald-50 text-emerald-600">
-              <FiUser size={24} />
-            </div>
-            <div>
-              <h3 className="text-lg md:text-xl font-bold leading-tight">Continue as Guest</h3>
-              <p className="text-gray-500 text-xs md:text-sm mt-1 leading-relaxed max-w-[200px]">Apply quickly without creating a permanent account.</p>
-            </div>
-          </div>
-          <div className="relative z-10 flex items-center gap-2 text-[10px] font-bold tracking-widest text-emerald-600 group-hover:gap-3 transition-all duration-400">
-            EXPLORE NOW <FiArrowRight />
-          </div>
-        </motion.button>
       </div>
 
       <div className="text-center pt-8">
         <button
           onClick={handleBack}
-          className="group inline-flex items-center gap-2 text-gray-400 text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-all uppercase"
+          className="group inline-flex items-center gap-2 text-gray-400 dark:text-white text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-all uppercase"
         >
           <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Go Back
         </button>
@@ -179,11 +220,11 @@ const LandingPage2 = () => {
   );
 
   return (
-    <div className="relative min-h-screen w-full bg-white text-gray-900 font-poppins overflow-hidden">
+    <div className="relative min-h-screen w-full bg-white dark:bg-black text-gray-900 dark:text-white font-poppins overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-50 blur-[120px] rounded-full hidden md:block" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-gray-50 blur-[120px] rounded-full hidden md:block" />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-50 dark:bg-emerald-200 blur-[120px] rounded-full hidden md:block" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-gray-50 dark:bg-gray-200 blur-[120px] rounded-full hidden md:block" />
         <div
           className="absolute inset-0 opacity-[0.05] pointer-events-none"
           style={{
@@ -214,7 +255,7 @@ const LandingPage2 = () => {
                 />
               ))}
             </div>
-            <span className="text-[10px] tracking-widest font-bold text-gray-400">Step 0{step} / 0{noHubAlert ? '2' : '3'}</span>
+            <span className="text-[10px] tracking-widest font-bold text-gray-400 dark:text-white">Step 0{step} / 0{noHubAlert ? '2' : '3'}</span>
           </div>
         </header>
 
@@ -227,60 +268,173 @@ const LandingPage2 = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="w-full space-y-4"
+                className="w-full space-y-6"
               >
                 <div className="text-center space-y-2 mt-5">
-                  <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900">Select
-                    the state where your <span className="text-emerald-500">business</span> operates</h1>
-                  <p className="text-gray-500 text-xs md:text-sm max-w-sm mx-auto">This helps us send an agent closest to you.</p>
+                  <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Start your <span className="text-emerald-500">business</span> journey</h1>
+                  <p className="text-gray-500 dark:text-white text-xs md:text-sm max-w-sm mx-auto">Tell us where your business is located so we can schedule a quick business survey.</p>
                 </div>
-                <div className="relative max-w-md mx-auto z-50" ref={dropdownRef}>
-                  <div className="relative">
-                    <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Search or Select State..."
-                      value={searchQuery || (selectedState && !isDropdownOpen ? selectedState : "")}
-                      onFocus={() => {
-                        setIsDropdownOpen(true);
-                      }}
-                      onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                        setIsDropdownOpen(true);
-                      }}
-                      className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 text-gray-900 shadow-sm"
-                    />
+
+                <div className="max-w-md mx-auto space-y-6">
+                  {/* State Selection */}
+                  <div className="relative z-[60]" ref={dropdownRef}>
+                    <div className="relative">
+                      <FiMap className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedState ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
+                      <input
+                        type="text"
+                        placeholder="Search or Select State..."
+                        value={isDropdownOpen ? searchQuery : (selectedState || "")}
+                        onFocus={() => {
+                          setIsDropdownOpen(true);
+                          setSearchQuery("");
+                        }}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          setIsDropdownOpen(true);
+                        }}
+                        className={`w-full bg-gray-50 dark:bg-black border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all dark:placeholder:text-white dark:text-white placeholder:text-gray-400 dark:text-white text-gray-900 dark:text-white shadow-sm font-medium ${isDropdownOpen ? 'border-emerald-500 ring-4 ring-emerald-500/5' : 'border-gray-100'}`}
+                      />
+                    </div>
+
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute mt-1 w-full bg-white dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden max-h-[250px] overflow-y-auto custom-scrollbar z-[70]"
+                        >
+                          {filteredStates.length > 0 ? (
+                            <div className="p-2 space-y-1">
+                              {filteredStates.map((state) => (
+                                <button
+                                  key={state}
+                                  onClick={() => handleStateSelect(state)}
+                                  className="w-full text-left p-3 rounded-xl hover:bg-emerald-500/10 hover:text-emerald-500 transition-all group flex justify-between items-center"
+                                >
+                                  <span className={`font-medium transition-colors ${selectedState === state ? 'text-emerald-500' : 'text-gray-600 dark:text-white'} group-hover:text-emerald-500`}>{state}</span>
+                                  {selectedState === state && <FiCheckCircle className="text-emerald-500" />}
+                                </button>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="p-8 text-center text-gray-300 italic text-sm">
+                              No states found matching "{searchQuery}"
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
+                  {/* LGA Selection - Appears under state */}
                   <AnimatePresence>
-                    {isDropdownOpen && (
+                    {selectedState && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute mt-1 w-full bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden max-h-[300px] overflow-y-auto custom-scrollbar"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-4"
                       >
-                        {filteredStates.length > 0 ? (
-                          <div className="p-2 space-y-1">
-                            {filteredStates.map((state) => (
-                              <button
-                                key={state}
-                                onClick={() => {
-                                  handleStateSelect(state);
-                                  setIsDropdownOpen(false);
-                                }}
-                                className="w-full text-left p-4 rounded-xl hover:bg-emerald-500/10 hover:text-emerald-500 transition-all group flex justify-between items-center"
+                        <div className="space-y-4 relative z-50" ref={lgaDropdownRef}>
+                          <label className="text-[10px] font-bold text-emerald-600 dark:text-white tracking-widest ml-1 uppercase">Local Government Area</label>
+                          <div className="relative">
+                            <FiMapPin className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedLga ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
+                            <input
+                              type="text"
+                              placeholder="Select LGA..."
+                              value={isLgaDropdownOpen ? searchQuery : (selectedLga || "")}
+                              onFocus={() => {
+                                setIsLgaDropdownOpen(true);
+                                setSearchQuery("");
+                              }}
+                              onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                setIsLgaDropdownOpen(true);
+                              }}
+                              className={`w-full bg-gray-50 dark:bg-black border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white dark:text-white text-gray-900 dark:text-white shadow-sm font-medium ${isLgaDropdownOpen ? 'border-emerald-500 ring-4 ring-emerald-500/5' : 'border-gray-100'}`}
+                            />
+                          </div>
+
+                          <AnimatePresence>
+                            {isLgaDropdownOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                className="absolute mt-1 w-full bg-white dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden max-h-[250px] overflow-y-auto custom-scrollbar z-[70]"
                               >
-                                <span className={`font-medium transition-colors ${selectedState === state ? 'text-emerald-500' : 'text-gray-600'} group-hover:text-emerald-500`}>{state}</span>
-                                <FiArrowRight className={`transition-all ${selectedState === state ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} text-emerald-500`} />
+                                {filteredLgas.length > 0 ? (
+                                  <div className="p-2 space-y-1">
+                                    {filteredLgas.map((lga) => (
+                                      <button
+                                        key={lga}
+                                        onClick={() => handleLgaSelect(lga)}
+                                        className="w-full text-left p-3 rounded-xl hover:bg-emerald-500/10 hover:text-emerald-500 transition-all group flex justify-between items-center"
+                                      >
+                                        <span className={`font-medium transition-colors ${selectedLga === lga ? 'text-emerald-500' : 'text-gray-600 dark:text-white'} group-hover:text-emerald-500`}>{lga}</span>
+                                        {selectedLga === lga && <FiCheckCircle className="text-emerald-500" />}
+                                      </button>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <div className="p-8 text-center text-gray-300 italic text-sm">
+                                    No LGAs found matching "{searchQuery}"
+                                  </div>
+                                )}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+
+                        {/* Town/City Selection - Appears after LGA */}
+                        <AnimatePresence>
+                          {selectedLga && (
+                            <motion.div
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="space-y-4"
+                            >
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-bold text-emerald-600 dark:text-white tracking-widest ml-1 uppercase">Town / City</label>
+                                <div className="relative">
+                                  <FiHome className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedTown ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
+                                  <input
+                                    type="text"
+                                    placeholder="e.g. Uyo or Onitsha"
+                                    value={selectedTown}
+                                    onChange={(e) => setSelectedTown(e.target.value)}
+                                    className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="space-y-4">
+                                <label className="text-[10px] font-bold text-emerald-600 dark:text-white tracking-widest ml-1 uppercase flex items-center gap-1.5">
+                                  Area / Street Name <span className="text-gray-400 dark:text-white lowercase font-medium">(Optional)</span>
+                                </label>
+                                <div className="relative">
+                                  <FiMapPin className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedArea ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
+                                  <input
+                                    type="text"
+                                    placeholder="e.g. Market Road, Ojota"
+                                    value={selectedArea}
+                                    onChange={(e) => setSelectedArea(e.target.value)}
+                                    className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
+                                  />
+                                </div>
+                              </div>
+
+                              <button
+                                onClick={handleLocationContinue}
+                                disabled={!selectedTown}
+                                className="w-full bg-emerald-600 text-white rounded-2xl py-4 font-bold shadow-xl dark:shadow-none dark:hover:shadow-md shadow-emerald-200/50 hover:bg-emerald-500 transition-all disabled:opacity-50 disabled:grayscale flex items-center justify-center gap-2 group mt-4"
+                              >
+                                Find Nearest Hub
+                                <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                               </button>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="p-8 text-center text-gray-300 italic text-sm">
-                            No states found matching "{searchQuery}"
-                          </div>
-                        )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -303,10 +457,9 @@ const LandingPage2 = () => {
                         <FiAlertCircle size={28} />
                       </div>
                       <div className="space-y-2">
-                        <h4 className="text-lg font-bold text-amber-900">No hub in {selectedState} yet</h4>
+                        <h4 className="text-lg font-bold text-amber-900 dark:text-amber-600">No hub in {selectedState} yet</h4>
                         <p className="text-sm md:text-base text-amber-800/80 leading-relaxed">
-                          We don't have a physical hub in this state, but you can still apply! 
-                          An agent will contact you within 5 working days to facilitate your request.
+                          We currently do not have a Market Monie Agent in your location.  You can continue with your application, and we will notify you once an agent is available near you.
                         </p>
                       </div>
                     </div>
@@ -315,24 +468,26 @@ const LandingPage2 = () => {
                 ) : (
                   <div className="space-y-6">
                     <div className="text-center space-y-2">
-                      <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">Choose a <span className="text-emerald-500">Hub</span></h2>
-                      <p className="text-gray-500 text-center text-xs md:text-sm max-w-sm mx-auto">Select the Market Monie office closest to your business in {selectedState}.</p>
+                      <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Choose a <span className="text-emerald-500">Hub</span></h2>
+                      <p className="text-gray-500 dark:text-white text-center text-xs md:text-sm max-w-sm mx-auto">Select the Market Monie office closest to your business in {selectedLga}, {selectedState}.</p>
                     </div>
 
                     <div className="relative max-w-md mx-auto z-40" ref={hubDropdownRef}>
                       <div className="relative">
-                        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
                         <input
                           type="text"
                           placeholder="Search or Select Hub..."
-                          value={searchQuery || (selectedHub && !isHubDropdownOpen ? selectedHub : "")}
-                          onFocus={() => setIsHubDropdownOpen(true)}
+                          value={isHubDropdownOpen ? searchQuery : (selectedHub || "")}
+                          onFocus={() => {
+                            setIsHubDropdownOpen(true);
+                            setSearchQuery("");
+                          }}
                           onChange={(e) => {
                             setSearchQuery(e.target.value);
-                            if (!isHubDropdownOpen) setIsHubDropdownOpen(true);
-                            if (selectedHub) setSelectedHub("");
+                            setIsHubDropdownOpen(true);
                           }}
-                          className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 text-gray-900 font-medium shadow-sm"
+                          className={`w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 dark:text-white dark:placeholder:text-white dark:text-white text-gray-900 dark:text-white font-medium shadow-sm`}
                         />
                       </div>
 
@@ -342,7 +497,7 @@ const LandingPage2 = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.98 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                            className="absolute mt-1 w-full bg-white border border-gray-100 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden max-h-[300px] overflow-y-auto custom-scrollbar z-[100]"
+                            className="absolute mt-1 w-full bg-white dark:bg-black border border-gray-100 dark:border-gray-800 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden max-h-[300px] overflow-y-auto custom-scrollbar z-[100]"
                           >
                             {filteredHubs.length > 0 ? (
                               <div className="p-3 grid grid-cols-1 gap-2">
@@ -356,12 +511,12 @@ const LandingPage2 = () => {
                                     }}
                                     className="group flex items-center gap-4 p-4 rounded-2xl bg-gray-50/50 border border-gray-100 text-left hover:border-emerald-500/30 hover:bg-emerald-50 transition-all"
                                   >
-                                    <div className={`p-2 rounded-xl transition-all ${selectedHub === hub.name ? 'bg-emerald-500 text-white' : 'bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white'}`}>
+                                    <div className={`p-2 rounded-xl transition-all ${selectedHub === hub.name ? 'bg-emerald-500 text-white' : 'bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white '}`}>
                                       <FiMapPin size={20} />
                                     </div>
                                     <div className="flex-1">
-                                      <p className={`font-medium leading-snug transition-colors ${selectedHub === hub.name ? 'text-emerald-500' : 'text-gray-700'} group-hover:text-emerald-500`}>{hub.name}</p>
-                                      <p className="text-gray-400 text-[10px] font-bold tracking-wider uppercase">Business Center</p>
+                                      <p className={`font-medium leading-snug transition-colors ${selectedHub === hub.name ? 'text-emerald-500' : 'text-gray-700 dark:text-white'} group-hover:text-emerald-500`}>{hub.name}</p>
+                                      <p className="text-gray-400 dark:text-white dark:group-hover:text-black text-[10px] font-bold tracking-wider uppercase">Business Center</p>
                                     </div>
                                     <FiArrowRight className={`transition-all ${selectedHub === hub.name ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} text-emerald-500`} />
                                   </button>
@@ -370,7 +525,7 @@ const LandingPage2 = () => {
                             ) : (
                               <div className="p-10 text-center space-y-2">
                                 <div className="text-gray-200 flex justify-center"><FiSearch size={32} /></div>
-                                <p className="text-gray-400 italic text-sm">No hubs found matching "{searchQuery}"</p>
+                                <p className="text-gray-400 dark:text-white italic text-sm">No hubs found matching "{searchQuery}"</p>
                               </div>
                             )}
                           </motion.div>
@@ -381,9 +536,9 @@ const LandingPage2 = () => {
                     <div className="text-center pt-4">
                       <button
                         onClick={handleBack}
-                        className="text-gray-400 text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-colors uppercase flex items-center justify-center gap-2 mx-auto"
+                        className="text-gray-400 dark:text-white text-[10px] font-bold tracking-widest hover:text-emerald-600 transition-colors uppercase flex items-center justify-center gap-2 mx-auto"
                       >
-                        <FiArrowLeft /> Change State
+                        <FiArrowLeft /> Change Location
                       </button>
                     </div>
                   </div>
@@ -407,7 +562,7 @@ const LandingPage2 = () => {
 
         {/* Footer */}
         <footer className="mt-auto pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-6 text-[10px] font-bold tracking-widest text-gray-400">
+          <div className="flex items-center gap-6 text-[10px] font-bold tracking-widest text-gray-400 dark:text-white">
             <span>© 2026 Market Monie</span>
             <span className="hidden md:inline">|</span>
             <span className="hover:text-emerald-500 cursor-pointer transition-colors uppercase">Safety Center</span>
@@ -420,7 +575,7 @@ const LandingPage2 = () => {
                 <div key={i} className="h-6 w-6 rounded-full border-2 border-white bg-gray-100" />
               ))}
             </div>
-            <span className="text-[10px] font-bold text-gray-400 tracking-tighter uppercase">Trusted by 50k+ entrepreneurs</span>
+            <span className="text-[10px] font-bold text-gray-400 dark:text-white tracking-tighter uppercase">Trusted by 50k+ entrepreneurs</span>
           </div>
         </footer>
       </div>

@@ -71,7 +71,7 @@ const isOtpComplete = otp.every(d => d !== "");
         <div className='rounded-2xl bg-white border border-white w-full max-w-2xl flex flex-col items-center gap-5 p-6 shadow-sm'>
           <div className='w-full'><ProgressBar currentStep={3} totalSteps={8} /></div>
           <div className='flex self-start gap-2 items-center'>
-                <button onClick={() => navigate(-1)} className="p-2 text-gray-500 hover:text-green-600 text-xl hover:bg-slate-200 h-fit rounded-full transition">
+                <button onClick={() => navigate(-1)} className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl hover:bg-slate-200 h-fit rounded-full transition">
                       <FaArrowLeft />
                     </button>
                <div className='flex gap-2 '>
@@ -79,60 +79,59 @@ const isOtpComplete = otp.every(d => d !== "");
                       <FaRegUserCircle className='text-green-800 text-2xl' />
                   </div>
                   <div>
-                    <h1 className='font-semibold'>Create your account</h1>
-                    <p className='text-slate-400 text-sm'>Fill in your details below</p>
+                    <h1 className='font-semibold dark:text-white'>Create your account</h1>
+                    <p className='text-slate-400 dark:text-white text-sm'>Fill in your details below</p>
                   </div>
                </div>
               </div>
 
                     <div className='flex flex-col gap-2 w-full'>
-                        <label htmlFor="lastName">Full Name <span className='text-red-500'>*</span></label>
-                        <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} id="lastName" required  placeholder='e.g Amara Okafor' className='border border-gray-300 rounded-lg p-2 outline-none' />
+                        <label htmlFor="lastName" className="dark:text-white">Full Name <span className='text-red-500'>*</span></label>
+                        <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} id="lastName" required  placeholder='e.g Amara Okafor' className='border border-gray-300 rounded-lg p-2 outline-none dark:bg-black dark:text-white dark:placeholder-white' />
                     </div>
                 <div className='flex flex-col gap-2 items-start justify-start w-full '>
-                    <label htmlFor="phoneNumber">Phone Number <span className='text-red-500'>*</span></label>
+                    <label htmlFor="phoneNumber" className="dark:text-white">Phone Number <span className='text-red-500'>*</span></label>
                     <div className='flex items-center border border-gray-300 rounded-lg w-full'>
-                        <span className='p-2 bg-slate-100 border-r border-gray-300 text-slate-500 rounded-l-lg text-sm'>+234(0)</span>
-                        <input type="text" id="phoneNumber" value={phone} onChange={(e) => {const value = e.target.value.replace(/\D/g, "").slice(0, 10); setPhone(value);}} required  placeholder='Phone Number' className='p-2 w-full rounded-r-lg outline-none text-sm' maxLength={10} />
+                        <span className='p-2 bg-slate-100 border-r border-gray-300 text-slate-500 dark:text-white rounded-l-lg text-sm'>+234(0)</span>
+                        <input type="text" id="phoneNumber" value={phone} onChange={(e) => {const value = e.target.value.replace(/\D/g, "").slice(0, 10); setPhone(value);}} required  placeholder='Phone Number' className='p-2 w-full rounded-r-lg outline-none text-sm dark:bg-black dark:text-white dark:placeholder-white' maxLength={10} />
                     </div>
                 </div>
 
                 <div className='flex flex-col gap-3 items-start justify-start w-full '>
-                    <label htmlFor="email">Email Address <span className='text-red-500'>*</span></label>
+                    <label htmlFor="email" className="dark:text-white">Email Address <span className='text-red-500'>*</span></label>
                     <input 
                       type="email" 
                       id="email" 
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder='you@example.com' 
-                      className={`border rounded-lg p-2 w-full outline-none transition-all ${email && !isEmailValid ? 'border-red-500 bg-red-50' : (email && isEmailValid ? 'border-green-500 bg-green-50' : 'border-gray-300')}`} 
+                      className={`border rounded-lg p-2 w-full outline-none transition-all dark:bg-black dark:text-white dark:placeholder-white ${email && !isEmailValid ? 'border-red-500 bg-red-50' : (email && isEmailValid ? 'border-green-500 bg-green-50' : 'border-gray-300')}`} 
                     />
                     {email && !isEmailValid && (<p className="text-xs text-red-500">Invalid email address</p>)}
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>
-                    <label htmlFor="password">Password <span className='text-red-500'>*</span></label>
+                    <label htmlFor="password" className="dark:text-white">Password <span className='text-red-500'>*</span></label>
                     <div className='w-full relative'>
-                      <input type={showPassword ? "text" : "password"} value={password} id='password' onChange={(e) => setPassword(e.target.value)} placeholder='Min. 6 characters' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className='absolute right-3 top-2.5 text-gray-500'>
+                      <input type={showPassword ? "text" : "password"} value={password} id='password' onChange={(e) => setPassword(e.target.value)} placeholder='Min. 6 characters' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none dark:bg-black dark:text-white dark:placeholder-white'/>
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className='absolute right-3 top-2.5 text-gray-500 dark:text-white'>
                       {showPassword ? <FiEyeOff /> : <MdOutlineRemoveRedEye />}
                     </button>
                     </div>
                     {password && password.length < 6 && (<p className="text-xs text-red-500">Password must be at least 6 characters long</p>)}       
                 </div>
                 <div className='flex flex-col gap-3 items-start justify-start w-full'>
-                    <label htmlFor="confirmPassword">Confirm Password <span className='text-red-500'>*</span></label>
+                    <label htmlFor="confirmPassword" className="dark:text-white">Confirm Password <span className='text-red-500'>*</span></label>
                     <div className='relative w-full'>
-                    <input type={showConfirmPassword ? "text" : "password"} id='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder='Re-enter your password' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none'/>
-                   <button type="button"  onClick={() => setShowConfirmPassword(!showConfirmPassword)} className='absolute right-3 top-2.5 text-gray-500'>
+                    <input type={showConfirmPassword ? "text" : "password"} id='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} placeholder='Re-enter your password' className='border border-gray-300 rounded-lg p-2 w-full pr-10 outline-none dark:bg-black dark:text-white dark:placeholder-white'/>
+                   <button type="button"  onClick={() => setShowConfirmPassword(!showConfirmPassword)} className='absolute right-3 top-2.5 text-gray-500 dark:text-white'>
                       {showConfirmPassword ? <FiEyeOff /> : <MdOutlineRemoveRedEye />}
                     </button>
                     {confirmPassword && confirmPassword !== password && (<p className="text-xs text-red-500">Passwords do not match</p>)}
                     </div>
                 </div>
 
-                <div className='flex text-sm gap-3 self-start'>
-                  <input type="checkbox" name="" id="" required/>
-                  <p>I agree to MarketMonie's {" "}<a href="" className='text-green-800'>Terms of service {" "}</a> and {" "}<a href="" className='text-green-800'>Privacy Policy</a></p>
+                <div className='flex text-xs text-slate-500 dark:text-white gap-3 self-start text-center w-full justify-center py-2'>
+                  <p>By clicking Create Account, you agree to MarketMonie's {" "}<a href="" className='text-green-800 font-semibold hover:underline'>Terms of service</a> and {" "}<a href="" className='text-green-800 font-semibold hover:underline'>Privacy Policy</a></p>
                 </div>
                 <div className='w-full'>
                    <button onClick={() => {if (isFormValid) {setIsOtpSent(true); setTimer(180);}}} className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium ${isFormValid ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer" : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
@@ -140,7 +139,7 @@ const isOtpComplete = otp.every(d => d !== "");
                   </button>
                 </div>
                 <div className='flex gap-1 text-md'>
-                  <p className='text-slate-400'>Already have an account?</p>
+                  <p className='text-slate-400 dark:text-white'>Already have an account?</p>
                   <button onClick={() => navigate("/login")} className='text-green-800 font-semibold hover:underline'>Login</button>
                 </div>
 
@@ -156,9 +155,9 @@ const isOtpComplete = otp.every(d => d !== "");
                         <FiMessageSquare className='text-green-800 text-2xl' />
                       </div>
 
-                      <h1 className='font-semibold'>Enter Verification Code</h1>
+                      <h1 className='font-semibold dark:text-white'>Enter Verification Code</h1>
 
-                      <p className='text-sm text-slate-500'>
+                      <p className='text-sm text-slate-500 dark:text-white'>
                         We sent a 6-digit code to {maskedPhone}
                       </p>
 
@@ -183,12 +182,12 @@ const isOtpComplete = otp.every(d => d !== "");
                             const newOtp = paste.split("");
                             setOtp(newOtp);
                               }}
-                            className='w-10 h-10 text-center border border-gray-300 rounded-md outline-none'/>
+                            className='w-10 h-10 text-center border border-gray-300 rounded-md outline-none dark:bg-black dark:text-white dark:placeholder-white'/>
                             ))}
                       </div>
 
                      {/* Timer / Resend */}
-                    <div className='text-sm text-slate-500'>
+                    <div className='text-sm text-slate-500 dark:text-white'>
                     {timer > 0 ? (
                       <p>Resend code in {formatTime(timer)}</p>
                       ) : (
@@ -200,7 +199,7 @@ const isOtpComplete = otp.every(d => d !== "");
                     <button onClick={() => navigate("/personal-details")} disabled={!isOtpComplete} className={`rounded-xl p-2.5 w-full ${isOtpComplete ? "bg-green-800 text-white hover:bg-green-900" : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
                       Verify
                     </button>
-                    <p className='text-slate-400 text-xs'>Didn't receive the code? Check your SMS inbox or try resending</p>
+                    <p className='text-slate-400 dark:text-white text-xs'>Didn't receive the code? Check your SMS inbox or try resending</p>
                     </div>
                   </div>
                 )}

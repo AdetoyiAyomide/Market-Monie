@@ -10,7 +10,7 @@ import { locationService } from "../../../services/locationService";
  */
 const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = false, error = null }) => (
   <div className="space-y-2">
-    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (value && !readOnly ? 'text-emerald-600' : 'text-gray-400')}`}>
+    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (value && !readOnly ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
       {label}
     </label>
     <div className="relative group">
@@ -20,9 +20,9 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
         onChange={onChange}
         readOnly={readOnly}
         placeholder={placeholder}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+        className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
           readOnly 
-            ? "bg-gray-100/80 text-gray-500 cursor-not-allowed border-gray-100" 
+            ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed border-gray-100" 
             : error 
               ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
               : value
@@ -42,7 +42,7 @@ const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isVal
   <select
     value={value}
     onChange={onChange}
-    className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
+    className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white px-4 py-4 text-gray-900 shadow-sm transition-all focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
         error ? 'border-red-300 focus:border-red-500' : isValid ? 'border-emerald-500 focus:border-emerald-600' : 'border-gray-200 focus:border-emerald-600'
     }`}
   >
@@ -84,7 +84,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
 
   return (
     <div className="space-y-2" ref={dropdownRef}>
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
         {label}
       </label>
       <div className="relative group">
@@ -98,7 +98,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
           onFocus={() => setIsOpen(true)}
           readOnly={disabled}
           placeholder={`Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-10 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-10 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
@@ -108,12 +108,12 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
                   : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         />
-        <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+        <div className={`absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 dark:text-white transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
            <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
         </div>
 
         {isOpen && !disabled && (
-          <div className="absolute z-50 w-full mt-2 bg-white border border-gray-100 rounded-xl shadow-2xl max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute z-50 w-full mt-2 bg-white dark:bg-black border border-gray-100 dark:border-gray-800 dark:text-white rounded-xl shadow-2xl  max-h-60 overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
             <ul className="py-2">
               {filteredOptions.length > 0 ? (
                 filteredOptions.map((opt, i) => (
@@ -126,7 +126,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
                   </li>
                 ))
               ) : (
-                <li className="px-4 py-3 text-gray-400 text-sm italic">No results found for "{query}"</li>
+                <li className="px-4 py-3 text-gray-400 dark:text-white text-sm italic">No results found for "{query}"</li>
               )}
             </ul>
           </div>
@@ -279,10 +279,10 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="hidden sm:block text-left font-poppins">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Personal Details
         </h2>
-        <p className="mt-2 text-gray-500 text-sm">
+        <p className="mt-2 text-gray-500 dark:text-white text-sm">
           Please confirm your personal information and residential address.
         </p>
       </div>
@@ -291,7 +291,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         {/* Title, First, and Last Name Row */}
         <div className="grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 items-end">
           <div className="col-span-2 md:col-span-2 flex md:block items-center justify-between md:justify-start gap-4">
-             <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors whitespace-nowrap mb-0 md:mb-2 ${errors.title ? 'text-red-500' : 'text-black'}`}>
+             <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors whitespace-nowrap mb-0 md:mb-2 ${errors.title ? 'text-red-500' : 'text-black dark:text-white'}`}>
                TITLE
              </label>
              <div className="relative w-24 md:w-full">
@@ -299,14 +299,14 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   type="button"
                   disabled={!isGuest}
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
-                  className={`flex h-[50px] md:h-[60px] w-full items-center justify-between rounded-xl border-2 px-3 md:px-4 transition-all outline-none font-medium ${
+                  className={`flex h-[50px] md:h-[60px] w-full items-center justify-between rounded-xl border-2 px-3 md:px-4 transition-all outline-none font-medium dark:bg-black dark:text-white ${
                     !isGuest
-                      ? "border-gray-100 bg-gray-100/50 text-gray-500 cursor-not-allowed opacity-80"
+                      ? "border-gray-100 bg-gray-100/50 text-gray-500 dark:text-white cursor-not-allowed opacity-80"
                       : errors.title 
                         ? "border-red-300 bg-red-50/10" 
                         : data.title 
                           ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
-                          : "border-gray-200 bg-gray-50/30 text-gray-400"
+                          : "border-gray-200 bg-gray-50/30 text-gray-400 dark:text-white"
                   }`}
                 >
                   <span className="text-xs font-bold">
@@ -362,11 +362,11 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400')}`}>
+            <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.phone ? 'text-red-500' : (data.phone ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
               Phone Number
             </label>
             <div className="relative group">
-              <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (data.phone ? 'text-emerald-500' : 'text-gray-400')}`}>
+              <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 dark:text-white font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (data.phone ? 'text-emerald-500' : 'text-gray-400 dark:text-white')}`}>
                 +234 (0)
               </div>
               <input
@@ -379,9 +379,9 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
                 }}
                 placeholder="812 345 6789"
-                className={`block w-full rounded-xl border-2 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm pl-[88px] pr-4 ${
+                className={`block w-full rounded-xl border-2 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm pl-[88px] pr-4 dark:bg-black dark:text-white dark:placeholder-white ${
                   !isGuest
-                    ? "bg-gray-100/80 text-gray-500 cursor-not-allowed border-gray-100"
+                    ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed border-gray-100"
                     : errors.phone 
                       ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
                       : data.phone
@@ -396,7 +396,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           {/* Email Address - Only for Guests */}
           {isGuest && (
             <InputGroup 
-              label={<>Email Address <span className="text-gray-400 font-normal normal-case ml-1">(optional)</span></>} 
+              label={<>Email Address <span className="text-gray-400 dark:text-white font-normal normal-case ml-1">(optional)</span></>} 
               value={data.email} 
               onChange={(e) => onChange('email', e.target.value)}
               placeholder="e.g. john@example.com"
@@ -407,7 +407,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         </div>
 
         <div className="space-y-2">
-          <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : (data.dob ? 'text-emerald-600' : 'text-gray-400')}`}>
+          <label className={`text-xs font-bold tracking-widest ml-1 mb-2 block ${errors.dob ? 'text-red-500' : (data.dob ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
             Date of Birth
           </label>
           <div className="grid grid-cols-3 gap-3">
@@ -442,7 +442,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         {/* BVN Field (Moved from separate screen) */}
         <div className="space-y-4 pt-2">
           <div className="space-y-2">
-            <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.bvn ? 'text-red-500' : (data.bvn ? 'text-emerald-600' : 'text-black')}`}>
+            <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.bvn ? 'text-red-500' : (data.bvn ? 'text-emerald-600' : 'text-black dark:text-white')}`}>
               BVN
             </label>
             <div className="relative group">
@@ -458,7 +458,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   }
                 }}
                 placeholder="Enter your 11-digit BVN"
-                className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+                className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
                   errors.bvn 
                     ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                     : (data.bvn?.length === 11)
@@ -467,7 +467,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                 }`}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                <span className={`text-[10px] font-bold transition-colors ${(data.bvn?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300"}`}>
+                <span className={`text-[10px] font-bold transition-colors ${(data.bvn?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300 dark:text-white"}`}>
                   {(data.bvn?.length || 0)}/11
                 </span>
               </div>
@@ -501,20 +501,39 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               options={idOptions}
               icon={<FiType />} 
             />
-            <InputGroup 
-              label="ID Number" 
-              value={data.idNumber} 
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, ''); // Numbers only
-                if (val.length <= 11) {
-                  onChange('idNumber', val);
-                  if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
-                }
-              }}
-              error={errors.idNumber}
-              placeholder="Enter ID number"
-              icon={<FiHash />} 
-            />
+            <div className="space-y-2">
+              <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.idNumber ? 'text-red-500' : (data.idNumber ? 'text-emerald-600' : 'text-black dark:text-white')}`}>
+                ID Number
+              </label>
+              <div className="relative group">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={data.idNumber || ""}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, ''); 
+                    if (val.length <= 11) {
+                      onChange('idNumber', val);
+                      if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
+                    }
+                  }}
+                  placeholder="Enter ID number"
+                  className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+                    errors.idNumber 
+                      ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                      : (data.idNumber?.length === 11)
+                        ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                        : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  }`}
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300 dark:text-white"}`}>
+                    {(data.idNumber?.length || 0)}/11
+                  </span>
+                </div>
+              </div>
+              {errors.idNumber && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.idNumber}</p>}
+            </div>
           </div>
         </div>
 
@@ -582,7 +601,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         <div className="flex gap-4 mt-10">
           <button
             onClick={onBack}
-            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
+            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 dark:text-white hover:bg-gray-50 transition-all font-poppins"
           >
             Back
           </button>
