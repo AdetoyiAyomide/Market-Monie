@@ -13,7 +13,7 @@ export const registerSchema = z.object({
   email: z.string().email("Invalid Email Address").optional().or(z.literal("")),
   password: z
     .string()
-    .length(6, "PIN Must Be Exactly 6 Digits")
+    .length(6, "PIN Must Be Exactly 6 Numbers")
     .regex(/^\d+$/, "PIN Must Contain Only Numbers"),
   confirmPassword: z.string(),
   agreeTerms: z.boolean().refine((val) => val === true, "You Must Accept The Terms And Conditions"),

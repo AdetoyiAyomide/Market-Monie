@@ -84,110 +84,111 @@ export const locations = [
 // address dataset
 export const branchAddresses = {
   "Akwa Ibom": [
-    "173, Udo Umana Street, Uyo Akwa Ibom."
+    "Uyo"
   ],
 
   "Anambra": [
-    "65, Citymart Plaza opposite St John the Baptist, Main Market, Onitsha"
+    "Onitsha"
   ],
 
   "Cross River": [
-    "62 Marian Road Beside Crispy Chicken, Calabar, Cross River State"
+    "Calabar"
   ],
 
   "Delta": [
-    "16 DLA Road Opposite Sunrise Plaza, Asaba Delta State.",
-    "23 Deco Road, Warri Delta State"
+    "Asaba",
+    "Warri"
   ],
 
   "Ekiti": [
-    "Olufunmilola Plaza, 49 Waterworks Road, Ado Ekiti"
+    "Ado-Ekiti"
   ],
 
   "FCT (Abuja)": [
-    "Shop B13 AA Plaza, Pasali, Kuje",
-    "Shop 8 Oyes Plaza Opposite Dutse Market, Dutse Kubwa",
-    "3rd Floor Novare Mall, Dalaba Street, Wuse Zone 5",
-    "Suite 21A Deo Plaza Opposite Fadama Market, Gwagwalada"
+    "Kuje",
+    "Kubwa",
+    "Wuse",
+    "Gwagwalada"
   ],
 
   "Kogi": [
-    "Shop 23 Kuburat Plaza, Murtala Mohammed Way, Lokoja"
+    "Lokoja"
   ],
 
   "Kwara": [
-    "2 Otunola Adebayo Street, Taiwo, Ilorin"
+    "Ilorin"
   ],
 
   "Lagos": [
-    "43 Ekoro Road, Pipeline Junction, Abule Egba",
-    "5 MBA Street, Ajegunle",
-    "31 Market Road, Maigida, Ayobo",
-    "Firston Hospital Compound, Elepe",
-    "4 Julius Kadiri Street, Ifako",
-    "7 Bamgboye Street, Igbe Laara, Ikorodu",
-    "59 Awolowo Way, Igbogbo",
-    "7 Olorunjuwon Street, Benson, Ikorodu",
-    "10 Tanimowo Street, Ologunfe Bus Stop, Ikotun",
-    "10B Olojo Drive Mile 10 Bus Stop, Ojo",
-    "26 Ikosi Road, Ikosi Ketu",
-    "44 Alli Street, Lagos Island",
-    "60 Coker Street, Mushin",
-    "4 Akowojo Road, Egbeda",
-    "8 Agunbiade Street, Yaba",
-    "Akewukanwo Street, Adamo, Ikorodu",
-    "9 Folawewo Street, Allen Avenue, Ikeja"
+    "Abule-Egba",
+    "Ajegunle-Apapa",
+    "Ayobo",
+    "Elepe",
+    "Ifako",
+    "Igbelara",
+    "Igbogbo",
+    "Ikorodu",
+    "Ikotun",
+    "Iyana-Iba",
+    "Ketu",
+    "Lagos Island",
+    "Mushin",
+    "Egbeda",
+    "Yaba",
+    "Adamo",
+    "Ikeja",
+    "Agric"
   ],
 
   "Nasarawa": [
-    "Afiz Plaza Sharp Corner U-Turn, Mararaba"
+    "Nyanya"
   ],
 
   "Ogun": [
-    "62 Tinubu Street, Abeokuta",
-    "6 Abdul Lasisi Street, Otta",
-    "Talbot Road, Ijebu-Ode",
-    "Peace Paradise Plaza, Ibafo",
-    "Baba Dada Bus Stop, Alagole",
-    "GRA Road, Sabo Sagamu",
-    "Old Ayede Road, Ifo",
-    "Opic Road, Mowe"
+    "Abeokuta",
+    "Sango",
+    "Ijebu-Ode",
+    "Ibafo",
+    "Alagbole",
+    "Sagamu",
+    "Ifo",
+    "Mowe"
   ],
 
   "Ondo": [
-    "Opposite Emmax Complex, Arakale, Akure",
-    "Oke Aluko Street, Ondo Town",
-    "Onisere Junction, Ore"
+    "Akure",
+    "Ondo Town",
+    "Ore"
   ],
 
   "Osun": [
-    "Inside Igbona Market, Osogbo",
-    "38 Aderemi Road, Ile-Ife",
-    "Bepo Junction, Ede",
-    "Oke Esho Street, Ilesa"
+    "Osogbo",
+    "Ile-Ife",
+    "Ede",
+    "Ilesa"
   ],
 
   "Oyo": [
-    "146 Adekunle Fajuyi Street, Mokola Ibadan",
-    "Owode Junction, Oyo",
-    "Army Barracks Road, Iwo Road Ibadan",
-    "Abalamu Apata, Ibadan",
-    "Ojoo Central Mosque Area, Ibadan",
-    "Ajeigbe Ringroad Ibadan",
-    "Eleyele Ologuneru Road, Ibadan",
-    "Airport Road, Ibadan",
-    "Sango Area, Saki",
-    "Bodija Area, Ibadan",
-    "Apake Area, Ogbomoso"
+    "Mokola",
+    "Oyo Town",
+    "Iwo Road",
+    "Apata",
+    "Ojoo",
+    "Challenge",
+    "Eleyele",
+    "Gbagi",
+    "Saki",
+    "Bodija",
+    "Ogbomosho"
   ],
 
   "Plateau": [
-    "29B Bethel Dominion Plaza, Tafawa Balewa Street, Jos"
+    "Jos"
   ],
 
   "Rivers": [
-    "80 Aba Road, Port Harcourt",
-    "Ada George Roundabout, Port Harcourt"
+    "Portharcourt",
+    "Ada-George"
   ]
 };
 

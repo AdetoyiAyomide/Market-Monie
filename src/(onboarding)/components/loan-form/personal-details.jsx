@@ -38,18 +38,65 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
 /**
  * Simple select component for date parts
  */
-const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isValid }) => (
-  <select
-    value={value}
-    onChange={onChange}
-    className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white px-4 py-4 text-gray-900 shadow-sm transition-all focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium appearance-none ${
-        error ? 'border-red-300 focus:border-red-500' : isValid ? 'border-emerald-500 focus:border-emerald-600' : 'border-gray-200 focus:border-emerald-600'
-    }`}
-  >
-    <option value="">{placeholder}</option>
-    {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-  </select>
-);
+const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isValid }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedLabel = options.find(opt => opt.value === value)?.label || placeholder;
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex w-full items-center justify-between rounded-xl border-2 bg-gray-50/30 dark:bg-black px-4 py-4 text-left shadow-sm transition-all outline-none font-medium text-sm ${
+          error 
+            ? "border-red-300 focus:border-red-500" 
+            : isValid 
+              ? "border-emerald-500 focus:border-emerald-600" 
+              : "border-gray-200 focus:border-emerald-600"
+        }`}
+      >
+        <span className={value ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-white"}>
+          {selectedLabel}
+        </span>
+        {isOpen ? <FiChevronUp className="text-gray-400 dark:text-white" /> : <FiChevronDown className="text-gray-400 dark:text-white" />}
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 max-h-60 overflow-y-auto rounded-xl border border-gray-200 bg-white dark:bg-black dark:border-gray-800 shadow-xl scrollbar-hide">
+          <div className="py-2">
+            {options.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => {
+                  onChange({ target: { value: opt.value } });
+                  setIsOpen(false);
+                }}
+                className={`block w-full px-4 py-3 text-left text-sm transition-colors hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-gray-900 dark:hover:text-emerald-400 ${
+                  value === opt.value ? "bg-emerald-50 text-emerald-700 font-bold dark:bg-gray-900 dark:text-emerald-400" : "text-gray-700 dark:text-white"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 /**
  * Custom searchable dropdown for locations and IDs
@@ -210,7 +257,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   });
 
   const titleOptions = ["Mr", "Mrs", "Ms"];
-  const idOptions = ["NIN", "International Passport", "Driver’s License"];
+  const idOptions = ["NIN", "International Passport", "Driver’s License", "Voter's Card"];
 
   const [errors, setErrors] = useState({});
 
@@ -495,6 +542,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               value={data.idType} 
               onChange={(val) => {
                 onChange('idType', val);
+                onChange('idNumber', '');
                 if (errors.idType) setErrors(prev => ({ ...prev, idType: null }));
               }}
               error={errors.idType}
@@ -511,24 +559,40 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   inputMode="numeric"
                   value={data.idNumber || ""}
                   onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, ''); 
-                    if (val.length <= 11) {
+                    const config = {
+                      "NIN": { length: 11, pattern: /^\d*$/ },
+                      "International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Voter's Card": { length: 9, pattern: /^[a-zA-Z0-9]*$/ }
+                    }[data.idType] || { length: 15, pattern: /^[a-zA-Z0-9]*$/ };
+
+                    const val = data.idType === "NIN" 
+                      ? e.target.value.replace(/\D/g, '').slice(0, config.length)
+                      : e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, config.length);
+
+                    if (config.pattern.test(val)) {
                       onChange('idNumber', val);
                       if (errors.idNumber) setErrors(prev => ({ ...prev, idNumber: null }));
                     }
                   }}
-                  placeholder="Enter ID number"
+                  placeholder={
+                    data.idType === "NIN" ? "Enter 11-digit NIN" :
+                    data.idType === "International Passport" ? "Enter 9-digit Passport No." :
+                    data.idType === "Driver’s License" ? "Enter 12-digit License No." :
+                    data.idType === "Voter's Card" ? "Enter Voter's Card No." :
+                    "Enter ID number"
+                  }
                   className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
                     errors.idNumber 
                       ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-                      : (data.idNumber?.length === 11)
+                      : (data.idNumber?.length === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15))
                         ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                         : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                   }`}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300 dark:text-white"}`}>
-                    {(data.idNumber?.length || 0)}/11
+                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15) ? "text-emerald-500" : "text-gray-300 dark:text-white"}`}>
+                    {(data.idNumber?.length || 0)}/{({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15)}
                   </span>
                 </div>
               </div>

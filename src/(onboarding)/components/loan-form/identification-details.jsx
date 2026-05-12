@@ -12,6 +12,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
   const idOptions = [
     "Driver’s License", 
     "International Passport", 
+    "Voter's Card",
     "NIN"
   ];
 
@@ -80,10 +81,11 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               value={data.idType} 
               isOpen={isIdTypeOpen}
               onToggle={() => setIsIdTypeOpen((prev) => !prev)}
-              onSelect={(value) => {
+              onSelect={(val) => {
                 setIsIdTypeOpen(false);
-                onChange('idType', value);
-                setErrors(prev => ({ ...prev, idType: false }));
+                onChange('idType', val);
+                onChange('idNumber', '');
+                if (errors.idType) setErrors(prev => ({ ...prev, idType: null }));
               }}
               options={idOptions}
               dropdownRef={idTypeDropdownRef}
@@ -96,25 +98,43 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               <div className="relative group">
                 <input
                   type="text"
-                  inputMode="numeric"
+                  inputMode={data.idType === "NIN" ? "numeric" : "text"}
                   value={data.idNumber || ""}
                   onChange={(e) => {
-                    const val = e.target.value.replace(/\D/g, '').slice(0, 11);
-                    onChange('idNumber', val);
-                    setErrors(prev => ({ ...prev, idNumber: false }));
+                    const config = {
+                      "NIN": { length: 11, pattern: /^\d*$/ },
+                      "International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Voter's Card": { length: 9, pattern: /^[a-zA-Z0-9]*$/ }
+                    }[data.idType] || { length: 15, pattern: /^[a-zA-Z0-9]*$/ };
+
+                    const val = data.idType === "NIN" 
+                      ? e.target.value.replace(/\D/g, '').slice(0, config.length)
+                      : e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, config.length);
+
+                    if (config.pattern.test(val)) {
+                      onChange('idNumber', val);
+                      setErrors(prev => ({ ...prev, idNumber: false }));
+                    }
                   }}
-                  placeholder="Enter ID number"
+                  placeholder={
+                    data.idType === "NIN" ? "Enter 11-digit NIN" :
+                    data.idType === "International Passport" ? "Enter 9-digit Passport No." :
+                    data.idType === "Driver’s License" ? "Enter 12-digit License No." :
+                    data.idType === "Voter's Card" ? "Enter 9-digit Voter's Card No." :
+                    "Enter ID number"
+                  }
                   className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
                     errors.idNumber 
                       ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-                      : (data.idNumber?.length === 11)
+                      : (data.idNumber?.length === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15))
                         ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                         : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                   }`}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300"}`}>
-                    {(data.idNumber?.length || 0)}/11
+                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15) ? "text-emerald-500" : "text-gray-300"}`}>
+                    {(data.idNumber?.length || 0)}/{({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15)}
                   </span>
                 </div>
               </div>
@@ -273,8 +293,8 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
         </div>
         {isOpen && (
-          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
-            <ul className="max-h-56 overflow-y-auto py-2">
+          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-999 overflow-visible rounded-xl border border-gray-200 bg-white shadow-xl">
+            <ul className="max-h-72 overflow-y-auto py-2">
               {options.map((opt) => (
                 <li
                   key={opt}

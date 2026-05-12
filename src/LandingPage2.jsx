@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { IoMdClose } from "react-icons/io";
 import {
   FiArrowRight, FiArrowLeft, FiMapPin, FiHome, FiUser, FiUserPlus,
   FiSearch, FiCheckCircle, FiAlertCircle, FiMap
@@ -101,7 +102,7 @@ const LandingPage2 = () => {
     setSelectedHubGlobal(hub);
     setNoHubStateGlobal(false);
     setSearchQuery("");
-    setStep(3);
+    // setStep(3);
   };
 
 
@@ -271,7 +272,7 @@ const LandingPage2 = () => {
                 className="w-full space-y-6"
               >
                 <div className="text-center space-y-2 mt-5">
-                  <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Start your <span className="text-emerald-500">business</span> journey</h1>
+                  <h1 className="text-xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Start your <span className="text-emerald-500">business</span> funding journey</h1>
                   <p className="text-gray-500 dark:text-white text-xs md:text-sm max-w-sm mx-auto">Tell us where your business is located so we can schedule a quick business survey.</p>
                 </div>
 
@@ -279,10 +280,10 @@ const LandingPage2 = () => {
                   {/* State Selection */}
                   <div className="relative z-[60]" ref={dropdownRef}>
                     <div className="relative">
-                      <FiMap className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedState ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
+                      <FiSearch className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${selectedState ? 'text-emerald-500' : 'text-gray-400 dark:text-white'}`} />
                       <input
                         type="text"
-                        placeholder="Search or Select State..."
+                        placeholder="Select State..."
                         value={isDropdownOpen ? searchQuery : (selectedState || "")}
                         onFocus={() => {
                           setIsDropdownOpen(true);
@@ -402,7 +403,10 @@ const LandingPage2 = () => {
                                     type="text"
                                     placeholder="e.g. Uyo or Onitsha"
                                     value={selectedTown}
-                                    onChange={(e) => setSelectedTown(e.target.value)}
+                                    onChange={(e) => {
+                                    const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+                                    setSelectedTown(value);
+                                  }}
                                     className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
                                   />
                                 </div>
@@ -418,7 +422,9 @@ const LandingPage2 = () => {
                                     type="text"
                                     placeholder="e.g. Market Road, Ojota"
                                     value={selectedArea}
-                                    onChange={(e) => setSelectedArea(e.target.value)}
+                                    onChange={(e) => {
+                                      const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+                                      setSelectedArea(value)}}
                                     className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
                                   />
                                 </div>
@@ -477,7 +483,7 @@ const LandingPage2 = () => {
                         <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white" />
                         <input
                           type="text"
-                          placeholder="Search or Select Hub..."
+                          placeholder="Select Hub..."
                           value={isHubDropdownOpen ? searchQuery : (selectedHub || "")}
                           onFocus={() => {
                             setIsHubDropdownOpen(true);
@@ -489,6 +495,18 @@ const LandingPage2 = () => {
                           }}
                           className={`w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 dark:text-white dark:placeholder:text-white dark:text-white text-gray-900 dark:text-white font-medium shadow-sm`}
                         />
+                        {(searchQuery || selectedHub) && (
+                          <button
+                            onClick={() => {
+                              setSearchQuery("");
+                              setSelectedHub(null);
+                              setIsHubDropdownOpen(false);
+                            }}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-white transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+                          >
+                            <IoMdClose className="text-lg" />
+                          </button>
+                        )}
                       </div>
 
                       <AnimatePresence>
@@ -532,6 +550,34 @@ const LandingPage2 = () => {
                         )}
                       </AnimatePresence>
                     </div>
+                    {selectedHub && (
+  <div className="max-w-md mx-auto bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-2xl p-4 flex items-center gap-3">
+    <div className="p-2 rounded-xl bg-emerald-500 text-white">
+      <FiCheckCircle size={20} />
+    </div>
+
+    <div>
+      <p className="text-xs uppercase tracking-widest text-emerald-600 font-bold">
+        Selected Hub
+      </p>
+      <p className="font-semibold text-gray-800 dark:text-white">
+        {selectedHub}
+      </p>
+    </div>
+  </div>
+)}
+
+                    {selectedHub && (
+  <div className="flex justify-center pt-4">
+    <button
+      onClick={() => setStep(3)}
+      className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-bold shadow-xl shadow-emerald-200/50 transition-all flex items-center gap-2 group"
+    >
+      Confirm Hub
+      <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+    </button>
+  </div>
+)}
 
                     <div className="text-center pt-4">
                       <button

@@ -36,11 +36,18 @@ body {
   min-height: 100vh;
 }
 
-/* Fix invisible dropdown text — force native select/option to use black text */
+/* Fix invisible dropdown text — allow tailwind to handle colors */
 select,
 select option {
-  color: #000 !important;
-  background-color: #fff !important;
+  color: inherit;
+  background-color: inherit;
+}
+
+.dark select,
+.dark select option {
+  color: white !important;
+  background-color: black !important;
+  color-scheme: dark;
 }
 
 @layer utilities {

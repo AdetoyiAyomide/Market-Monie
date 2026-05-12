@@ -151,6 +151,9 @@ const Register = () => {
               <input
                 {...register("firstName")}
                 type="text"
+                onChange={(e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-z ]/g, "");
+  }}
                 placeholder="e.g. John"
                 className={`mt-2 ${getInputClassName("firstName")}`}
               />
@@ -168,6 +171,9 @@ const Register = () => {
                 {...register("lastName")}
                 type="text"
                 placeholder="e.g. Doe"
+                onChange={(e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-z ]/g, "");
+  }}
                 className={`mt-2 ${getInputClassName("lastName")}`}
               />
               {errors.lastName && (
@@ -188,9 +194,10 @@ const Register = () => {
                 </div>
                 <input
                   {...register("phone")}
-                  type="tel"
+                  type="number"
                   placeholder="e.g 08136546719"
-                  className={getInputClassName("phone", true)}
+                  className={`${getInputClassName("phone", true)} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+
                 />
               </div>
               {errors.phone && (
@@ -224,10 +231,10 @@ const Register = () => {
               <div className="mt-2 relative">
                 <input
                   {...register("password")}
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? "number" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className={`${getInputClassName("password")} pr-12 tracking-widest font-mono`}
+                  className={`${getInputClassName("password")} pr-12 tracking-widest font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                 />
                 <button
                   type="button"
@@ -250,10 +257,10 @@ const Register = () => {
               <div className="mt-2 relative">
                 <input
                   {...register("confirmPassword")}
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? "number" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className={`${getInputClassName("confirmPassword")} pr-12 tracking-widest font-mono`}
+                  className={`${getInputClassName("confirmPassword")} pr-12 tracking-widest font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                 />
                 <button
                   type="button"
