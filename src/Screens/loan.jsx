@@ -69,8 +69,8 @@ const currentStep = 7;
                     })
                     }
                     placeholder="Enter amount"
-                    className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors"/>
-                    <div className='flex flex-wrap gap-2 text-sm font-light text-slate-600'>
+                    className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white"/>
+                    <div className='flex flex-wrap gap-2 text-sm font-light text-slate-600 dark:text-white'>
                         <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "10000" });}}>₦10,000</span>
                         <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "25000" });}}>₦25,000</span>
                         <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "50000" });}}>₦50,000</span>
@@ -88,22 +88,32 @@ const currentStep = 7;
                 setError={setError}/>
                 </div>
                 <div className='flex flex-col w-full gap-2'>
-                    <label htmlFor="accountNumber">Account Number <span className='text-red-500'>*</span></label>
-                    <input
-                    type="text"
-                    id="accountNumber"
-                    value={accountNumber}
-                    onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
-                    setFormData({
-                      ...formData,
-                      accountNumber: value
-                    });
-
-                    setError(false);
-                  }}
-                    placeholder="10-digit NUBAN number"
-                    className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors"/>
+                    <label htmlFor="accountNumber" className={`transition-colors ${accountNumber?.length === 10 ? 'text-green-600 font-semibold' : ''}`}>Account Number <span className='text-red-500'>*</span></label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="accountNumber"
+                        inputMode="numeric"
+                        value={accountNumber}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                          setFormData({
+                            ...formData,
+                            accountNumber: value
+                          });
+                          setError(false);
+                        }}
+                        placeholder="10-digit NUBAN number"
+                        className={`w-full border rounded-xl p-2.5 outline-none transition-colors dark:bg-black dark:text-white dark:placeholder-white ${
+                          accountNumber?.length === 10 ? 'border-green-600' : 'border-gray-300 focus:border-green-600'
+                        }`}
+                      />
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span className={`text-[10px] font-bold transition-colors ${accountNumber?.length === 10 ? "text-green-600" : "text-gray-400 dark:text-white"}`}>
+                          {(accountNumber?.length || 0)}/10
+                        </span>
+                      </div>
+                    </div>
                   {accountNumber && accountNumber.length < 10 && (
                     <p className="text-xs text-red-500">
                       Account number must be 10 digits
@@ -118,13 +128,13 @@ const currentStep = 7;
                         value={accountName}
                         onChange={handleChange}
                         placeholder='Name on your bank account'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
                     />
                 </div>
                 <div className='flex flex-col w-full gap-2'>
                     <label htmlFor="existingLoans">Existing Loans</label>
                     <input type="text" id="existingLoans"
-                    value={formData.existingLoans} onChange={(e) => setFormData({ ...formData, existingLoans: e.target.value})} placeholder='e.g. Lender name & outstanding amount, if any' className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors' />
+                    value={formData.existingLoans} onChange={(e) => setFormData({ ...formData, existingLoans: e.target.value})} placeholder='e.g. Lender name & outstanding amount, if any' className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white' />
                 </div>
                 <div className='flex w-full justify-between gap-3 mt-2'>
                     <button

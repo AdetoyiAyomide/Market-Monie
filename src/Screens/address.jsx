@@ -105,7 +105,7 @@ const Address = () => {
                     <ProgressBar currentStep={currentStep} totalSteps={8} />
                 </div>
                 <FormHeader />
-                <h2 className='font-bold text-left w-full text-xl'>
+                <h2 className='font-bold text-left w-full text-xl dark:text-white'>
                     Residential Address
                 </h2>
                 {error && (
@@ -115,14 +115,14 @@ const Address = () => {
                 )}
 
                 <div className='flex flex-col w-full relative'>
-                    <label htmlFor="state">State <span className='text-red-500'>*</span></label>
+                    <label className="dark:text-white" htmlFor="state">State <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
                         value={query || selectedLocation}
                         onClick={() => setOpen(prev => !prev)}
                         onChange={handleStateChange}
                         placeholder="Select State"
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none dark:bg-black dark:text-white dark:placeholder-white"
                     />
                     <button type='button' onClick={() => setOpen(prev => !prev)}>
                         {open ? (
@@ -133,7 +133,7 @@ const Address = () => {
                     </button>
 
                     {open && (
-                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+                        <div className="absolute left-0 top-full w-full bg-white dark:bg-black border border-slate-400 mt-1 rounded shadow z-10">
                             <ul className="max-h-40 overflow-y-auto">
                                 {filtered.length > 0 ? (
                                     filtered.map((loc, index) => (
@@ -146,14 +146,14 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400">No results found</li>
+                                    <li className="p-2 text-gray-400 dark:text-white">No results found</li>
                                 )}
                             </ul>
                         </div>
                     )}
                 </div>
                 <div className='flex flex-col w-full relative'>
-                    <label>LGA <span className='text-red-500'>*</span></label>
+                    <label className="dark:text-white">LGA <span className='text-red-500'>*</span></label>
 
                     <input
                         type="text"
@@ -162,7 +162,7 @@ const Address = () => {
                         onChange={handleLgaChange}
                         placeholder={formData.state ? "Select LGA" : "Select State First"}
                         disabled={!formData.state}
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100" />
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100 dark:bg-black dark:text-white dark:placeholder-white" />
 
                     <button type="button" onClick={() => setOpenLga(prev => !prev)}>
                         {openLga ? (
@@ -173,7 +173,7 @@ const Address = () => {
                     </button>
 
                     {openLga && (
-                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
+                        <div className="absolute left-0 top-full w-full bg-white dark:bg-black border border-slate-400 mt-1 rounded shadow z-10">
                             <ul className="max-h-40 overflow-y-auto">
                                 {filteredLgas.length > 0 ? (
                                     filteredLgas.map((lga, index) => (
@@ -186,18 +186,18 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400">No results found</li>
+                                    <li className="p-2 text-gray-400 dark:text-white">No results found</li>
                                 )}
                             </ul>
                         </div>
                     )}
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
-                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2' />
+                    <label className="dark:text-white" htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
+                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2 dark:bg-black dark:text-white dark:placeholder-white' />
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label htmlFor="houseAddress">House Address <span className='text-red-500'>*</span></label>
+                    <label className="dark:text-white" htmlFor="houseAddress">House Address <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
                         name="houseAddress"
@@ -205,7 +205,7 @@ const Address = () => {
                         value={formData.houseAddress || ""}
                         onChange={handleChange}
                         placeholder='house number and street name'
-                        className='border border-gray-500 rounded-xl p-2'
+                        className='border border-gray-500 rounded-xl p-2 dark:bg-black dark:text-white dark:placeholder-white'
                     />
                 </div>
                 <div className='flex w-full justify-between gap-2'>

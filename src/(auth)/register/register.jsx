@@ -24,7 +24,8 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     mode: "onSubmit",
     defaultValues: {
-      title: "Mr"
+      title: "Mr",
+      agreeTerms: true
     }
   });
 
@@ -36,7 +37,7 @@ const Register = () => {
     const value = watchedFields[fieldName];
     const isValid = !hasError && value && value.toString().length > 0;
     
-    return `block w-full rounded-lg border-0 py-3.5 ${isPhone ? 'pl-[88px]' : 'px-4'} pr-4 text-gray-900 shadow-sm ring-1 ring-inset placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+    return `block w-full rounded-lg border-0 py-3.5 ${isPhone ? 'pl-[88px]' : 'px-4'} pr-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset placeholder:text-gray-400 dark:text-white focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 dark:bg-black dark:text-white dark:placeholder-white transition-all ${
       hasError 
         ? "ring-red-500 focus:ring-red-600" 
         : isValid 
@@ -55,7 +56,7 @@ const Register = () => {
         ? "text-red-500" 
         : isValid 
           ? "text-emerald-600" 
-          : "text-gray-900"
+          : "text-gray-900 dark:text-white"
     }`;
   };
 
@@ -80,11 +81,11 @@ const Register = () => {
         <div className="flex-1 w-full flex justify-center">
           <div className="w-full max-w-2xl lg:px-4 px-0">
             <div className="text-left">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Create account
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-gray-600">
-                Join us today! It only takes a minute to set up your account.
+              <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-white">
+                Sign up in minutes and unlock funding tailored to your business.
               </p>
             </div>
 
@@ -94,14 +95,14 @@ const Register = () => {
           <div className="grid grid-cols-2 md:grid-cols-12 gap-x-4 gap-y-4 items-end">
             {/* Title - Horizontal on Mobile */}
             <div className="col-span-2 md:col-span-2 flex md:block items-center justify-between md:justify-start gap-4">
-              <label className="text-xs sm:text-sm font-medium leading-6 transition-colors pb-0 md:pb-2 whitespace-nowrap text-black">
+              <label className="text-xs sm:text-sm font-medium leading-6 transition-colors pb-0 md:pb-2 whitespace-nowrap text-black dark:text-white">
                 Title
               </label>
               <div className="relative w-24 md:w-full">
                 <button
                   type="button"
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
-                  className={`flex w-full items-center justify-between rounded-lg border-0 py-2.5 md:py-3.5 px-3 md:px-4 text-gray-900 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 transition-all ${
+                  className={`flex w-full items-center justify-between rounded-lg border-0 py-2.5 md:py-3.5 px-3 md:px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 bg-gray-50/50 dark:bg-black dark:text-white transition-all ${
                     errors.title 
                       ? "ring-red-500 focus:ring-red-600" 
                       : titleValue 
@@ -109,10 +110,10 @@ const Register = () => {
                         : "ring-gray-300 focus:ring-emerald-600"
                   }`}
                 >
-                  <span className={titleValue ? "text-gray-900" : "text-gray-400"}>
+                  <span className={titleValue ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-white"}>
                     {titleValue || "Mr"}
                   </span>
-                  {isTitleOpen ? <FiChevronUp className="text-gray-400" /> : <FiChevronDown className="text-gray-400" />}
+                  {isTitleOpen ? <FiChevronUp className="text-gray-400 dark:text-white" /> : <FiChevronDown className="text-gray-400 dark:text-white" />}
                 </button>
 
                 {isTitleOpen && (
@@ -182,13 +183,13 @@ const Register = () => {
                 Phone Number
               </label>
               <div className="mt-2 relative">
-                <div className={`absolute inset-y-0 bg-slate-200 rounded-l-md flex items-center px-2 pointer-events-none font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (watchedFields.phone ? 'text-emerald-500' : 'text-gray-500')}`}>
+                <div className={`absolute inset-y-0 bg-slate-200 dark:bg-black dark:border dark:border-slate-200 rounded-l-md flex items-center px-2 pointer-events-none font-medium sm:text-sm z-10 transition-colors ${errors.phone ? 'text-red-400' : (watchedFields.phone ? 'text-emerald-500' : 'text-gray-500 dark:text-white')}`}>
                   +234 (0)
                 </div>
                 <input
                   {...register("phone")}
                   type="tel"
-                  placeholder=""
+                  placeholder="e.g 08136546719"
                   className={getInputClassName("phone", true)}
                 />
               </div>
@@ -200,12 +201,12 @@ const Register = () => {
             {/* Email Address */}
             <div className="w-full">
               <label className={getLabelClassName("email")}>
-                Email Address <span className="text-gray-400 font-normal normal-case ml-1">(optional)</span>
+                Email Address <span className="text-gray-400 dark:text-white font-normal normal-case ml-1">(optional)</span>
               </label>
               <input
                 {...register("email")}
                 type="email"
-                placeholder="e.g. john@example.com"
+                placeholder="e.g. john@gmail.com"
                 className={`mt-2 ${getInputClassName("email")}`}
               />
               {errors.email && (
@@ -217,7 +218,7 @@ const Register = () => {
           {/* PIN Setup (Horizontal Flow) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
             <div className="relative">
-              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900 dark:text-white">
                 Create 6-Digit PIN
               </label>
               <div className="mt-2 relative">
@@ -231,7 +232,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 dark:text-white"
                 >
                   {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
@@ -243,7 +244,7 @@ const Register = () => {
             </div>
 
             <div className="relative">
-              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900">
+              <label className="block text-xs sm:text-sm font-medium leading-6 text-gray-900 dark:text-white">
                 Confirm 6-Digit PIN
               </label>
               <div className="mt-2 relative">
@@ -257,7 +258,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 dark:text-white"
                 >
                   {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
@@ -268,26 +269,7 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Terms and Conditions */}
-          <div className="flex items-start gap-3 py-2">
-            <div className="flex h-6 items-center">
-              <input
-                {...register("agreeTerms")}
-                id="agreeTerms"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600 cursor-pointer"
-              />
-            </div>
-            <div className="text-sm leading-6">
-              <label htmlFor="agreeTerms" className="font-medium text-gray-900 cursor-pointer">
-                Terms and Conditions
-              </label>
-              <p className="text-gray-500">I agree to the <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
-              {errors.agreeTerms && (
-                <p className="mt-1 text-xs text-red-500 font-medium">{errors.agreeTerms.message}</p>
-              )}
-            </div>
-          </div>
+         
 
           <div className="pt-2">
             <button
@@ -298,6 +280,22 @@ const Register = () => {
               {isSubmitting ? "Creating Account..." : "Create Account"}
             </button>
           </div>
+
+           <div className="flex items-center justify-center">
+            <p className="text-gray-500 dark:text-white text-xs sm:text-sm">Already have an account? <Link to="/login" className="text-emerald-600 font-semibold hover:text-emerald-500">Login</Link></p>
+          </div>
+
+           {/* Terms and Conditions */}
+          <div className="flex items-start gap-3 py-2">
+            <div className="text-sm leading-6">
+              <p className="text-gray-500 dark:text-white text-xs sm:text-sm">By clicking Create Account, you agree to the <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
+              {errors.agreeTerms && (
+                <p className="mt-1 text-xs text-red-500 font-medium">{errors.agreeTerms.message}</p>
+              )}
+            </div>
+          </div>
+
+         
         </form>
       </div>
     </div>

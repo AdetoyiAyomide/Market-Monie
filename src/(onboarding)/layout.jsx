@@ -10,14 +10,14 @@ const OnboardingLayout = () => {
       initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
       animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
       transition={{ duration: 1, ease: [0.43, 0.13, 0.23, 0.96] }}
-      className="flex min-h-screen bg-white"
+      className="flex min-h-screen bg-white dark:bg-black"
     >
       <div className="w-full px-6 py-6 sm:px-10 lg:px-16">
         <div className="mb-2 flex items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 p-2 sm:px-4 sm:py-2 text-sm font-medium text-slate-600 transition-colors hover:border-emerald-200 hover:text-emerald-700"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 p-2 sm:px-4 sm:py-2 text-sm font-medium text-slate-600 dark:text-white transition-colors hover:border-emerald-200 hover:text-emerald-700"
           >
             <FiArrowLeft className="text-base" />
             <span className="hidden sm:inline">Back</span>

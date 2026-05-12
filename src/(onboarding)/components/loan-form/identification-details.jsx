@@ -89,16 +89,37 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               dropdownRef={idTypeDropdownRef}
               error={errors.idType}
             />
-            <InputGroup 
-              label="ID Number" 
-              value={data.idNumber} 
-              onChange={(e) => {
-                onChange('idNumber', e.target.value);
-                setErrors(prev => ({ ...prev, idNumber: false }));
-              }}
-              placeholder="Enter ID number"
-              error={errors.idNumber}
-            />
+            <div className="space-y-2">
+              <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.idNumber ? 'text-red-500' : (data.idNumber ? 'text-emerald-600' : 'text-gray-400')}`}>
+                ID Number
+              </label>
+              <div className="relative group">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={data.idNumber || ""}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, '').slice(0, 11);
+                    onChange('idNumber', val);
+                    setErrors(prev => ({ ...prev, idNumber: false }));
+                  }}
+                  placeholder="Enter ID number"
+                  className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
+                    errors.idNumber 
+                      ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                      : (data.idNumber?.length === 11)
+                        ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                        : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  }`}
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === 11 ? "text-emerald-500" : "text-gray-300"}`}>
+                    {(data.idNumber?.length || 0)}/11
+                  </span>
+                </div>
+              </div>
+              {errors.idNumber && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">Required</p>}
+            </div>
           </div>
           
           <FileUpload 
@@ -150,7 +171,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
         <div className="flex gap-4 mt-10">
           <button
             onClick={onBack}
-            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
+            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 dark:text-white hover:bg-gray-50 transition-all font-poppins"
           >
             Back
           </button>

@@ -58,7 +58,7 @@ const handleChange = (e) => {
                         name="businessName"
                         id="businessName" value={businessName} onChange={handleChange}
                         placeholder='e.g. Vickys Salon'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
                     />
                 </div>
 
@@ -71,7 +71,7 @@ const handleChange = (e) => {
                         value={businessAddress}
                         onChange={handleChange}
                         placeholder='e.g. 15, Admiralty Way, Lekki'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
                     />
                 </div>
 
@@ -84,7 +84,7 @@ const handleChange = (e) => {
                         value={businessType}
                         onChange={handleChange}
                         placeholder='e.g. Retail, Service'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
                     />
                 </div>
 
@@ -101,7 +101,7 @@ const handleChange = (e) => {
                                 }}
                                 className={`p-3 rounded-xl border text-sm transition-all duration-200 ${yearsInBusiness === option
                                     ? "bg-green-800 text-white border-green-800"
-                                    : "bg-white text-gray-700 border-gray-300 hover:border-green-600"
+                                    : "bg-white dark:bg-black text-gray-700 dark:text-white border-gray-300 hover:border-green-600"
                                     }`}
                             >
                                 {option}
@@ -123,7 +123,7 @@ const handleChange = (e) => {
                                 }}
                                 className={`p-2.5 rounded-xl border text-left text-sm transition-all duration-200 ${dailySales === option
                                     ? "bg-green-800 text-white border-green-800"
-                                    : "bg-white text-gray-700 border-gray-300 hover:border-green-600"
+                                    : "bg-white dark:bg-black text-gray-700 dark:text-white border-gray-300 hover:border-green-600"
                                     }`}
                             >
                                 {option}

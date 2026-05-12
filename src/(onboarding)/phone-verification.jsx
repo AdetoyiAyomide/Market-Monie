@@ -113,21 +113,21 @@ const PhoneVerification = () => {
                       <FiSmartphone size={24} />
                     </div>
                     
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                       Phone Verification
                     </h2>
-                    <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+                    <p className="mt-3 text-gray-600 dark:text-white text-[15px] leading-relaxed">
                       Enter your phone number to receive a secure verification code.
                     </p>
                   </div>
 
                   <form className="mt-3 space-y-8" onSubmit={handleSendOtp}>
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-black tracking-widest ml-1">
+                      <label className="text-xs font-bold text-black dark:text-white tracking-widest ml-1">
                         Phone Number
                       </label>
                       <div className="relative group">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 font-medium sm:text-sm">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-500 dark:text-white font-medium sm:text-sm">
                           +234 (0)
                         </div>
                         <input
@@ -135,7 +135,7 @@ const PhoneVerification = () => {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                           placeholder="812 345 6789"
-                          className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-[88px] pr-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium sm:text-sm"
+                          className="block w-full rounded-xl border-gray-200 dark:border-gray-800 border-2 bg-gray-50/30 dark:bg-black pl-[88px] pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium sm:text-sm dark:placeholder-white"
                         />
                       </div>
                     </div>
@@ -167,15 +167,15 @@ const PhoneVerification = () => {
                       <FiEdit3 size={14} />
                       Edit +234 {phone}
                     </button>
-
+                    
                     <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-xl mb-6 text-emerald-600">
                       <FiLock size={24} />
                     </div>
                     
-                    <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                       Enter OTP Code
                     </h2>
-                    <p className="mt-3 text-gray-600 text-[15px] leading-relaxed">
+                    <p className="mt-3 text-gray-600 dark:text-white text-[15px] leading-relaxed">
                       We've sent a 6-digit verification code to your mobile number.
                     </p>
                   </div>
@@ -197,7 +197,7 @@ const PhoneVerification = () => {
                         </InputOTPGroup>
                       </InputOTP>
 
-                      <p className="text-center text-xs text-gray-400">
+                      <p className="text-center text-xs text-gray-400 dark:text-white">
                         Didn't receive the code? <button type="button" className="text-emerald-600 font-bold hover:underline" onClick={() => toast.success("OTP Resent!")}>Resend Code</button>
                       </p>
                     </div>
@@ -214,7 +214,7 @@ const PhoneVerification = () => {
               )}
             </AnimatePresence>
 
-            <p className="mt-12 text-center text-[10px] text-gray-400 uppercase tracking-widest font-bold">
+            <p className="mt-12 text-center text-[10px] text-gray-400 dark:text-white uppercase tracking-widest font-bold">
               Secure Verification by Market Monie
             </p>
           </div>

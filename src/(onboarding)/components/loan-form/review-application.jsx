@@ -27,7 +27,7 @@ const ReviewApplication = ({ data, onEdit, onSubmit, onCancel, isGuest }) => {
             </button>
           </div>
         )}
-        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
+        <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
            Review Details
         </h2>
         <p className="mt-3 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
@@ -109,8 +109,8 @@ const ReviewSection = ({ title, icon, children, onEdit }) => (
 
 const InfoItem = ({ label, value }) => (
   <div className="flex justify-between gap-4">
-    <span className="text-xs text-gray-400 font-medium">{label}:</span>
-    <span className="text-sm font-bold text-gray-900 text-right">{value}</span>
+    <span className="text-xs text-gray-400 dark:text-white font-medium">{label}:</span>
+    <span className="text-sm font-bold text-gray-900 dark:text-white text-right">{value}</span>
   </div>
 );
 

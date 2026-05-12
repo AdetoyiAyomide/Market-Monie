@@ -23,7 +23,7 @@ const PreviewPage = () => {
             Edit
           </button>
         </div>
-        <div className="text-sm text-gray-700 space-y-1">{children}</div>
+        <div className="text-sm text-gray-700 dark:text-white space-y-1">{children}</div>
       </div>
         );
 
@@ -34,7 +34,7 @@ const PreviewPage = () => {
             <div className='flex items-center justify-between mb-2 w-full'>
                 <button 
                     onClick={() => navigate(-1)}
-                    className="p-2 text-gray-500 hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition">
+                    className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition">
                     <FaArrowLeft />
                   </button>
             <h2 className='font-semibold text-lg text-center flex-1'>Review Application</h2>

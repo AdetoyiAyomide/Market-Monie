@@ -34,7 +34,7 @@ const SelectState = () => {
   return (
     <section className='w-full min-h-screen flex items-center justify-center p-4 py-10'>
       <div className='rounded-2xl relative bg-white shadow-lg border border-white w-full max-w-xl flex flex-col items-center gap-5 p-6'>
-        <button onClick={() => navigate(-1)} className="p-2 text-gray-500 hover:text-green-600 text-xl flex absolute left-4 top-10 hover:bg-slate-200 rounded-full transition-colors duration-200">
+        <button onClick={() => navigate(-1)} className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl flex absolute left-4 top-10 hover:bg-slate-200 rounded-full transition-colors duration-200">
           <FaArrowLeft />
         </button>
          <img src="/marketmonie.png" className='w-40' alt="" />
@@ -46,7 +46,7 @@ const SelectState = () => {
           </div>
           <h3>Where is your Business?</h3>
         </div>
-        <p className='text-slate-400 text-sm'>We'll connect you to the nearest MarketMonie hub.</p>
+        <p className='text-slate-400 dark:text-white text-sm'>We'll connect you to the nearest MarketMonie hub.</p>
         <label htmlFor="stateLocated">Select your state</label>
 
         <div className="w-full relative px-3">
@@ -82,7 +82,7 @@ const SelectState = () => {
                     </li>
                   ))
                 ) : (
-                  <li className="p-2 text-gray-400">No results found</li>
+                  <li className="p-2 text-gray-400 dark:text-white">No results found</li>
                 )}
               </ul>
             </div>
