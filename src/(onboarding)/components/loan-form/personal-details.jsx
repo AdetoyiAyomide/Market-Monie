@@ -104,10 +104,8 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
       onChange={(e) => {
         const selectedFile = e.target.files[0];
-        if (selectedFile && selectedFile.size <= 2 * 1024 * 1024) {
+        if (selectedFile) {
           onFileSelect(selectedFile);
-        } else if (selectedFile) {
-          alert("File size must be less than 2MB");
         }
       }}
     />
@@ -134,6 +132,7 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
          {description}
       </p>
     </div>
+    {error && <p className="mt-2 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
   </div>
 );
 
@@ -326,17 +325,15 @@ const days = Array.from({ length: maxDays }, (_, i) =>
     if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Required";
     if (!data.bvn || data.bvn.length !== 11) newErrors.bvn = "Please enter a valid BVN";
     if (!data.phone) newErrors.phone = "Required";
-    if (!data.state) newErrors.state = "Required";
-    if (!data.lga) newErrors.lga = "Required";
+    if (!data.state) newErrors.state = "please select a valid state";
+    if (!data.lga) newErrors.lga = "please select a valid LGA";
     if (!data.area) newErrors.area = "Town / City is required";
     if (!data.houseAddress) newErrors.houseAddress = "House Number and Street is required";
-    if (!data.idType) newErrors.idType = "Required";
+    if (!data.idType) newErrors.idType = "please select a valid ID type";
     if (!data.idNumber) newErrors.idNumber = "Required";
     
     if (isGuest) {
-      if (!data.email) {
-        newErrors.email = "Required";
-      } else {
+      if (data.email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
           newErrors.email = "Invalid email format";
@@ -663,8 +660,13 @@ const days = Array.from({ length: maxDays }, (_, i) =>
             <FileUpload 
               file={data.idFile}
               onFileSelect={(file) => {
-                onChange('idFile', file);
-                if (errors.idFile) setErrors(prev => ({ ...prev, idFile: null }));
+                if (file.size > 2 * 1024 * 1024) {
+                  setErrors(prev => ({ ...prev, idFile: "File exceeds the maximum allowed size of 2MB. Please upload a smaller file." }));
+                  onChange('idFile', null);
+                } else {
+                  onChange('idFile', file);
+                  if (errors.idFile) setErrors(prev => ({ ...prev, idFile: null }));
+                }
               }}
               label="Click to add file"
               description="JPEG, PNG or PDF. Max 2MB."

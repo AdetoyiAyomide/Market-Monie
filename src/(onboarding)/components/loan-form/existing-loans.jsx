@@ -134,22 +134,22 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                     <InputGroup 
                       label="How much did you borrow?" 
                       value={loan.amount}
-                      onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/\D/g, ''))}
-                      placeholder="e.g. 100,000"
+                      onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/[^0-9.]/g, ''))}
+                      placeholder="e.g. 100,000.00"
                     />
                     <InputGroup 
                       label="How much do you still owe?" 
                       value={loan.balance}
-                      onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/\D/g, ''))}
-                      placeholder="e.g. 10,000"
+                      onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/[^0-9.]/g, ''))}
+                      placeholder="e.g. 10,000.00"
                     />
                   </div>
 
                   <InputGroup 
                     label="Regular repayment amount (weekly/monthly)" 
                     value={loan.repayment}
-                    onChange={(e) => handleLoanChange(index, 'repayment', e.target.value.replace(/\D/g, ''))}
-                    placeholder="e.g. 5,000"
+                    onChange={(e) => handleLoanChange(index, 'repayment', e.target.value.replace(/[^0-9.]/g, ''))}
+                    placeholder="e.g. 5,000.00"
                   />
                 </div>
               </div>

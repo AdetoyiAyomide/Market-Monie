@@ -91,8 +91,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   const validate = () => {
     const newErrors = {};
     if (!data.businessName) newErrors.businessName = "Required";
-    if (!data.businessState) newErrors.businessState = "Required";
-    if (!data.businessLga) newErrors.businessLga = "Required";
     if (!data.businessType) newErrors.businessType = "Required";
     if (data.businessType === "Other" && !data.otherBusiness) newErrors.otherBusiness = "Required";
     if (!data.businessYears) newErrors.businessYears = "Required";
@@ -130,94 +128,6 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           }}
           error={errors.businessName}
         />
-
-        <div className="space-y-4 pt-2 pb-2">
-          <label className="text-xs font-bold text-emerald-600 dark:text-white tracking-widest ml-1 uppercase">
-             Business Location
-          </label>
-          
-          <div className="grid grid-cols-2 gap-4">
-            {isGuest ? (
-              <>
-                <CustomSelectGroup 
-                  label="State" 
-                  value={data.businessState} 
-                  isOpen={isStateOpen}
-                  onToggle={() => setIsStateOpen(!isStateOpen)}
-                  onSelect={(val) => {
-                    onChange('businessState', val);
-                    onChange('businessLga', '');
-                    setIsStateOpen(false);
-                  }}
-                  options={states}
-                  dropdownRef={stateDropdownRef}
-                  placeholder="Select State"
-                  error={errors.businessState}
-                  disabled={loadingStates}
-                />
-                <CustomSelectGroup 
-                  label="LGA" 
-                  value={data.businessLga} 
-                  isOpen={isLgaOpen}
-                  onToggle={() => setIsLgaOpen(!isLgaOpen)}
-                  onSelect={(val) => {
-                    onChange('businessLga', val);
-                    setIsLgaOpen(false);
-                  }}
-                  options={lgas}
-                  dropdownRef={lgaDropdownRef}
-                  placeholder="Select LGA"
-                  error={errors.businessLga}
-                  disabled={loadingLgas || !data.businessState}
-                />
-              </>
-            ) : (
-              <>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white uppercase">
-                    State
-                  </label>
-                  <div className={`block w-full rounded-xl border-2 px-4 py-4 font-medium text-sm transition-all ${
-                    data.businessState 
-                      ? "border-emerald-500 bg-gray-50/30 text-gray-900 dark:text-white" 
-                      : "border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black text-gray-500 dark:text-white"
-                  }`}>
-                    {data.businessState}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white uppercase">
-                    LGA
-                  </label>
-                  <div className={`block w-full rounded-xl border-2 px-4 py-4 font-medium text-sm transition-all ${
-                    data.businessLga 
-                      ? "border-emerald-500 bg-gray-50/30 text-gray-900 dark:text-white" 
-                      : "border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black text-gray-500 dark:text-white"
-                  }`}>
-                    {data.businessLga}
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-
-          <InputGroup 
-            label="Town / City" 
-            value={data.businessTown} 
-            onChange={(e) => onChange('businessTown', e.target.value)}
-            placeholder="e.g. Ikeja"
-            readOnly={!!localStorage.getItem("selectedTown")}
-            error={errors.businessTown}
-          />
-          <InputGroup 
-            label="Area / Street Name" 
-            value={data.businessArea} 
-            onChange={(e) => onChange('businessArea', e.target.value)}
-            placeholder="e.g. 12 Allen Avenue"
-            readOnly={!!localStorage.getItem("selectedArea")}
-            error={errors.businessArea}
-          />
-        </div>
 
         <CustomSelectGroup 
           label="What is the nature of your business?" 

@@ -5,6 +5,7 @@ import { banks } from "../../../store/Data";
 const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
   const [isBankOpen, setIsBankOpen] = useState(false);
   const [bankQuery, setBankQuery] = useState(data.bankName || "");
+  const [errors, setErrors] = useState({});
   const bankDropdownRef = useRef(null);
 
   const filteredBanks = useMemo(() => {
@@ -52,22 +53,34 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
               type="text"
               inputMode="decimal"
               value={data.loanAmount}
-  onChange={(e) =>
-    onChange("loanAmount", e.target.value.replace(/\D/g, ""))
-  }
-  onBlur={() => {
-    if (data.loanAmount) {
-      onChange("loanAmount", `${data.loanAmount}.00`);
-    }
-  }}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (/[^0-9.]/.test(val)) {
+                  setErrors(prev => ({ ...prev, loanAmount: "Please enter a valid amount using numbers only." }));
+                } else {
+                  setErrors(prev => ({ ...prev, loanAmount: null }));
+                }
+                // Allow user to type letters so they can see the error, or filter them out?
+                // The prompt says "letters instead of numbers in how much do want to borrow input field inline error message"
+                // This means the input shouldn't replace letters immediately if we want to show an error, or it should show the error.
+                onChange("loanAmount", val);
+              }}
+              onBlur={() => {
+                if (data.loanAmount && !/[^0-9.]/.test(data.loanAmount) && !data.loanAmount.includes('.')) {
+                  onChange("loanAmount", `${data.loanAmount}.00`);
+                }
+              }}
               placeholder="e.g. 100,000"
               className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-bold text-lg ${
-                data.loanAmount 
-                  ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
-                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                errors.loanAmount 
+                  ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                  : data.loanAmount 
+                    ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
+                    : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
               }`}
             />
           </div>
+          {errors.loanAmount && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.loanAmount}</p>}
         </div>
 
         <CustomSelectGroup 
@@ -129,7 +142,7 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
           </button>
           <button
             onClick={onContinue}
-            disabled={!data.loanAmount || !data.bankName || data.accountNumber.length < 10}
+            disabled={!data.loanAmount || errors.loanAmount || !data.bankName || data.accountNumber.length < 10}
             className="flex-1 rounded-xl bg-emerald-600 py-4 text-sm font-semibold text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins"
           >
             Continue

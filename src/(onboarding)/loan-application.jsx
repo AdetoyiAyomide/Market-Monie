@@ -21,6 +21,24 @@ const LoanApplication = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Simplified step management for 3-screen flow
+  // 0: Personal, 1: Business, 2: Financial, 3: Review, 4: Success
+  const [step, setStep] = useState(location.state?.startAtStep || 0);
+
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (step > 0 && step < 4) { // Don't intercept if on Success screen or first step
+        e.preventDefault();
+        setStep(prev => prev - 1);
+        window.history.pushState(null, '', window.location.pathname);
+      }
+    };
+
+    window.history.pushState(null, '', window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [step]);
+
   useEffect(() => {
     // If we reach this page and guest status hasn't been explicitly set (e.g. direct navigation),
     // we default to Guest mode to ensure the Success screen works correctly.
@@ -103,9 +121,7 @@ const LoanApplication = () => {
     loans: []
   });
 
-  // Simplified step management for 3-screen flow
-  // 0: Personal, 1: Business, 2: Financial, 3: Review, 4: Success
-  const [step, setStep] = useState(location.state?.startAtStep || 0);
+  });
 
 
   const updateFormData = (field, value) => {
