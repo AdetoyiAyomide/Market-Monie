@@ -353,7 +353,7 @@ const Register = () => {
            {/* Terms and Conditions */}
           <div className="flex items-start gap-3 py-2">
             <div className="text-sm leading-6">
-              <p className="text-gray-500 dark:text-white text-xs sm:text-sm">By clicking Create Account, you agree to the <Link to="https://marketmonie.com/terms-of-service/" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="https://marketmonie.com/privacy-policy/" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
+              <p className="text-gray-500 dark:text-white text-xs sm:text-sm">By clicking Create Account, you agree to the <Link to="https://marketmonie.com/privacy-policy/" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="https://marketmonie.com/terms-of-service/" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
               {errors.agreeTerms && (
                 <p className="mt-1 text-xs text-red-500 font-medium">{errors.agreeTerms.message}</p>
               )}

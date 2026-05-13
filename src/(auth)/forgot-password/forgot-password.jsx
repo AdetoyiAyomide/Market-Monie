@@ -90,9 +90,11 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="w-full">
-      <AnimatePresence mode="wait">
-        {stage === STAGES.PHONE && (
+    <div className="w-full pt-2 pb-10 font-poppins">
+      <div className="flex-1 w-full flex justify-center">
+        <div className="w-full max-w-2xl lg:px-4 px-0">
+          <AnimatePresence mode="wait">
+            {stage === STAGES.PHONE && (
           <motion.div
             key="phone-stage"
             variants={containerVariants}
@@ -238,10 +240,10 @@ const ForgotPassword = () => {
             className="space-y-6"
           >
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-poppins">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white font-poppins">
                 Set New Password
               </h2>
-              <p className="mt-2 text-sm text-gray-600 font-poppins">
+              <p className="mt-2 text-sm text-gray-600 dark:text-white font-poppins">
                 Must be at least 8 characters with a mix of letters, numbers & symbols.
               </p>
             </div>
@@ -249,23 +251,23 @@ const ForgotPassword = () => {
             <form onSubmit={handleResetSubmit(onResetSubmit)} className="space-y-6">
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
+                  <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                     New Password
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="h-5 w-5 text-gray-400" />
+                      <FiLock className="h-5 w-5 text-gray-400 dark:text-white" />
                     </div>
                     <input
                       {...registerReset("password")}
                       type={showPassword ? "text" : "password"}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-white transition-colors"
                     >
                       {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
@@ -278,23 +280,23 @@ const ForgotPassword = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900">
+                  <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                     Confirm Password
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="h-5 w-5 text-gray-400" />
+                      <FiLock className="h-5 w-5 text-gray-400 dark:text-white" />
                     </div>
                     <input
                       {...registerReset("confirmPassword")}
                       type={showConfirmPassword ? "text" : "password"}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-white transition-colors"
                     >
                       {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
@@ -309,11 +311,9 @@ const ForgotPassword = () => {
 
               <div className="space-y-2 py-2">
                  {[
-                   { label: "At least 8 characters", met: true },
-                   { label: "Contains a number", met: true },
-                   { label: "Contains a special character", met: true }
+                   { label: "Please enter a 6-digit pin", met: true }
                  ].map((rule, i) => (
-                   <div key={i} className="flex items-center gap-2 text-xs text-gray-500">
+                   <div key={i} className="flex items-center gap-2 text-xs text-gray-500 dark:text-white">
                      <FiCheckCircle size={14} className="text-emerald-500" />
                      <span>{rule.label}</span>
                    </div>
@@ -330,7 +330,9 @@ const ForgotPassword = () => {
             </form>
           </motion.div>
         )}
-      </AnimatePresence>
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 };
