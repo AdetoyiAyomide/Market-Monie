@@ -82,6 +82,10 @@ const LandingPage2 = () => {
   const handleLocationContinue = () => {
     setSelectedTownGlobal(selectedTown);
     setSelectedAreaGlobal(selectedArea);
+    localStorage.setItem("selectedState", selectedState);
+    localStorage.setItem("selectedLga", selectedLga);
+    localStorage.setItem("selectedTown", selectedTown);
+    localStorage.setItem("selectedArea", selectedArea);
     
     const hubs = branchAddresses[selectedState] || [];
 
@@ -91,8 +95,8 @@ const LandingPage2 = () => {
     } else {
       setNoHubAlert(true);
       setNoHubStateGlobal(true);
-      setSelectedHub("No Hub (Remote)");
-      setSelectedHubGlobal("No Hub (Remote)");
+      setSelectedHub("No Hub");
+      setSelectedHubGlobal("No Hub");
     }
     setStep(2); // Move to Hub selection or No Hub alert
   };
@@ -107,8 +111,8 @@ const LandingPage2 = () => {
 
 
   const handleContinueNoHub = () => {
-    setSelectedHub("No Hub (Remote)");
-    setSelectedHubGlobal("No Hub (Remote)");
+    setSelectedHub("No Hub");
+    setSelectedHubGlobal("No Hub");
     setNoHubStateGlobal(true);
     setStep(2);
   };
@@ -403,10 +407,7 @@ const LandingPage2 = () => {
                                     type="text"
                                     placeholder="e.g. Uyo or Onitsha"
                                     value={selectedTown}
-                                    onChange={(e) => {
-                                    const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
-                                    setSelectedTown(value);
-                                  }}
+                                    onChange={(e) => setSelectedTown(e.target.value)}
                                     className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
                                   />
                                 </div>
@@ -422,9 +423,7 @@ const LandingPage2 = () => {
                                     type="text"
                                     placeholder="e.g. Market Road, Ojota"
                                     value={selectedArea}
-                                    onChange={(e) => {
-                                      const value = e.target.value.replace(/[^A-Za-z\s]/g, "");
-                                      setSelectedArea(value)}}
+                                    onChange={(e) => setSelectedArea(e.target.value)}
                                     className="w-full bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-500 transition-all placeholder:text-gray-400 dark:text-white dark:placeholder:text-white text-gray-900 dark:text-white shadow-sm font-medium dark:text-white"
                                   />
                                 </div>

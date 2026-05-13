@@ -1,15 +1,36 @@
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useQuery } from "@tanstack/react-query";
+import { locationService } from "../../../services/locationService";
 
-const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
+const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   const [isBusinessTypeOpen, setIsBusinessTypeOpen] = useState(false);
   const [isBusinessYearsOpen, setIsBusinessYearsOpen] = useState(false);
   const [isDailySalesOpen, setIsDailySalesOpen] = useState(false);
+  const [isStateOpen, setIsStateOpen] = useState(false);
+  const [isLgaOpen, setIsLgaOpen] = useState(false);
+
   const businessTypeDropdownRef = useRef(null);
   const businessYearsDropdownRef = useRef(null);
   const dailySalesDropdownRef = useRef(null);
+  const stateDropdownRef = useRef(null);
+  const lgaDropdownRef = useRef(null);
 
   const [errors, setErrors] = useState({});
+
+  // Query for states
+  const { data: states = [], isLoading: loadingStates } = useQuery({
+    queryKey: ['location-states'],
+    queryFn: () => locationService.getStates(),
+    enabled: isGuest
+  });
+
+  // Query for LGAs (enabled only if state is selected)
+  const { data: lgas = [], isFetching: loadingLgas } = useQuery({
+    queryKey: ['location-lgas', data.businessState],
+    queryFn: () => locationService.getLGAs(data.businessState),
+    enabled: isGuest && !!data.businessState,
+  });
 
   const businessKinds = [
     "Farming", "Food Processing", "Bakery Business", "Restaurants and Catering",
@@ -31,13 +52,17 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
       if (businessTypeDropdownRef.current && !businessTypeDropdownRef.current.contains(event.target)) {
         setIsBusinessTypeOpen(false);
       }
-
       if (businessYearsDropdownRef.current && !businessYearsDropdownRef.current.contains(event.target)) {
         setIsBusinessYearsOpen(false);
       }
-
       if (dailySalesDropdownRef.current && !dailySalesDropdownRef.current.contains(event.target)) {
         setIsDailySalesOpen(false);
+      }
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setIsStateOpen(false);
+      }
+      if (lgaDropdownRef.current && !lgaDropdownRef.current.contains(event.target)) {
+        setIsLgaOpen(false);
       }
     };
 
@@ -107,43 +132,91 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
         />
 
         <div className="space-y-4 pt-2 pb-2">
-          <label className="text-xs font-bold text-emerald-600 dark:text-white tracking-widest ml-1">
+          <label className="text-xs font-bold text-emerald-600 dark:text-white tracking-widest ml-1 uppercase">
              Business Location
           </label>
+          
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white">
-                State
-              </label>
-              <div className="block w-full rounded-xl border-2 border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black px-4 py-4 text-gray-500 dark:text-white font-medium text-sm">
-                {data.businessState}
-              </div>
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white">
-                LGA
-              </label>
-              <div className="block w-full rounded-xl border-2 border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black px-4 py-4 text-gray-500 dark:text-white font-medium text-sm">
-                {data.businessLga}
-              </div>
-            </div>
+            {isGuest ? (
+              <>
+                <CustomSelectGroup 
+                  label="State" 
+                  value={data.businessState} 
+                  isOpen={isStateOpen}
+                  onToggle={() => setIsStateOpen(!isStateOpen)}
+                  onSelect={(val) => {
+                    onChange('businessState', val);
+                    onChange('businessLga', '');
+                    setIsStateOpen(false);
+                  }}
+                  options={states}
+                  dropdownRef={stateDropdownRef}
+                  placeholder="Select State"
+                  error={errors.businessState}
+                  disabled={loadingStates}
+                />
+                <CustomSelectGroup 
+                  label="LGA" 
+                  value={data.businessLga} 
+                  isOpen={isLgaOpen}
+                  onToggle={() => setIsLgaOpen(!isLgaOpen)}
+                  onSelect={(val) => {
+                    onChange('businessLga', val);
+                    setIsLgaOpen(false);
+                  }}
+                  options={lgas}
+                  dropdownRef={lgaDropdownRef}
+                  placeholder="Select LGA"
+                  error={errors.businessLga}
+                  disabled={loadingLgas || !data.businessState}
+                />
+              </>
+            ) : (
+              <>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white uppercase">
+                    State
+                  </label>
+                  <div className={`block w-full rounded-xl border-2 px-4 py-4 font-medium text-sm transition-all ${
+                    data.businessState 
+                      ? "border-emerald-500 bg-gray-50/30 text-gray-900 dark:text-white" 
+                      : "border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black text-gray-500 dark:text-white"
+                  }`}>
+                    {data.businessState}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 dark:text-white uppercase">
+                    LGA
+                  </label>
+                  <div className={`block w-full rounded-xl border-2 px-4 py-4 font-medium text-sm transition-all ${
+                    data.businessLga 
+                      ? "border-emerald-500 bg-gray-50/30 text-gray-900 dark:text-white" 
+                      : "border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black text-gray-500 dark:text-white"
+                  }`}>
+                    {data.businessLga}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 uppercase dark:text-white">
-              Town / City
-            </label>
-            <div className="block w-full rounded-xl border-2 border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black px-4 py-4 text-gray-500 dark:text-white font-medium text-sm">
-              {data.businessTown}
-            </div>
-          </div>
-          <div className="space-y-2">
-            <label className="text-xs font-bold tracking-widest ml-1 text-emerald-600 uppercase dark:text-white">
-              Area / Street Name
-            </label>
-            <div className="block w-full rounded-xl border-2 border-gray-100 dark:border-gray-800 bg-gray-100/50 dark:bg-black px-4 py-4 text-gray-500 dark:text-white font-medium text-sm">
-              {data.businessArea || "Not Provided"}
-            </div>
-          </div>
+
+          <InputGroup 
+            label="Town / City" 
+            value={data.businessTown} 
+            onChange={(e) => onChange('businessTown', e.target.value)}
+            placeholder="e.g. Ikeja"
+            readOnly={!!localStorage.getItem("selectedTown")}
+            error={errors.businessTown}
+          />
+          <InputGroup 
+            label="Area / Street Name" 
+            value={data.businessArea} 
+            onChange={(e) => onChange('businessArea', e.target.value)}
+            placeholder="e.g. 12 Allen Avenue"
+            readOnly={!!localStorage.getItem("selectedArea")}
+            error={errors.businessArea}
+          />
         </div>
 
         <CustomSelectGroup 
@@ -217,7 +290,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, placeholder, error }) => {
+const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = false }) => {
   const isValid = !error && value && value !== "";
   return (
     <div className="space-y-2">
@@ -229,6 +302,7 @@ const InputGroup = ({ label, value, onChange, placeholder, error }) => {
           type="text"
           value={value}
           onChange={onChange}
+          readOnly={readOnly}
           placeholder={placeholder}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
             error 
@@ -236,7 +310,7 @@ const InputGroup = ({ label, value, onChange, placeholder, error }) => {
               : isValid
                 ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                 : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-          }`}
+          } ${readOnly ? "bg-gray-100/50 text-gray-500 dark:text-white cursor-not-allowed opacity-80" : ""}`}
         />
       </div>
     </div>
@@ -257,14 +331,12 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           onClick={onToggle}
           disabled={disabled}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white px-4 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
-            disabled 
-              ? "opacity-50 grayscale cursor-not-allowed border-gray-100 dark:border-gray-800" 
-              : error
-                ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-                : isValid
-                  ? "border-emerald-500 text-gray-900 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                  : "border-gray-200 text-gray-400 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-          }`}
+            error
+              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              : isValid
+                ? "border-emerald-500 text-gray-900 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                : "border-gray-200 text-gray-400 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+          } ${disabled ? "opacity-50 grayscale cursor-not-allowed !border-emerald-500" : ""}`}
         >
           <span className={value ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-white"}>
           {disabled && !value 

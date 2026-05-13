@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { FiUser, FiMail, FiCalendar, FiHome, FiMapPin, FiMap, FiType, FiLoader, FiHash, FiChevronUp, FiChevronDown, FiAlertCircle } from "react-icons/fi";
+import { FiUser, FiMail, FiCalendar, FiHome, FiMapPin, FiMap, FiType, FiLoader, FiHash, FiChevronUp, FiChevronDown, FiAlertCircle, FiUploadCloud, FiCheck } from "react-icons/fi";
 
 import { getDaysInMonth, eachMonthOfInterval, startOfYear, endOfYear, format } from 'date-fns';
 import { useQuery } from "@tanstack/react-query";
@@ -21,14 +21,12 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, readOnly = fals
         readOnly={readOnly}
         placeholder={placeholder}
         className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
-          readOnly 
-            ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed border-gray-100" 
-            : error 
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
-              : value
-                ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-        }`}
+          error 
+            ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+            : value
+              ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+        } ${readOnly ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed" : ""}`}
       />
     </div>
     {error && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{error}</p>}
@@ -81,7 +79,7 @@ const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isVal
                 key={opt.value}
                 type="button"
                 onClick={() => {
-                  onChange({ target: { value: opt.value } });
+                  onChange(opt.value);
                   setIsOpen(false);
                 }}
                 className={`block w-full px-4 py-3 text-left text-sm transition-colors hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-gray-900 dark:hover:text-emerald-400 ${
@@ -97,6 +95,47 @@ const SelectGroupSimple = ({ value, onChange, options, placeholder, error, isVal
     </div>
   );
 };
+
+const FileUpload = ({ file, onFileSelect, label, description, error }) => (
+  <div className="relative group cursor-pointer w-full">
+    <input 
+      type="file" 
+      accept=".jpg,.jpeg,.png,.pdf"
+      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+      onChange={(e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile && selectedFile.size <= 2 * 1024 * 1024) {
+          onFileSelect(selectedFile);
+        } else if (selectedFile) {
+          alert("File size must be less than 2MB");
+        }
+      }}
+    />
+    <div className={`p-6 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 ${
+      error 
+        ? "bg-red-50 border-red-300"
+        : file 
+          ? "bg-emerald-50 border-emerald-300" 
+          : "bg-gray-50/50 border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
+    }`}>
+      <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
+        error 
+          ? "bg-red-100 text-red-600"
+          : file 
+            ? "bg-emerald-100 text-emerald-600" 
+            : "bg-gray-100 text-gray-400"
+      }`}>
+        {file ? <FiCheck size={20} /> : <FiUploadCloud size={20} />}
+      </div>
+      <p className={`text-sm font-bold ${error ? "text-red-700" : (file ? "text-emerald-700" : "text-gray-900")}`}>
+        {file ? file.name : label}
+      </p>
+      <p className="text-[10px] text-gray-500 text-center tracking-wider font-medium">
+         {description}
+      </p>
+    </div>
+  </div>
+);
 
 /**
  * Custom searchable dropdown for locations and IDs
@@ -188,50 +227,43 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   const [isTitleOpen, setIsTitleOpen] = useState(false);
   
   // Split DOB YYYY-MM-DD
-  const dobParts = data.dob ? data.dob.split('-') : ['', '', ''];
-  const currentYear = dobParts[0] || "";
-  const currentMonth = dobParts[1] || "";
-  const currentDay = dobParts[2] || "";
+  const [currentYear = "", currentMonth = "", currentDay = ""] =
+  data.dob?.split("-") || [];
 
-  // Dynamic days based on selection - Defensive calculation to prevent RangeError
+
   let maxDays = 31;
-  try {
-    if (currentYear && currentMonth) {
-      const parsedYear = parseInt(currentYear);
-      const parsedMonth = parseInt(currentMonth);
-      if (!isNaN(parsedYear) && !isNaN(parsedMonth)) {
-        maxDays = getDaysInMonth(new Date(parsedYear, parsedMonth - 1));
-      }
+
+if (currentYear && currentMonth) {
+  const parsedYear = Number(currentYear);
+  const parsedMonth = Number(currentMonth);
+
+  if (!Number.isNaN(parsedYear) && !Number.isNaN(parsedMonth)) {
+    maxDays = getDaysInMonth(new Date(parsedYear, parsedMonth - 1));
+  }
+}
+
+const days = Array.from({ length: maxDays }, (_, i) =>
+  String(i + 1).padStart(2, "0")
+);
+  
+ const handleDateChange = (type, value) => {
+  let y = currentYear;
+  let m = currentMonth;
+  let d = currentDay;
+
+  if (type === "year") y = value;
+  if (type === "month") m = value;
+  if (type === "day") d = value;
+
+  if (y && m) {
+    const max = getDaysInMonth(new Date(Number(y), Number(m) - 1));
+    if (Number(d) > max) {
+      d = String(max).padStart(2, "0");
     }
-  } catch (e) {
-    maxDays = 31;
   }
 
-  const days = Array.from({ length: maxDays || 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
-  
-  const handleDateChange = (type, value) => {
-    let year = currentYear;
-    let month = currentMonth;
-    let day = currentDay;
-
-    if (type === 'year') {
-      year = value;
-      if (month && year) {
-        const newMax = getDaysInMonth(new Date(parseInt(year), parseInt(month) - 1));
-        if (parseInt(day) > newMax) day = newMax.toString().padStart(2, '0');
-      }
-    }
-    if (type === 'month') {
-      month = value;
-      if (month && year) {
-        const newMax = getDaysInMonth(new Date(parseInt(year), parseInt(month) - 1));
-        if (parseInt(day) > newMax) day = newMax.toString().padStart(2, '0');
-      }
-    }
-    if (type === 'day') day = value;
-
-    onChange('dob', `${year}-${month}-${day}`);
-  };
+  onChange("dob", `${y}-${m}-${d}`);
+};
 
   const months = eachMonthOfInterval({
     start: startOfYear(new Date()),
@@ -292,13 +324,12 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
     if (!data.firstname) newErrors.firstname = "Required";
     if (!data.lastname) newErrors.lastname = "Required";
     if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Required";
-    if (!data.bvn) newErrors.bvn = "Required";
-    else if (data.bvn.length !== 11) newErrors.bvn = "BVN must be 11 digits";
+    if (!data.bvn || data.bvn.length !== 11) newErrors.bvn = "Please enter a valid BVN";
     if (!data.phone) newErrors.phone = "Required";
     if (!data.state) newErrors.state = "Required";
     if (!data.lga) newErrors.lga = "Required";
-    if (!data.area) newErrors.area = "Required";
-    if (!data.houseAddress) newErrors.houseAddress = "Required";
+    if (!data.area) newErrors.area = "Town / City is required";
+    if (!data.houseAddress) newErrors.houseAddress = "House Number and Street is required";
     if (!data.idType) newErrors.idType = "Required";
     if (!data.idNumber) newErrors.idNumber = "Required";
     
@@ -339,7 +370,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         <div className="grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 items-end">
           <div className="col-span-2 md:col-span-2 flex md:block items-center justify-between md:justify-start gap-4">
              <label className={`text-[10px] font-bold tracking-widest ml-1 transition-colors whitespace-nowrap mb-0 md:mb-2 ${errors.title ? 'text-red-500' : 'text-black dark:text-white'}`}>
-               TITLE
+               Title
              </label>
              <div className="relative w-24 md:w-full">
                  <button
@@ -347,14 +378,12 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                   disabled={!isGuest}
                   onClick={() => setIsTitleOpen(!isTitleOpen)}
                   className={`flex h-[50px] md:h-[60px] w-full items-center justify-between rounded-xl border-2 px-3 md:px-4 transition-all outline-none font-medium dark:bg-black dark:text-white ${
-                    !isGuest
-                      ? "border-gray-100 bg-gray-100/50 text-gray-500 dark:text-white cursor-not-allowed opacity-80"
-                      : errors.title 
-                        ? "border-red-300 bg-red-50/10" 
-                        : data.title 
-                          ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
-                          : "border-gray-200 bg-gray-50/30 text-gray-400 dark:text-white"
-                  }`}
+                    errors.title 
+                      ? "border-red-300 bg-red-50/10" 
+                      : data.title 
+                        ? "border-emerald-500 bg-gray-50/30 text-gray-900" 
+                        : "border-gray-200 bg-gray-50/30 text-gray-400 dark:text-white"
+                  } ${!isGuest ? "bg-gray-100/50 text-gray-500 dark:text-white cursor-not-allowed opacity-80" : ""}`}
                 >
                   <span className="text-xs font-bold">
                     {data.title || "Mr"}
@@ -392,6 +421,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               onChange={(e) => onChange('firstname', e.target.value)}
               icon={<FiUser />} 
               readOnly={!isGuest}
+              placeholder="e.g. John"
               error={errors.firstname}
             />
           </div>
@@ -402,6 +432,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               onChange={(e) => onChange('lastname', e.target.value)}
               icon={<FiUser />} 
               readOnly={!isGuest}
+              placeholder="e.g. Doe"
               error={errors.lastname}
             />
           </div>
@@ -421,20 +452,26 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                 readOnly={!isGuest}
                 value={(data.phone || "").replace(/^\+234/, '').replace(/^\(\+234\) 0/, '').replace(/^\+234 \(0\)/, '').trim()}
                 onChange={(e) => {
-                  const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  const rawValue = e.target.value;
+                  const val = rawValue.replace(/\D/g, '').slice(0, 10);
+                  
+                  // Check if the user tried to enter non-digits
+                  if (/\D/.test(rawValue)) {
+                    setErrors(prev => ({ ...prev, phone: "Please enter a valid phone number" }));
+                  } else if (errors.phone === "Please enter a valid phone number") {
+                    setErrors(prev => ({ ...prev, phone: null }));
+                  }
+                  
                   onChange('phone', val);
-                  if (errors.phone) setErrors(prev => ({ ...prev, phone: null }));
                 }}
-                placeholder="812 345 6789"
+                placeholder="e.g. 08136546719"
                 className={`block w-full rounded-xl border-2 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium sm:text-sm pl-[88px] pr-4 dark:bg-black dark:text-white dark:placeholder-white ${
-                  !isGuest
-                    ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed border-gray-100"
-                    : errors.phone 
+                    errors.phone 
                       ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
                       : data.phone
                         ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                         : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                }`}
+                } ${!isGuest ? "bg-gray-100/80 text-gray-500 dark:text-white cursor-not-allowed" : ""}`}
               />
             </div>
             {errors.phone && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.phone}</p>}
@@ -445,8 +482,22 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             <InputGroup 
               label={<>Email Address <span className="text-gray-400 dark:text-white font-normal normal-case ml-1">(optional)</span></>} 
               value={data.email} 
-              onChange={(e) => onChange('email', e.target.value)}
-              placeholder="e.g. john@example.com"
+              onChange={(e) => {
+                const val = e.target.value;
+                onChange('email', val);
+                
+                if (val) {
+                  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                  if (!emailRegex.test(val)) {
+                    setErrors(prev => ({ ...prev, email: "Please enter a valid email address" }));
+                  } else {
+                    setErrors(prev => ({ ...prev, email: null }));
+                  }
+                } else {
+                  setErrors(prev => ({ ...prev, email: null }));
+                }
+              }}
+              placeholder="e.g. john@gmail.com"
               icon={<FiMail />} 
               error={errors.email}
             />
@@ -460,7 +511,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           <div className="grid grid-cols-3 gap-3">
             <SelectGroupSimple
               value={currentDay}
-              onChange={(e) => handleDateChange('day', e.target.value)}
+              onChange={(val) => handleDateChange("day", val)}
               options={days.map(d => ({ label: d, value: d }))}
               placeholder="Day"
               error={!!errors.dob}
@@ -468,7 +519,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             />
             <SelectGroupSimple
               value={currentMonth}
-              onChange={(e) => handleDateChange('month', e.target.value)}
+              onChange={(val) => handleDateChange("month", val)}
               options={months.map(m => ({ label: m.name, value: m.value }))}
               placeholder="Month"
               error={!!errors.dob}
@@ -476,7 +527,7 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
             />
             <SelectGroupSimple
               value={currentYear}
-              onChange={(e) => handleDateChange('year', e.target.value)}
+              onChange={(val) => handleDateChange("year", val)}
               options={years.map(y => ({ label: y, value: y }))}
               placeholder="Year"
               error={!!errors.dob}
@@ -498,10 +549,15 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
                 inputMode="numeric"
                 value={data.bvn || ""}
                 onChange={(e) => {
-                  const val = e.target.value.replace(/\D/g, "");
+                  const rawValue = e.target.value;
+                  const val = rawValue.replace(/\D/g, "");
                   if (val.length <= 11) {
+                    if (/\D/.test(rawValue)) {
+                      setErrors(prev => ({ ...prev, bvn: "Please enter a valid BVN" }));
+                    } else if (errors.bvn === "Please enter a valid BVN") {
+                      setErrors(prev => ({ ...prev, bvn: null }));
+                    }
                     onChange('bvn', val);
-                    if (errors.bvn) setErrors(prev => ({ ...prev, bvn: null }));
                   }
                 }}
                 placeholder="Enter your 11-digit BVN"
@@ -599,6 +655,22 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
               {errors.idNumber && <p className="mt-1 text-xs text-red-500 animate-in fade-in slide-in-from-top-1 ml-1 font-medium">{errors.idNumber}</p>}
             </div>
           </div>
+
+          <div className="pt-2">
+            <label className="text-xs font-bold tracking-widest ml-1 mb-2 block text-gray-400 dark:text-white ">
+              ID upload  <span className="text-[9px]">(optional)</span>
+            </label>
+            <FileUpload 
+              file={data.idFile}
+              onFileSelect={(file) => {
+                onChange('idFile', file);
+                if (errors.idFile) setErrors(prev => ({ ...prev, idFile: null }));
+              }}
+              label="Click to add file"
+              description="JPEG, PNG or PDF. Max 2MB."
+              error={errors.idFile}
+            />
+          </div>
         </div>
 
         <div className="pt-6 border-t border-gray-100 space-y-4">
@@ -636,28 +708,26 @@ const PersonalDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           </div>
 
           <InputGroup 
-            label="Area / Street" 
+            label="Town / City" 
             value={data.area} 
             onChange={(e) => {
-              const val = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-              onChange('area', val);
+              onChange('area', e.target.value);
               if (errors.area) setErrors(prev => ({ ...prev, area: null }));
             }}
             error={errors.area}
-            placeholder="Enter your area or street"
+            placeholder="Enter your town or street name"
             icon={<FiMapPin />} 
           />
 
           <InputGroup 
-            label="House Number" 
+            label="House Number and Street" 
             value={data.houseAddress} 
             onChange={(e) => {
-              const val = e.target.value.replace(/\D/g, ''); // Numbers only
-              onChange('houseAddress', val);
+              onChange('houseAddress', e.target.value);
               if (errors.houseAddress) setErrors(prev => ({ ...prev, houseAddress: null }));
             }}
             error={errors.houseAddress}
-            placeholder="Enter house number"
+            placeholder="e.g 12 Market road"
             icon={<FiHome />} 
           />
         </div>

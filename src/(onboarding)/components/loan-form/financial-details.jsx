@@ -52,7 +52,14 @@ const FinancialDetails = ({ data, onChange, onContinue, onBack }) => {
               type="text"
               inputMode="decimal"
               value={data.loanAmount}
-              onChange={(e) => onChange('loanAmount', e.target.value.replace(/\D/g, ''))}
+  onChange={(e) =>
+    onChange("loanAmount", e.target.value.replace(/\D/g, ""))
+  }
+  onBlur={() => {
+    if (data.loanAmount) {
+      onChange("loanAmount", `${data.loanAmount}.00`);
+    }
+  }}
               placeholder="e.g. 100,000"
               className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-bold text-lg ${
                 data.loanAmount 
@@ -187,7 +194,7 @@ const CustomSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChang
                 <li
                   key={opt}
                   onClick={() => onSelect(opt)}
-                  className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
+                  className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium dark:text-white transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
                     value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
                   }`}
                 >

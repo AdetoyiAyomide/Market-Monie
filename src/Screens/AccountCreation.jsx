@@ -131,7 +131,7 @@ const isOtpComplete = otp.every(d => d !== "");
                 </div>
 
                 <div className='flex text-xs text-slate-500 dark:text-white gap-3 self-start text-center w-full justify-center py-2'>
-                  <p>By clicking Create Account, you agree to MarketMonie's {" "}<a href="" className='text-green-800 font-semibold hover:underline'>Terms of service</a> and {" "}<a href="" className='text-green-800 font-semibold hover:underline'>Privacy Policy</a></p>
+                  <p>By clicking Create Account, you agree to MarketMonie's {" "}<Link to="https://marketmonie.com/terms-of-service/" className='text-green-800 font-semibold hover:underline'>Terms of service</Link> and {" "}<Link to="https://marketmonie.com/privacy-policy/" className='text-green-800 font-semibold hover:underline'>Privacy Policy</Link></p>
                 </div>
                 <div className='w-full'>
                    <button onClick={() => {if (isFormValid) {setIsOtpSent(true); setTimer(180);}}} className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium ${isFormValid ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer" : "bg-green-100 text-green-400 cursor-not-allowed"}`}>

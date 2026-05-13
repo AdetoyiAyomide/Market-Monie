@@ -19,6 +19,8 @@ const Register = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isSubmitted },
     setValue,
+    setError,
+    clearErrors,
     watch,
   } = useForm({
     resolver: zodResolver(registerSchema),
@@ -65,6 +67,8 @@ const Register = () => {
     localStorage.setItem("firstName", data.firstName);
     localStorage.setItem("lastName", data.lastName);
     localStorage.setItem("title", data.title || "Mr");
+    localStorage.setItem("email", data.email || "");
+    localStorage.setItem("phone", data.phone);
     // Navigate directly to phone verification with pre-filled phone
     navigate("/onboarding/phone", { state: { phone: data.phone } });
   };
@@ -193,11 +197,21 @@ const Register = () => {
                   +234 (0)
                 </div>
                 <input
-                  {...register("phone")}
-                  type="number"
+                  {...register("phone", {
+                    onChange: (e) => {
+                      const rawValue = e.target.value;
+                      const numericValue = rawValue.replace(/\D/g, "").slice(0, 11);
+                      if (/\D/.test(rawValue)) {
+                        setError("phone", { type: "manual", message: "Please enter a valid phone number" });
+                      } else {
+                        clearErrors("phone");
+                      }
+                      setValue("phone", numericValue);
+                    }
+                  })}
+                  type="tel"
                   placeholder="e.g 08136546719"
                   className={`${getInputClassName("phone", true)} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
-
                 />
               </div>
               {errors.phone && (
@@ -211,7 +225,21 @@ const Register = () => {
                 Email Address <span className="text-gray-400 dark:text-white font-normal normal-case ml-1">(optional)</span>
               </label>
               <input
-                {...register("email")}
+                {...register("email", {
+                  onChange: (e) => {
+                    const val = e.target.value;
+                    if (val) {
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                      if (!emailRegex.test(val)) {
+                        setError("email", { type: "manual", message: "Please enter a valid email address" });
+                      } else {
+                        clearErrors("email");
+                      }
+                    } else {
+                      clearErrors("email");
+                    }
+                  }
+                })}
                 type="email"
                 placeholder="e.g. john@gmail.com"
                 className={`mt-2 ${getInputClassName("email")}`}
@@ -230,16 +258,29 @@ const Register = () => {
               </label>
               <div className="mt-2 relative">
                 <input
-                  {...register("password")}
-                  type={showPassword ? "number" : "password"}
+                  {...register("password", {
+                    onChange: (e) => {
+                      const rawValue = e.target.value;
+                      const numericValue = rawValue.replace(/\D/g, "").slice(0, 6);
+                      if (numericValue.length < 6 && numericValue.length > 0) {
+                        setError("password", { type: "manual", message: "Please enter a 6 digit number" });
+                      } else if (/\D/.test(rawValue)) {
+                         setError("password", { type: "manual", message: "Please enter a 6 digit number" });
+                      } else {
+                        clearErrors("password");
+                      }
+                      setValue("password", numericValue);
+                    }
+                  })}
+                  type={showPassword ? "text" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className={`${getInputClassName("password")} pr-12 tracking-widest font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  className={`${getInputClassName("password")} pr-12 tracking-widest font-mono`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 dark:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 transition-colors"
                 >
                   {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
@@ -256,16 +297,33 @@ const Register = () => {
               </label>
               <div className="mt-2 relative">
                 <input
-                  {...register("confirmPassword")}
-                  type={showConfirmPassword ? "number" : "password"}
+                  {...register("confirmPassword", {
+                    onChange: (e) => {
+                      const rawValue = e.target.value;
+                      const numericValue = rawValue.replace(/\D/g, "").slice(0, 6);
+                      const createPin = watch("password");
+                      
+                      if (numericValue.length < 6 && numericValue.length > 0) {
+                        setError("confirmPassword", { type: "manual", message: "Please enter a 6 digit number" });
+                      } else if (/\D/.test(rawValue)) {
+                        setError("confirmPassword", { type: "manual", message: "Please enter a 6 digit number" });
+                      } else if (numericValue.length === 6 && numericValue !== createPin) {
+                        setError("confirmPassword", { type: "manual", message: "PINs do not match" });
+                      } else {
+                        clearErrors("confirmPassword");
+                      }
+                      setValue("confirmPassword", numericValue);
+                    }
+                  })}
+                  type={showConfirmPassword ? "text" : "password"}
                   maxLength={6}
                   placeholder="••••••"
-                  className={`${getInputClassName("confirmPassword")} pr-12 tracking-widest font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  className={`${getInputClassName("confirmPassword")} pr-12 tracking-widest font-mono`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 dark:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-white hover:text-gray-600 transition-colors"
                 >
                   {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
@@ -295,7 +353,7 @@ const Register = () => {
            {/* Terms and Conditions */}
           <div className="flex items-start gap-3 py-2">
             <div className="text-sm leading-6">
-              <p className="text-gray-500 dark:text-white text-xs sm:text-sm">By clicking Create Account, you agree to the <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="#" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
+              <p className="text-gray-500 dark:text-white text-xs sm:text-sm">By clicking Create Account, you agree to the <Link to="https://marketmonie.com/terms-of-service/" className="text-emerald-600 font-semibold hover:text-emerald-500">Privacy Policy</Link> and <Link to="https://marketmonie.com/privacy-policy/" className="text-emerald-600 font-semibold hover:text-emerald-500">Terms of Service</Link>.</p>
               {errors.agreeTerms && (
                 <p className="mt-1 text-xs text-red-500 font-medium">{errors.agreeTerms.message}</p>
               )}

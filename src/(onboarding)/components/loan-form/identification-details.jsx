@@ -149,7 +149,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               setErrors(prev => ({ ...prev, idFile: false }));
             }}
             label={`Upload ${data.idType || 'ID'}`}
-            description="PNG, JPG or PDF. Max 5MB."
+            description="PNG, JPG or PDF. Max 2MB."
             error={errors.idFile}
           />
         </section>
@@ -219,21 +219,21 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
         ? "bg-red-50 border-red-300"
         : file 
           ? "bg-emerald-50 border-emerald-300" 
-          : "bg-gray-50/50 border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
+          : "bg-gray-50/50 dark:bg-black border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
     }`}>
       <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
         error 
           ? "bg-red-100 text-red-600"
           : file 
             ? "bg-emerald-100 text-emerald-600" 
-            : "bg-gray-100 text-gray-400"
+            : "bg-gray-100 dark:bg-black text-gray-400"
       }`}>
         {file ? <FiCheck size={20} /> : <FiUploadCloud size={20} />}
       </div>
       <p className={`text-sm font-bold ${error ? "text-red-700" : (file ? "text-emerald-700" : "text-gray-900")}`}>
         {file ? file.name : label}
       </p>
-      <p className="text-[10px] text-gray-500 text-center tracking-wider font-medium">
+      <p className="text-[10px] text-gray-500 dark:text-black text-center tracking-wider font-medium">
          {description}
       </p>
     </div>

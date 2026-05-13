@@ -47,6 +47,7 @@ const LoanApplication = () => {
         firstname: localStorage.getItem("firstName") || prev.firstname,
         lastname: localStorage.getItem("lastName") || prev.lastname,
         phone: localStorage.getItem("phone") || prev.phone,
+        email: localStorage.getItem("email") || prev.email,
       }));
     }
   }, []);
@@ -59,13 +60,13 @@ const LoanApplication = () => {
 
     // Step 1: Personal (Pre-populated from mock BVN/Register data)
     title: "",
-    firstname: "Samuel",
-    lastname: "Peter",
-    middlename: "Blessing",
-    phone: "+234 812 345 6789",
+    firstname: "",
+    lastname: "",
+    middlename: "",
+    phone: "",
     bvn: "",
     email: "",
-    dob: "2000-01-27",
+    dob: "",
 
     // Step 2: Address
     state: "", 
@@ -83,10 +84,10 @@ const LoanApplication = () => {
 
     // Step 4: Business
     businessName: "",
-    businessState: selectedStateGlobal || location.state?.state || "",
-    businessLga: selectedLgaGlobal || "",
-    businessTown: selectedTownGlobal || "",
-    businessArea: selectedAreaGlobal || "",
+    businessState: localStorage.getItem("selectedState") || selectedStateGlobal || location.state?.state || "",
+    businessLga: localStorage.getItem("selectedLga") || selectedLgaGlobal || "",
+    businessTown: localStorage.getItem("selectedTown") || selectedTownGlobal || "",
+    businessArea: localStorage.getItem("selectedArea") || selectedAreaGlobal || "",
     businessType: "",
     otherBusiness: "",
     businessYears: "",
@@ -179,6 +180,7 @@ const LoanApplication = () => {
           onChange={updateFormData}
           onContinue={nextStep}
           onBack={prevStep}
+          isGuest={isGuestGlobal}
         />
       );
     case 2:
