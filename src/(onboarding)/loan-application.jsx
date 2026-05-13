@@ -121,9 +121,6 @@ const LoanApplication = () => {
     loans: []
   });
 
-  });
-
-
   const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };

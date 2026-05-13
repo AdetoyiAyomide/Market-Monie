@@ -75,8 +75,8 @@ const ForgotPassword = () => {
   if (stage === STAGES.SUCCESS) {
     return (
       <SuccessScreen
-        title="Password Reset!"
-        description="Your password has been successfully reset. You can now log in with your new credentials."
+        title="PIN Reset!"
+        description="Your PIN has been successfully reset. You can now log in with your new credentials."
         redirectPath="/login"
         countdownSeconds={5}
       />
@@ -241,10 +241,10 @@ const ForgotPassword = () => {
           >
             <div>
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white font-poppins">
-                Set New Password
+                Set New PIN
               </h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-white font-poppins">
-                Must be at least 8 characters with a mix of letters, numbers & symbols.
+                Please enter a new 6-digit PIN to secure your account.
               </p>
             </div>
 
@@ -252,7 +252,7 @@ const ForgotPassword = () => {
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                    New Password
+                    New PIN
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -261,8 +261,9 @@ const ForgotPassword = () => {
                     <input
                       {...registerReset("password")}
                       type={showPassword ? "text" : "password"}
+                      maxLength={6}
                       className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
-                      placeholder="••••••••"
+                      placeholder="••••••"
                     />
                     <button
                       type="button"
@@ -281,7 +282,7 @@ const ForgotPassword = () => {
 
                 <div>
                   <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                    Confirm Password
+                    Confirm PIN
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -290,8 +291,9 @@ const ForgotPassword = () => {
                     <input
                       {...registerReset("confirmPassword")}
                       type={showConfirmPassword ? "text" : "password"}
+                      maxLength={6}
                       className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
-                      placeholder="••••••••"
+                      placeholder="••••••"
                     />
                     <button
                       type="button"
@@ -325,7 +327,7 @@ const ForgotPassword = () => {
                 disabled={isResetSubmitting}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isResetSubmitting ? "Updating..." : "Reset Password"}
+                {isResetSubmitting ? "Updating..." : "Reset PIN"}
               </button>
             </form>
           </motion.div>
