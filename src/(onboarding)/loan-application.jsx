@@ -46,7 +46,7 @@ const LoanApplication = () => {
       // Note: In a real app, check for auth token here.
       setIsGuestGlobal(true);
     }
-    
+
     // If Guest, clear the mock BVN data so they can enter their own
     if (isGuestGlobal) {
       setFormData(prev => ({
@@ -74,7 +74,7 @@ const LoanApplication = () => {
   const [formData, setFormData] = useState({
     // Step 0: Hub
     hub: selectedHubGlobal || null,
-    selectedState: selectedStateGlobal || location.state?.state || "", 
+    selectedState: selectedStateGlobal || location.state?.state || "",
 
     // Step 1: Personal (Pre-populated from mock BVN/Register data)
     title: "",
@@ -87,7 +87,7 @@ const LoanApplication = () => {
     dob: "",
 
     // Step 2: Address
-    state: "", 
+    state: "",
     lga: "",
 
     area: "",
@@ -121,120 +121,120 @@ const LoanApplication = () => {
     loans: []
   });
 
-  });
+});
 
 
-  const updateFormData = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-  };
+const updateFormData = (field, value) => {
+  setFormData(prev => ({ ...prev, [field]: value }));
+};
 
-  const nextStep = () => setStep(prev => prev + 1);
-  const prevStep = () => setStep(prev => prev - 1);
-  const goToStep = (s) => setStep(s);
+const nextStep = () => setStep(prev => prev + 1);
+const prevStep = () => setStep(prev => prev - 1);
+const goToStep = (s) => setStep(s);
 
-  const handlePersonalDetailsContinue = () => {
-    if (isGuestGlobal) {
-      // For Guests, redirect to phone verification before proceeding to Business Details
-      navigate("/onboarding/phone", { 
-        state: { 
-          phone: formData.phone,
-          isGuestFlow: true 
-        } 
-      });
-    } else {
-      nextStep();
-    }
-  };
+const handlePersonalDetailsContinue = () => {
+  if (isGuestGlobal) {
+    // For Guests, redirect to phone verification before proceeding to Business Details
+    navigate("/onboarding/phone", {
+      state: {
+        phone: formData.phone,
+        isGuestFlow: true
+      }
+    });
+  } else {
+    nextStep();
+  }
+};
 
-  const handleSubmit = () => {
-    // Simulate API call
-    setTimeout(() => {
-      nextStep(); // Go to success screen
-    }, 1500);
-  };
+const handleSubmit = () => {
+  // Simulate API call
+  setTimeout(() => {
+    nextStep(); // Go to success screen
+  }, 1500);
+};
 
-  const handleCancel = () => {
-    if (window.confirm("Are you sure you want to cancel your application? All progress will be lost.")) {
-      navigate('/onboarding/phone'); // Go back to start of KYC
-    }
-  };
+const handleCancel = () => {
+  if (window.confirm("Are you sure you want to cancel your application? All progress will be lost.")) {
+    navigate('/onboarding/phone'); // Go back to start of KYC
+  }
+};
 
-  const withJourneyHeader = (content, activeStep = "application") => (
-    <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
-      <div className="flex flex-col lg:flex-row gap-4 items-start">
-        {/* Progress Sidebar - Placed at the very edge */}
-        <aside className="shrink-0 lg:sticky lg:top-4 pl-0">
-          <JourneyHeader activeStep={activeStep} orientation="vertical" />
-        </aside>
+const withJourneyHeader = (content, activeStep = "application") => (
+  <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
+    <div className="flex flex-col lg:flex-row gap-4 items-start">
+      {/* Progress Sidebar - Placed at the very edge */}
+      <aside className="shrink-0 lg:sticky lg:top-4 pl-0">
+        <JourneyHeader activeStep={activeStep} orientation="vertical" />
+      </aside>
 
-        {/* Main Form Content - Expanded and centered in remaining space */}
-        <div className="flex-1 w-full flex justify-center">
-          <div className="w-full max-w-2xl px-4 sm:px-0">
-            {content}
-          </div>
+      {/* Main Form Content - Expanded and centered in remaining space */}
+      <div className="flex-1 w-full flex justify-center">
+        <div className="w-full max-w-2xl px-4 sm:px-0">
+          {content}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 
-  // Render Logic
-  switch (step) {
-    case 0:
-      return withJourneyHeader(
-        <PersonalDetails 
-          data={formData} 
-          onChange={updateFormData}
-          onContinue={handlePersonalDetailsContinue}
-          onBack={() => navigate('/')}
-          isGuest={isGuestGlobal}
-        />
-      );
-    case 1:
-      return withJourneyHeader(
-        <BusinessDetails 
-          data={formData} 
-          onChange={updateFormData}
-          onContinue={nextStep}
-          onBack={prevStep}
-          isGuest={isGuestGlobal}
-        />
-      );
-    case 2:
-      return withJourneyHeader(
-        <FinancialDetails 
-          data={formData} 
-          onChange={updateFormData}
-          onContinue={nextStep}
-          onBack={prevStep}
-        />
-      );
-    case 3:
-      return withJourneyHeader(
-        <ExistingLoans 
-          data={formData} 
-          onChange={updateFormData}
-          onContinue={nextStep}
-          onBack={prevStep}
-        />
-      );
-    case 4:
-      return withJourneyHeader(
-        <ReviewApplication 
-          data={formData} 
-          onEdit={(s) => goToStep(s)}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          isGuest={isGuestGlobal}
-        />,
-        "review"
-      );
-    case 5:
-      return (
-        <ApplicationSuccess referenceId="MM-94202" />
-      );
-    default:
-      return null;
-  }
+// Render Logic
+switch (step) {
+  case 0:
+    return withJourneyHeader(
+      <PersonalDetails
+        data={formData}
+        onChange={updateFormData}
+        onContinue={handlePersonalDetailsContinue}
+        onBack={() => navigate('/')}
+        isGuest={isGuestGlobal}
+      />
+    );
+  case 1:
+    return withJourneyHeader(
+      <BusinessDetails
+        data={formData}
+        onChange={updateFormData}
+        onContinue={nextStep}
+        onBack={prevStep}
+        isGuest={isGuestGlobal}
+      />
+    );
+  case 2:
+    return withJourneyHeader(
+      <FinancialDetails
+        data={formData}
+        onChange={updateFormData}
+        onContinue={nextStep}
+        onBack={prevStep}
+      />
+    );
+  case 3:
+    return withJourneyHeader(
+      <ExistingLoans
+        data={formData}
+        onChange={updateFormData}
+        onContinue={nextStep}
+        onBack={prevStep}
+      />
+    );
+  case 4:
+    return withJourneyHeader(
+      <ReviewApplication
+        data={formData}
+        onEdit={(s) => goToStep(s)}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        isGuest={isGuestGlobal}
+      />,
+      "review"
+    );
+  case 5:
+    return (
+      <ApplicationSuccess referenceId="MM-94202" />
+    );
+  default:
+    return null;
+}
 };
 
 export default LoanApplication;
