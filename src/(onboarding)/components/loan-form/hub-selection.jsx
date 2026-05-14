@@ -130,7 +130,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                       </li>
                     ))
                   ) : (
-                    <li className="px-4 py-3 text-sm text-gray-400">select a valid state</li>
+                    <li className="px-4 py-3 text-sm text-gray-400">Select a valid state</li>
                   )}
                 </ul>
               </div>

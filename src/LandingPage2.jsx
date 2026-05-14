@@ -324,7 +324,7 @@ const LandingPage2 = () => {
                             </div>
                           ) : (
                             <div className="p-8 text-center text-gray-300 italic text-sm">
-                              No states found matching "{searchQuery}"
+                              Please select a valid state
                             </div>
                           )}
                         </motion.div>
@@ -383,7 +383,7 @@ const LandingPage2 = () => {
                                   </div>
                                 ) : (
                                   <div className="p-8 text-center text-gray-300 italic text-sm">
-                                    No LGAs found matching "{searchQuery}"
+                                    Please select a valid LGA
                                   </div>
                                 )}
                               </motion.div>
