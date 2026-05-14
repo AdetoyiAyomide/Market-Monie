@@ -244,7 +244,7 @@ const SearchableSelectGroup = ({
           onChange={onInputChange}
           disabled={disabled}
           placeholder={disabled ? "Loading..." : `Select ${label}`}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 placeholder:text-sm bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
               ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error

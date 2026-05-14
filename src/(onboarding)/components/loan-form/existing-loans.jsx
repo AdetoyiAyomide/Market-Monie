@@ -133,12 +133,14 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <InputGroup 
                       label="How much did you borrow?" 
+                      inputMode="decimal"
                       value={loan.amount}
                       onChange={(e) => handleLoanChange(index, 'amount', e.target.value.replace(/[^0-9.]/g, ''))}
                       placeholder="e.g. 100,000.00"
                     />
                     <InputGroup 
                       label="How much do you still owe?" 
+                      inputMode="decimal"
                       value={loan.balance}
                       onChange={(e) => handleLoanChange(index, 'balance', e.target.value.replace(/[^0-9.]/g, ''))}
                       placeholder="e.g. 10,000.00"
@@ -209,26 +211,40 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
   );
 };
 
-const InputGroup = ({ label, value, onChange, placeholder }) => (
-  <div className="space-y-2">
-    <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400 dark:text-white'}`}>
-      {label}
-    </label>
-    <div className="relative group">
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
-          value 
-            ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
-            : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-        }`}
-      />
+const InputGroup = ({ label, value, onChange, placeholder, inputMode }) => {
+  const handleBlur = () => {
+    if (value && !/[^0-9.]/.test(value) && !value.includes('.')) {
+      onChange({ target: { value: `${value}.00` } });
+    } else if (value && value.endsWith('.')) {
+      onChange({ target: { value: `${value}00` } });
+    } else if (value && value.includes('.') && value.split('.')[1].length === 1) {
+      onChange({ target: { value: `${value}0` } });
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${value ? 'text-emerald-600' : 'text-gray-400 dark:text-white'}`}>
+        {label}
+      </label>
+      <div className="relative group">
+        <input
+          type="text"
+          inputMode={inputMode}
+          value={value}
+          onChange={onChange}
+          onBlur={handleBlur}
+          placeholder={placeholder}
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
+            value 
+              ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10" 
+              : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+          }`}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const SearchableSelectGroup = ({ label, value, query, isOpen, onToggle, onInputChange, onSelect, options, disabled = false, dropdownRef, placeholder }) => {
   const filteredOptions = options.filter(opt => 
