@@ -23,7 +23,7 @@ const AccountCreation = () => {
   const isEmailValid = email.trim() === "" || emailRegex.test(email);
 
   const isFormValid =
-    fullName.trim() &&
+    fullName.trim().length >= 2 &&
     phone.length === 10 &&
     email.trim() &&
     emailRegex.test(email) &&

@@ -321,12 +321,12 @@ const days = Array.from({ length: maxDays }, (_, i) =>
   const validate = () => {
     const newErrors = {};
     if (!data.firstname) newErrors.firstname = "Required";
-    if (!data.lastname) newErrors.lastname = "Required";
+    if (!data.lastname || data.lastname.length < 2) newErrors.lastname = "Minimum of 2 characters required";
     if (!currentDay || !currentMonth || !currentYear) newErrors.dob = "Required";
     if (!data.bvn || data.bvn.length !== 11) newErrors.bvn = "Please enter a valid BVN";
     if (!data.phone) newErrors.phone = "Required";
-    if (!data.state) newErrors.state = "please select a valid state";
-    if (!data.lga) newErrors.lga = "please select a valid LGA";
+    if (!data.state) newErrors.state = "Please select a valid state ";
+    if (!data.lga) newErrors.lga = "Please select a valid LGA ";
     if (!data.area) newErrors.area = "Town / City is required";
     if (!data.houseAddress) newErrors.houseAddress = "House Number and Street is required";
     if (!data.idType) newErrors.idType = "please select a valid ID type";

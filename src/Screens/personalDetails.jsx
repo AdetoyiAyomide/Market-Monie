@@ -15,7 +15,7 @@ const PersonalDetails = () => {
     const isEmailValid = email.trim() === "" || /\S+@\S+\.\S+/.test(email);
     const isFormValid =
     firstName.trim().length > 0 &&
-    lastName.trim().length > 0 &&
+    lastName.trim().length >= 2 &&
     isEmailValid &&
     phoneNumber.trim().length > 0 &&
     !!dateOfBirth;

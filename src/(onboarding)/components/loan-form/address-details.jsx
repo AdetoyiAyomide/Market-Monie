@@ -81,8 +81,8 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!data.state) newErrors.state = "Required";
-    if (!data.lga) newErrors.lga = "Required";
+    if (!data.state) newErrors.state = "Please select a valid state ";
+    if (!data.lga) newErrors.lga = "Please select a valid LGA ";
     if (!data.area) newErrors.area = "Required";
     if (!data.houseAddress) newErrors.houseAddress = "Required";
     

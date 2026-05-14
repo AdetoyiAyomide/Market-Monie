@@ -260,15 +260,8 @@ const Register = () => {
                 <input
                   {...register("password", {
                     onChange: (e) => {
-                      const rawValue = e.target.value;
-                      const numericValue = rawValue.replace(/\D/g, "").slice(0, 6);
-                      if (numericValue.length < 6 && numericValue.length > 0) {
-                        setError("password", { type: "manual", message: "Please enter a 6 digit number" });
-                      } else if (/\D/.test(rawValue)) {
-                         setError("password", { type: "manual", message: "Please enter a 6 digit number" });
-                      } else {
-                        clearErrors("password");
-                      }
+                      const numericValue = e.target.value.replace(/\D/g, "").slice(0, 6);
+                      if (errors.password) clearErrors("password");
                       setValue("password", numericValue);
                     }
                   })}
@@ -299,19 +292,8 @@ const Register = () => {
                 <input
                   {...register("confirmPassword", {
                     onChange: (e) => {
-                      const rawValue = e.target.value;
-                      const numericValue = rawValue.replace(/\D/g, "").slice(0, 6);
-                      const createPin = watch("password");
-                      
-                      if (numericValue.length < 6 && numericValue.length > 0) {
-                        setError("confirmPassword", { type: "manual", message: "Please enter a 6 digit number" });
-                      } else if (/\D/.test(rawValue)) {
-                        setError("confirmPassword", { type: "manual", message: "Please enter a 6 digit number" });
-                      } else if (numericValue.length === 6 && numericValue !== createPin) {
-                        setError("confirmPassword", { type: "manual", message: "PINs do not match" });
-                      } else {
-                        clearErrors("confirmPassword");
-                      }
+                      const numericValue = e.target.value.replace(/\D/g, "").slice(0, 6);
+                      if (errors.confirmPassword) clearErrors("confirmPassword");
                       setValue("confirmPassword", numericValue);
                     }
                   })}
