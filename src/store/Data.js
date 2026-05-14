@@ -2,7 +2,15 @@ export let selectedStateGlobal = localStorage.getItem("selectedStateGlobal") ||"
 export let selectedLgaGlobal = localStorage.getItem("selectedLgaGlobal") ||"";
 export let selectedTownGlobal = localStorage.getItem("selectedTownGlobal") ||"";
 export let selectedAreaGlobal = localStorage.getItem("selectedAreaGlobal") ||"";
-export let selectedHubGlobal = localStorage.getItem("selectedHubGlobal") ? JSON.parse(localStorage.getItem("selectedHubGlobal")) :"";
+export let selectedHubGlobal = (() => {
+  try {
+    const hub = localStorage.getItem("selectedHubGlobal");
+    return hub ? JSON.parse(hub) : "";
+  } catch (e) {
+    console.error("Error parsing selectedHubGlobal from localStorage", e);
+    return "";
+  }
+})();
 export let isNoHubStateGlobal = localStorage.getItem("isNoHubStateGlobal") ==="true";
 export let isGuestGlobal = localStorage.getItem("isGuestGlobal") ? localStorage.getItem("isGuestGlobal") ==="true" : false;
 export let applicationModeGlobal = localStorage.getItem("applicationModeGlobal") ||"";

@@ -18,7 +18,6 @@ const queryClient = new QueryClient({
 })
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <QueryClientProvider client={queryClient}>
       <FormProvider>
         <App />
@@ -26,6 +25,5 @@ createRoot(document.getElementById('root')).render(
       </FormProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
-  </StrictMode>,
 )
 

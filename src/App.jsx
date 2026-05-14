@@ -42,7 +42,7 @@ function AnimatedRoutes() {
   
   return (
     <AnimatePresence mode="wait">
-      <Routes>
+      <Routes location={location} key={location.pathname}>
         {/* Entry Point */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/location-select" element={<LandingPage2 />} />
@@ -53,8 +53,7 @@ function AnimatedRoutes() {
         <Route path="/personal-details" element={<LegacyPersonalDetails />} />
         <Route path="/address" element={<LegacyAddress />} />
         <Route path="/business" element={<LegacyBusiness />} />
-        <Route path="/loan" element={<LegacyL
-        oan />} />
+        <Route path="/loan" element={<LegacyLoan />} />
         <Route path="/preview" element={<LegacyPreviewPage />} />
 
         <Route path="/legacy-login" element={<LegacyLogin />} />
