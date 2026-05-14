@@ -37,23 +37,14 @@ import ComingSoon from"./(dashboard)/ComingSoon";
 
 import LandingPage from"./LandingPage";
 
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 24 * 60 * 60 * 1000,
-      gcTime: 1000 * 60 * 60 * 24,
-      retry: 2,
-    },
-  },
-});
+// No queryClient here, it's provided by main.jsx
 
 function AnimatedRoutes() {
   const location = useLocation();
   
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes>
         {/* Entry Point */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/location-select" element={<LandingPage2 />} />
@@ -116,12 +107,9 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AnimatedRoutes />
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <BrowserRouter>
+      <AnimatedRoutes />
+    </BrowserRouter>
   );
 }
 
