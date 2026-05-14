@@ -153,11 +153,13 @@ const Register = () => {
                 First Name
               </label>
               <input
-                {...register("firstName")}
+                {...register("firstName", {
+                  onChange: (e) => {
+                    const val = e.target.value.replace(/[0-9]/g, "");
+                    setValue("firstName", val, { shouldValidate: true, shouldDirty: true });
+                  }
+                })}
                 type="text"
-                onChange={(e) => {
-    e.target.value = e.target.value.replace(/[^A-Za-z ]/g, "");
-  }}
                 placeholder="e.g. John"
                 className={`mt-2 ${getInputClassName("firstName")}`}
               />
@@ -172,12 +174,14 @@ const Register = () => {
                 Last Name
               </label>
               <input
-                {...register("lastName")}
+                {...register("lastName", {
+                  onChange: (e) => {
+                    const val = e.target.value.replace(/[0-9]/g, "");
+                    setValue("lastName", val, { shouldValidate: true, shouldDirty: true });
+                  }
+                })}
                 type="text"
                 placeholder="e.g. Doe"
-                onChange={(e) => {
-    e.target.value = e.target.value.replace(/[^A-Za-z ]/g, "");
-  }}
                 className={`mt-2 ${getInputClassName("lastName")}`}
               />
               {errors.lastName && (

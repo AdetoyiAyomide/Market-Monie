@@ -21,9 +21,13 @@ const PersonalDetails = () => {
     !!dateOfBirth;
 
     const handleChange = (e) => {
+  let value = e.target.value;
+  if (e.target.id === 'firstName' || e.target.id === 'lastName') {
+    value = value.replace(/[0-9]/g, '');
+  }
   setFormData({
     ...formData,
-    [e.target.id]: e.target.value
+    [e.target.id]: value
 });
 setError(false);
 };

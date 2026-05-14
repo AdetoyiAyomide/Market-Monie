@@ -415,7 +415,7 @@ const days = Array.from({ length: maxDays }, (_, i) =>
             <InputGroup 
               label="First Name" 
               value={data.firstname} 
-              onChange={(e) => onChange('firstname', e.target.value)}
+              onChange={(e) => onChange('firstname', e.target.value.replace(/[0-9]/g, ""))}
               icon={<FiUser />} 
               readOnly={!isGuest}
               placeholder="e.g. John"
@@ -426,7 +426,7 @@ const days = Array.from({ length: maxDays }, (_, i) =>
             <InputGroup 
               label="Last Name" 
               value={data.lastname} 
-              onChange={(e) => onChange('lastname', e.target.value)}
+              onChange={(e) => onChange('lastname', e.target.value.replace(/[0-9]/g, ""))}
               icon={<FiUser />} 
               readOnly={!isGuest}
               placeholder="e.g. Doe"
