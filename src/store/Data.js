@@ -1,42 +1,50 @@
-export let selectedStateGlobal = "";
-export let selectedLgaGlobal = "";
-export let selectedTownGlobal = "";
-export let selectedAreaGlobal = "";
-export let selectedHubGlobal = "";
-export let isNoHubStateGlobal = false;
-export let isGuestGlobal = false;
-export let applicationModeGlobal = "";
+export let selectedStateGlobal = localStorage.getItem("selectedStateGlobal") || "";
+export let selectedLgaGlobal = localStorage.getItem("selectedLgaGlobal") || "";
+export let selectedTownGlobal = localStorage.getItem("selectedTownGlobal") || "";
+export let selectedAreaGlobal = localStorage.getItem("selectedAreaGlobal") || "";
+export let selectedHubGlobal = localStorage.getItem("selectedHubGlobal") ? JSON.parse(localStorage.getItem("selectedHubGlobal")) : "";
+export let isNoHubStateGlobal = localStorage.getItem("isNoHubStateGlobal") === "true";
+export let isGuestGlobal = localStorage.getItem("isGuestGlobal") ? localStorage.getItem("isGuestGlobal") === "true" : false;
+export let applicationModeGlobal = localStorage.getItem("applicationModeGlobal") || "";
 
 export const setSelectedStateGlobal = (state) => {
   selectedStateGlobal = state;
+  localStorage.setItem("selectedStateGlobal", state);
 };
 
 export const setSelectedLgaGlobal = (lga) => {
   selectedLgaGlobal = lga;
+  localStorage.setItem("selectedLgaGlobal", lga);
 };
 
 export const setSelectedTownGlobal = (town) => {
   selectedTownGlobal = town;
+  localStorage.setItem("selectedTownGlobal", town);
 };
 
 export const setSelectedAreaGlobal = (area) => {
   selectedAreaGlobal = area;
+  localStorage.setItem("selectedAreaGlobal", area);
 };
 
 export const setSelectedHubGlobal = (hub) => {
   selectedHubGlobal = hub;
+  localStorage.setItem("selectedHubGlobal", JSON.stringify(hub));
 };
 
 export const setNoHubStateGlobal = (status) => {
   isNoHubStateGlobal = status;
+  localStorage.setItem("isNoHubStateGlobal", status);
 };
 
 export const setIsGuestGlobal = (status) => {
   isGuestGlobal = status;
+  localStorage.setItem("isGuestGlobal", status);
 };
 
 export const setApplicationModeGlobal = (mode) => {
   applicationModeGlobal = mode;
+  localStorage.setItem("applicationModeGlobal", mode);
 };
 
 // location dataset
