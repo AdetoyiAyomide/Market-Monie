@@ -383,7 +383,7 @@ const days = Array.from({ length: maxDays }, (_, i) =>
                   } ${!isGuest ?"bg-gray-100/50 text-gray-500 cursor-not-allowed opacity-80" :""}`}
                 >
                   <span className="text-xs font-bold">
-                    {data.title ||"Mr"}
+                    {data.title || "Select"}
                   </span>
                   {isGuest && (isTitleOpen ? <FiChevronUp /> : <FiChevronDown />)}
                 </button>
@@ -609,11 +609,15 @@ const days = Array.from({ length: maxDays }, (_, i) =>
               <div className="relative group">
                 <input
                   type="text"
-                  inputMode="numeric"
+                  inputMode={data.idType === "NIN" ? "numeric" : "text"}
                   value={data.idNumber ||""}
                   onChange={(e) => {
-                    const config = {"NIN": { length: 11, pattern: /^\d*$/ },"International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },"Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },"Voter's Card": { length: 9, pattern: /^[a-zA-Z0-9]*$/ }
-                    }[data.idType] || { length: 15, pattern: /^[a-zA-Z0-9]*$/ };
+                    const config = {
+                      "NIN": { length: 11, pattern: /^\d*$/ },
+                      "International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },
+                      "Voter's Card": { length: 19, pattern: /^[a-zA-Z0-9]*$/ }
+                    }[data.idType] || { length: 20, pattern: /^[a-zA-Z0-9]*$/ };
 
                     const val = data.idType ==="NIN" 
                       ? e.target.value.replace(/\D/g,'').slice(0, config.length)
@@ -625,10 +629,10 @@ const days = Array.from({ length: maxDays }, (_, i) =>
                     }
                   }}
                   placeholder={
-                    data.idType ==="NIN" ?"Enter 11-digit NIN" :
-                    data.idType ==="International Passport" ?"Enter 9-digit Passport No." :
-                    data.idType ==="Driver’s License" ?"Enter 12-digit License No." :
-                    data.idType ==="Voter's Card" ?"Enter Voter's Card No." :"Enter ID number"
+                    data.idType === "NIN" ? "Enter 11-digit NIN" :
+                    data.idType === "International Passport" ? "Enter Passport No." :
+                    data.idType === "Driver’s License" ? "Enter License No." :
+                    data.idType === "Voter's Card" ? "Enter Voter's Card VIN" : "Enter ID number"
                   }
                   className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
                     errors.idNumber 

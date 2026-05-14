@@ -133,25 +133,26 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <InputGroup 
                       label="How much did you borrow?" 
-                      inputMode="decimal"
+                      inputMode="numeric"
                       value={loan.amount}
-                      onChange={(e) => handleLoanChange(index,'amount', e.target.value.replace(/[^0-9.]/g,''))}
-                      placeholder="e.g. 100,000.00"
+                      onChange={(e) => handleLoanChange(index,'amount', e.target.value.replace(/[^0-9]/g,''))}
+                      placeholder="e.g. 100000"
                     />
                     <InputGroup 
                       label="How much do you still owe?" 
-                      inputMode="decimal"
+                      inputMode="numeric"
                       value={loan.balance}
-                      onChange={(e) => handleLoanChange(index,'balance', e.target.value.replace(/[^0-9.]/g,''))}
-                      placeholder="e.g. 10,000.00"
+                      onChange={(e) => handleLoanChange(index,'balance', e.target.value.replace(/[^0-9]/g,''))}
+                      placeholder="e.g. 10000"
                     />
                   </div>
 
                   <InputGroup 
                     label="Regular repayment amount (weekly/monthly)" 
+                    inputMode="numeric"
                     value={loan.repayment}
-                    onChange={(e) => handleLoanChange(index,'repayment', e.target.value.replace(/[^0-9.]/g,''))}
-                    placeholder="e.g. 5,000.00"
+                    onChange={(e) => handleLoanChange(index,'repayment', e.target.value.replace(/[^0-9]/g,''))}
+                    placeholder="e.g. 5000"
                   />
                 </div>
               </div>
@@ -213,13 +214,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
 
 const InputGroup = ({ label, value, onChange, placeholder, inputMode }) => {
   const handleBlur = () => {
-    if (value && !/[^0-9.]/.test(value) && !value.includes('.')) {
-      onChange({ target: { value:`${value}.00` } });
-    } else if (value && value.endsWith('.')) {
-      onChange({ target: { value:`${value}00` } });
-    } else if (value && value.includes('.') && value.split('.')[1].length === 1) {
-      onChange({ target: { value:`${value}0` } });
-    }
+    // Removed auto-decimal formatting as per user request for "only numbers"
   };
 
   return (

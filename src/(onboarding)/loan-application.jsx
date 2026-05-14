@@ -51,11 +51,13 @@ const LoanApplication = () => {
     if (isGuestGlobal) {
       setFormData(prev => ({
         ...prev,
-        firstname:"",
-        lastname:"",
-        middlename:"",
-        phone:"",
-        dob:""
+        firstname: "",
+        lastname: "",
+        middlename: "",
+        phone: "",
+        dob: "",
+        email: "",
+        title: ""
       }));
     } else {
       // If Registered (has account), pre-populate from localStorage
