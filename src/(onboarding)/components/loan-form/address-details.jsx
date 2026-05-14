@@ -278,7 +278,7 @@ const SearchableSelectGroup = ({
                   </li>
                 ))
               ) : (
-                <li className="px-4 py-3 text-sm text-gray-400 text-center">No results found</li>
+                <li className="px-4 py-3 text-sm text-gray-400 text-center">enter a valid {label?.toLowerCase()}</li>
               )}
             </ul>
           </div>

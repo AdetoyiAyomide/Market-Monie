@@ -146,7 +146,7 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400 dark:text-white">No results found</li>
+                                    <li className="p-2 text-gray-400 dark:text-white">enter a valid state</li>
                                 )}
                             </ul>
                         </div>
@@ -186,7 +186,7 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400 dark:text-white">No results found</li>
+                                    <li className="p-2 text-gray-400 dark:text-white">enter a valid LGA</li>
                                 )}
                             </ul>
                         </div>

@@ -211,7 +211,7 @@ const SelectGroup = ({ label, value, onChange, options, icon, disabled = false, 
                   </li>
                 ))
               ) : (
-                <li className="px-4 py-3 text-gray-400 dark:text-white text-sm italic">No results found for "{query}"</li>
+                <li className="px-4 py-3 text-gray-400 dark:text-white text-sm italic">enter a valid {label?.toLowerCase()}</li>
               )}
             </ul>
           </div>
