@@ -87,6 +87,14 @@ button, input {
 }
 
 /* Firefox Support */
+/* Global Placeholder Mobile Sizing */
+@media (max-width: 639.98px) {
+  input::placeholder,
+  textarea::placeholder {
+    font-size: 0.75rem !important; /* text-xs */
+  }
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #e2e8f0 transparent;
