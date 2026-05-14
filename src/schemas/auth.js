@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const loginSchema = z.object({
   phone: z.string().min(10, "Phone Number Is Too Short").max(15, "Phone Number Is Too Long"),
-  password: z.string().min(6, "Password Must Be At Least 6 Characters"),
+  password: z.string().length(6, "PIN Must Be Exactly 6 Numbers").regex(/^\d+$/, "PIN Must Contain Only Numbers"),
 });
 
 export const registerSchema = z.object({
@@ -34,13 +34,11 @@ export const resetPasswordSchema = z
   .object({
     password: z
       .string()
-      .min(6, "Password Must Be At Least 6 Characters")
-      .regex(/[A-Z]/, "Password Must Contain At Least One Uppercase Letter")
-      .regex(/[0-9]/, "Password Must Contain At Least One Number")
-      .regex(/[^A-Za-z0-9]/, "Password Must Contain At Least One Special Character"),
+      .length(6, "PIN Must Be Exactly 6 Numbers")
+      .regex(/^\d+$/, "PIN Must Contain Only Numbers"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords Don't Match",
+    message: "PINs Don't Match",
     path: ["confirmPassword"],
   });
