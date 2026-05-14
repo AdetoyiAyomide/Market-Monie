@@ -12,6 +12,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -66,7 +67,12 @@ const Login = () => {
                 </label>
                 <div className="mt-2 relative">
                   <input
-                    {...register("password")}
+                    {...register("password", {
+                      onChange: (e) => {
+                        const numericValue = e.target.value.replace(/\D/g, "").slice(0, 6);
+                        setValue("password", numericValue, { shouldDirty: true });
+                      }
+                    })}
                     type={showPassword ? "text" : "password"}
                     maxLength={6}
                     className="block w-full rounded-lg border-0 py-4 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 dark:bg-black dark:text-white dark:placeholder-white tracking-widest font-mono"

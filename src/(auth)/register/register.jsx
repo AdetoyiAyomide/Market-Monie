@@ -156,7 +156,7 @@ const Register = () => {
                 {...register("firstName", {
                   onChange: (e) => {
                     const val = e.target.value.replace(/[0-9]/g, "");
-                    setValue("firstName", val, { shouldValidate: true, shouldDirty: true });
+                    setValue("firstName", val, { shouldDirty: true });
                   }
                 })}
                 type="text"
@@ -177,7 +177,7 @@ const Register = () => {
                 {...register("lastName", {
                   onChange: (e) => {
                     const val = e.target.value.replace(/[0-9]/g, "");
-                    setValue("lastName", val, { shouldValidate: true, shouldDirty: true });
+                    setValue("lastName", val, { shouldDirty: true });
                   }
                 })}
                 type="text"
