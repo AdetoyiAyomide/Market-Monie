@@ -1,11 +1,11 @@
-export let selectedStateGlobal = localStorage.getItem("selectedStateGlobal") || "";
-export let selectedLgaGlobal = localStorage.getItem("selectedLgaGlobal") || "";
-export let selectedTownGlobal = localStorage.getItem("selectedTownGlobal") || "";
-export let selectedAreaGlobal = localStorage.getItem("selectedAreaGlobal") || "";
-export let selectedHubGlobal = localStorage.getItem("selectedHubGlobal") ? JSON.parse(localStorage.getItem("selectedHubGlobal")) : "";
-export let isNoHubStateGlobal = localStorage.getItem("isNoHubStateGlobal") === "true";
-export let isGuestGlobal = localStorage.getItem("isGuestGlobal") ? localStorage.getItem("isGuestGlobal") === "true" : false;
-export let applicationModeGlobal = localStorage.getItem("applicationModeGlobal") || "";
+export let selectedStateGlobal = localStorage.getItem("selectedStateGlobal") ||"";
+export let selectedLgaGlobal = localStorage.getItem("selectedLgaGlobal") ||"";
+export let selectedTownGlobal = localStorage.getItem("selectedTownGlobal") ||"";
+export let selectedAreaGlobal = localStorage.getItem("selectedAreaGlobal") ||"";
+export let selectedHubGlobal = localStorage.getItem("selectedHubGlobal") ? JSON.parse(localStorage.getItem("selectedHubGlobal")) :"";
+export let isNoHubStateGlobal = localStorage.getItem("isNoHubStateGlobal") ==="true";
+export let isGuestGlobal = localStorage.getItem("isGuestGlobal") ? localStorage.getItem("isGuestGlobal") ==="true" : false;
+export let applicationModeGlobal = localStorage.getItem("applicationModeGlobal") ||"";
 
 export const setSelectedStateGlobal = (state) => {
   selectedStateGlobal = state;
@@ -48,188 +48,31 @@ export const setApplicationModeGlobal = (mode) => {
 };
 
 // location dataset
-export const locations = [
-  "Abia",
-  "Adamawa",
-  "Akwa Ibom",
-  "Anambra",
-  "Bauchi",
-  "Bayelsa",
-  "Benue",
-  "Borno",
-  "Cross River",
-  "Delta",
-  "Ebonyi",
-  "Edo",
-  "Ekiti",
-  "Enugu",
-  "Gombe",
-  "Imo",
-  "Jigawa",
-  "Kaduna",
-  "Kano",
-  "Katsina",
-  "Kebbi",
-  "Kogi",
-  "Kwara",
-  "Lagos",
-  "Nasarawa",
-  "Niger",
-  "Ogun",
-  "Ondo",
-  "Osun",
-  "Oyo",
-  "Plateau",
-  "Rivers",
-  "Sokoto",
-  "Taraba",
-  "Yobe",
-  "Zamfara",
-  "FCT (Abuja)"
+export const locations = ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara","FCT (Abuja)"
 ].sort();
 
 
 // address dataset
-export const branchAddresses = {
-  "Akwa Ibom": [
-    "Uyo"
-  ],
-
-  "Anambra": [
-    "Onitsha"
-  ],
-
-  "Cross River": [
-    "Calabar"
-  ],
-
-  "Delta": [
-    "Asaba",
-    "Warri"
-  ],
-
-  "Ekiti": [
-    "Ado-Ekiti"
-  ],
-
-  "FCT (Abuja)": [
-    "Kuje",
-    "Kubwa",
-    "Wuse",
-    "Gwagwalada"
-  ],
-
-  "Kogi": [
-    "Lokoja"
-  ],
-
-  "Kwara": [
-    "Ilorin"
-  ],
-
-  "Lagos": [
-    "Abule-Egba",
-    "Ajegunle-Apapa",
-    "Ayobo",
-    "Elepe",
-    "Ifako",
-    "Igbelara",
-    "Igbogbo",
-    "Ikorodu",
-    "Ikotun",
-    "Iyana-Iba",
-    "Ketu",
-    "Lagos Island",
-    "Mushin",
-    "Egbeda",
-    "Yaba",
-    "Adamo",
-    "Ikeja",
-    "Agric"
-  ],
-
-  "Nasarawa": [
-    "Nyanya"
-  ],
-
-  "Ogun": [
-    "Abeokuta",
-    "Sango",
-    "Ijebu-Ode",
-    "Ibafo",
-    "Alagbole",
-    "Sagamu",
-    "Ifo",
-    "Mowe"
-  ],
-
-  "Ondo": [
-    "Akure",
-    "Ondo Town",
-    "Ore"
-  ],
-
-  "Osun": [
-    "Osogbo",
-    "Ile-Ife",
-    "Ede",
-    "Ilesa"
-  ],
-
-  "Oyo": [
-    "Mokola",
-    "Oyo Town",
-    "Iwo Road",
-    "Apata",
-    "Ojoo",
-    "Challenge",
-    "Eleyele",
-    "Gbagi",
-    "Saki",
-    "Bodija",
-    "Ogbomosho"
-  ],
-
-  "Plateau": [
-    "Jos"
-  ],
-
-  "Rivers": [
-    "Portharcourt",
-    "Ada-George"
+export const branchAddresses = {"Akwa Ibom": ["Uyo"
+  ],"Anambra": ["Onitsha"
+  ],"Cross River": ["Calabar"
+  ],"Delta": ["Asaba","Warri"
+  ],"Ekiti": ["Ado-Ekiti"
+  ],"FCT (Abuja)": ["Kuje","Kubwa","Wuse","Gwagwalada"
+  ],"Kogi": ["Lokoja"
+  ],"Kwara": ["Ilorin"
+  ],"Lagos": ["Abule-Egba","Ajegunle-Apapa","Ayobo","Elepe","Ifako","Igbelara","Igbogbo","Ikorodu","Ikotun","Iyana-Iba","Ketu","Lagos Island","Mushin","Egbeda","Yaba","Adamo","Ikeja","Agric"
+  ],"Nasarawa": ["Nyanya"
+  ],"Ogun": ["Abeokuta","Sango","Ijebu-Ode","Ibafo","Alagbole","Sagamu","Ifo","Mowe"
+  ],"Ondo": ["Akure","Ondo Town","Ore"
+  ],"Osun": ["Osogbo","Ile-Ife","Ede","Ilesa"
+  ],"Oyo": ["Mokola","Oyo Town","Iwo Road","Apata","Ojoo","Challenge","Eleyele","Gbagi","Saki","Bodija","Ogbomosho"
+  ],"Plateau": ["Jos"
+  ],"Rivers": ["Portharcourt","Ada-George"
   ]
 };
 
-export const banks = [
-  "Access Bank",
-  "Citibank Nigeria",
-  "Ecobank Nigeria",
-  "Fidelity Bank",
-  "First Bank of Nigeria",
-  "First City Monument Bank (FCMB)",
-  "Globus Bank",
-  "Guarantee Trust Bank (GTBank)",
-  "Heritage Bank",
-  "Keystone Bank",
-  "Optimus Bank",
-  "Parallex Bank",
-  "Polaris Bank",
-  "Providus Bank",
-  "Stanbic IBTC Bank",
-  "Standard Chartered Bank Nigeria",
-  "Sterling Bank",
-  "SunTrust Bank",
-  "Titan Trust Bank",
-  "Union Bank of Nigeria",
-  "United Bank for Africa (UBA)",
-  "Unity Bank",
-  "Wema Bank",
-  "Zenith Bank",
+export const banks = ["Access Bank","Citibank Nigeria","Ecobank Nigeria","Fidelity Bank","First Bank of Nigeria","First City Monument Bank (FCMB)","Globus Bank","Guarantee Trust Bank (GTBank)","Heritage Bank","Keystone Bank","Optimus Bank","Parallex Bank","Polaris Bank","Providus Bank","Stanbic IBTC Bank","Standard Chartered Bank Nigeria","Sterling Bank","SunTrust Bank","Titan Trust Bank","Union Bank of Nigeria","United Bank for Africa (UBA)","Unity Bank","Wema Bank","Zenith Bank",
 
-  // Fintech / microfinance / payment banks
-  "Opay",
-  "Moniepoint Microfinance Bank",
-  "PalmPay",
-  "Kuda Bank",
-  "VFD Microfinance Bank",
+  // Fintech / microfinance / payment banks"Opay","Moniepoint Microfinance Bank","PalmPay","Kuda Bank","VFD Microfinance Bank",
 ];

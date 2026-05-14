@@ -1,41 +1,41 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import SelectState from "./Screens/SelectState";
-import LegacyHubSelection from "./Screens/HubSelection";
-import LegacyCreateAccount from "./Screens/CreateAccount";
-import LegacyAccountCreation from "./Screens/AccountCreation";
-import LegacyPersonalDetails from "./Screens/personalDetails";
-import LegacyAddress from "./Screens/address";
-import LegacyBusiness from "./Screens/business";
-import LegacyLoan from "./Screens/loan";
-import LegacyPreviewPage from "./Screens/PreviewPage";
-import LegacyLogin from "./Screens/Login";
-import LandingPage2 from "./LandingPage2";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from"react-router-dom";
+import { AnimatePresence } from"framer-motion";
+import { QueryClient, QueryClientProvider } from"@tanstack/react-query";
+import { ReactQueryDevtools } from"@tanstack/react-query-devtools";
+import SelectState from"./Screens/SelectState";
+import LegacyHubSelection from"./Screens/HubSelection";
+import LegacyCreateAccount from"./Screens/CreateAccount";
+import LegacyAccountCreation from"./Screens/AccountCreation";
+import LegacyPersonalDetails from"./Screens/personalDetails";
+import LegacyAddress from"./Screens/address";
+import LegacyBusiness from"./Screens/business";
+import LegacyLoan from"./Screens/loan";
+import LegacyPreviewPage from"./Screens/PreviewPage";
+import LegacyLogin from"./Screens/Login";
+import LandingPage2 from"./LandingPage2";
 
 // New Auth Components
-import AuthLayout from "./(auth)/layout";
-import Login from "./(auth)/login/login";
-import Register from "./(auth)/register/register";
-import VerifyEmail from "./(auth)/register/verify-email";
-import VerifyOTP from "./(auth)/register/verify-otp";
-import ForgotPassword from "./(auth)/forgot-password/forgot-password";
-import SuccessScreen from "./components/ui/success-screen";
+import AuthLayout from"./(auth)/layout";
+import Login from"./(auth)/login/login";
+import Register from"./(auth)/register/register";
+import VerifyEmail from"./(auth)/register/verify-email";
+import VerifyOTP from"./(auth)/register/verify-otp";
+import ForgotPassword from"./(auth)/forgot-password/forgot-password";
+import SuccessScreen from"./components/ui/success-screen";
 
 // New Onboarding Components
-import OnboardingLayout from "./(onboarding)/layout";
-import PhoneVerification from "./(onboarding)/phone-verification";
-import BvnVerification from "./(onboarding)/bvn-verification";
-import LoanApplication from "./(onboarding)/loan-application";
+import OnboardingLayout from"./(onboarding)/layout";
+import PhoneVerification from"./(onboarding)/phone-verification";
+import BvnVerification from"./(onboarding)/bvn-verification";
+import LoanApplication from"./(onboarding)/loan-application";
 
 // Dashboard Components
-import DashboardLayout from "./(dashboard)/layout";
-import Dashboard from "./(dashboard)/Dashboard";
-import Analytics from "./(dashboard)/Analytics";
-import ComingSoon from "./(dashboard)/ComingSoon";
+import DashboardLayout from"./(dashboard)/layout";
+import Dashboard from"./(dashboard)/Dashboard";
+import Analytics from"./(dashboard)/Analytics";
+import ComingSoon from"./(dashboard)/ComingSoon";
 
-import LandingPage from "./LandingPage";
+import LandingPage from"./LandingPage";
 
 // Create a client
 const queryClient = new QueryClient({

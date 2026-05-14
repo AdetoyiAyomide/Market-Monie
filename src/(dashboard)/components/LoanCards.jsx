@@ -5,7 +5,7 @@ import {
   FiClock, 
   FiUserCheck,
   FiArrowRight 
-} from "react-icons/fi";
+} from"react-icons/fi";
 
 /**
  * Card shown to users who haven't applied for a loan yet
@@ -15,7 +15,7 @@ export const WelcomeCard = ({ user }) => (
     {/* Background Pattern */}
     <div 
       className="absolute inset-0 opacity-[0.03] grayscale invert pointer-events-none"
-      style={{ backgroundImage: 'url(/Pattern.svg)', backgroundSize: '250px' }}
+      style={{ backgroundImage:'url(/Pattern.svg)', backgroundSize:'250px' }}
     />
     
     <div className="relative z-10 flex-1">
@@ -47,10 +47,10 @@ export const WelcomeCard = ({ user }) => (
  */
 export const ApplicationStatusCard = () => {
   const statuses = [
-    { name: "Submitted", active: true, done: true },
-    { name: "Agent Assigned", active: true, done: true },
-    { name: "Verification", active: true, done: false },
-    { name: "Verified", active: false, done: false },
+    { name:"Submitted", active: true, done: true },
+    { name:"Agent Assigned", active: true, done: true },
+    { name:"Verification", active: true, done: false },
+    { name:"Verified", active: false, done: false },
   ];
 
   return (
@@ -58,7 +58,7 @@ export const ApplicationStatusCard = () => {
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-[0.02] grayscale invert pointer-events-none"
-        style={{ backgroundImage: 'url(/Pattern.svg)', backgroundSize: '180px' }}
+        style={{ backgroundImage:'url(/Pattern.svg)', backgroundSize:'180px' }}
       />
 
       <div className="relative z-10">
@@ -79,11 +79,11 @@ export const ApplicationStatusCard = () => {
           {statuses.map((s, i) => (
             <div key={i} className="flex flex-col items-center gap-3">
               <div className={`h-10 w-10 rounded-full flex items-center justify-center border-4 border-white shadow-sm transition-all duration-500 z-10 ${
-                s.done ? "bg-blue-600 text-white " : s.active ? "bg-white text-blue-600 ring-2 ring-blue-500 ring-inset" : "bg-gray-50 text-gray-200"
+                s.done ?"bg-blue-600 text-white" : s.active ?"bg-white text-blue-600 ring-2 ring-blue-500 ring-inset" :"bg-gray-50 text-gray-200"
               }`}>
                 {s.done ? <FiCheckCircle size={20} /> : s.active ? <FiClock size={20} /> : <FiUserCheck size={20} />}
               </div>
-              <span className={`text-[9px] font-bold ${s.active ? "text-gray-900" : "text-gray-300"}`}>{s.name}</span>
+              <span className={`text-[9px] font-bold ${s.active ?"text-gray-900" :"text-gray-300"}`}>{s.name}</span>
             </div>
           ))}
         </div>
@@ -109,7 +109,7 @@ export const LoanSummaryCard = () => (
     {/* Background Pattern */}
     <div 
       className="absolute inset-0 opacity-[0.05] grayscale brightness-0 invert pointer-events-none"
-      style={{ backgroundImage: 'url(/Pattern.svg)', backgroundSize: '300px' }}
+      style={{ backgroundImage:'url(/Pattern.svg)', backgroundSize:'300px' }}
     />
 
     <div className="relative z-10">

@@ -1,6 +1,6 @@
-import { FiCheckCircle, FiClock, FiSmartphone, FiArrowRight } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
-import { isGuestGlobal } from "../../../store/Data";
+import { FiCheckCircle, FiClock, FiSmartphone, FiArrowRight } from"react-icons/fi";
+import { useNavigate } from"react-router-dom";
+import { isGuestGlobal } from"../../../store/Data";
 
 
 const ApplicationSuccess = ({ referenceId }) => {
@@ -10,7 +10,7 @@ const ApplicationSuccess = ({ referenceId }) => {
     <div className="animate-in fade-in zoom-in-95 duration-700 py-10">
       <div className="flex flex-col items-center text-center">
         <div className="relative mb-10">
-          <div className="h-32 w-32  rounded-full flex items-center justify-center ">
+          <div className="h-32 w-32  rounded-full flex items-center justify-center">
             <div className="h-24 w-24 bg-emerald-600 rounded-full flex items-center justify-center text-white shadow-2xl shadow-emerald-200">
               <FiCheckCircle size={48} />
             </div>
@@ -22,7 +22,7 @@ const ApplicationSuccess = ({ referenceId }) => {
         </h2>
         
         <div className="bg-emerald-50 text-emerald-700 px-6 py-3 rounded-full font-bold text-sm mb-8">
-          Reference ID: {referenceId || "MM-58302"}
+          Reference ID: {referenceId ||"MM-58302"}
         </div>
 
         <div className="space-y-6 max-w-sm px-4">

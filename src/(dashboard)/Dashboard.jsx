@@ -1,4 +1,4 @@
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate } from"react-router-dom";
 import { 
   FiPlus, 
   FiEye, 
@@ -6,9 +6,9 @@ import {
   FiMessageCircle, 
   FiArrowRight, 
   FiClock 
-} from "react-icons/fi";
-import { WelcomeCard, ApplicationStatusCard, LoanSummaryCard } from "./components/LoanCards";
-import QuickStats from "./components/QuickStats";
+} from"react-icons/fi";
+import { WelcomeCard, ApplicationStatusCard, LoanSummaryCard } from"./components/LoanCards";
+import QuickStats from"./components/QuickStats";
 
 const Dashboard = () => {
   const { user, loanStage } = useOutletContext();
@@ -23,9 +23,9 @@ const Dashboard = () => {
 
       {/* 2. Primary Status/Summary Card */}
       <section>
-        {loanStage === 'ACTIVE_APPLICATION' && <ApplicationStatusCard />}
-        {loanStage === 'DISBURSED' && <LoanSummaryCard />}
-        {loanStage === 'NO_LOAN' && <WelcomeCard user={user} />}
+        {loanStage ==='ACTIVE_APPLICATION' && <ApplicationStatusCard />}
+        {loanStage ==='DISBURSED' && <LoanSummaryCard />}
+        {loanStage ==='NO_LOAN' && <WelcomeCard user={user} />}
       </section>
 
       {/* 2. Shortcut Actions */}
@@ -35,7 +35,7 @@ const Dashboard = () => {
           title="Apply for Loan" 
           description="Get business funding"
           onClick={() => navigate('/apply/hub')}
-          disabled={loanStage !== 'NO_LOAN' && loanStage !== 'FULLY_REPAID'}
+          disabled={loanStage !=='NO_LOAN' && loanStage !=='FULLY_REPAID'}
         />
         <ShortcutButton 
           icon={<FiEye />} 
@@ -48,7 +48,7 @@ const Dashboard = () => {
           title="Make Payment" 
           description="Pay your active loan"
           onClick={() => navigate('/dashboard/make-payment')}
-          disabled={loanStage !== 'DISBURSED'}
+          disabled={loanStage !=='DISBURSED'}
         />
         <ShortcutButton 
           icon={<FiMessageCircle />} 
@@ -91,14 +91,14 @@ const ShortcutButton = ({ icon, title, description, onClick, disabled = false, i
     disabled={disabled}
     className={`p-6 rounded-2xl border transition-all text-left flex flex-col gap-4 group ${
       disabled 
-        ? "bg-gray-50 border-gray-100 opacity-50 cursor-not-allowed" 
-        : "bg-white border-gray-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5"
+        ?"bg-gray-50 border-gray-100 opacity-50 cursor-not-allowed" 
+        :"bg-white border-gray-100 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-500/5"
     }`}
   >
     <div className={`h-12 w-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
       disabled 
-        ? "bg-gray-100 text-gray-400" 
-        : "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white shadow-sm"
+        ?"bg-gray-100 text-gray-400" 
+        :"bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white shadow-sm"
     }`}>
       {icon}
     </div>

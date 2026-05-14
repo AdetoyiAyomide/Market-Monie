@@ -1,4 +1,4 @@
-import { FiUserPlus, FiUserCheck, FiArrowRight } from "react-icons/fi";
+import { FiUserPlus, FiUserCheck, FiArrowRight } from"react-icons/fi";
 
 const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
   return (
@@ -40,7 +40,7 @@ const AccountChoice = ({ onCreateAccount, onContinueGuest }) => {
           </div>
 
           {/* <div className="mt-4 flex flex-wrap gap-2">
-            {["Track Application", "Repayment History", "Faster Re-apply"].map((item) => (
+            {["Track Application","Repayment History","Faster Re-apply"].map((item) => (
               <span
                 key={item}
                 className="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-medium text-emerald-700"

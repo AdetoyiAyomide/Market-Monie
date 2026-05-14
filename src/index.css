@@ -43,12 +43,7 @@ select option {
   background-color: inherit;
 }
 
-.dark select,
-.dark select option {
-  color: white !important;
-  background-color: black !important;
-  color-scheme: dark;
-}
+
 
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {

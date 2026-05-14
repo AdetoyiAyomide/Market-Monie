@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import TopBar from "./components/TopBar";
+import { useState, useEffect } from"react";
+import { Outlet } from"react-router-dom";
+import Sidebar from"./components/Sidebar";
+import TopBar from"./components/TopBar";
 
 const DashboardLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -19,11 +19,11 @@ const DashboardLayout = () => {
   }, []);
 
   const user = {
-    firstname: "Samuel",
-    lastname: "Peter"
+    firstname:"Samuel",
+    lastname:"Peter"
   };
   
-  const loanStage = 'ACTIVE_APPLICATION'; 
+  const loanStage ='ACTIVE_APPLICATION'; 
 
   return (
     <div className="flex min-h-screen bg-gray-50/50 relative">
@@ -43,7 +43,7 @@ const DashboardLayout = () => {
       )}
 
       <div className={`flex-1 flex flex-col h-screen overflow-hidden transition-all duration-300 ${
-        isCollapsed ? "lg:pl-20" : "lg:pl-64"
+        isCollapsed ?"lg:pl-20" :"lg:pl-64"
       }`}>
         <TopBar 
           user={user} 

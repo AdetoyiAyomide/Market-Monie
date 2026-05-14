@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import FormHeader from './formHeader'
-import BankSelect from './BankSelect';
-import ProgressBar from './ProgressBar';
-import { useForm } from "../store/FormContext";
+import React, { useState } from'react';
+import { useNavigate } from'react-router-dom';
+import FormHeader from'./formHeader'
+import BankSelect from'./BankSelect';
+import ProgressBar from'./ProgressBar';
+import { useForm } from"../store/FormContext";
 
 
 
@@ -33,11 +33,11 @@ const handleChange = (e) => {
   });
 };
 const formatAmount = (value) => {
-  return value.replace(/\D/g, "");
+  return value.replace(/\D/g,"");
 };
 
 const formatCurrency = (value) => {
-  if (!value) return "";
+  if (!value) return"";
   return Number(value).toLocaleString();
 };
 
@@ -63,23 +63,23 @@ const currentStep = 7;
                     id="loanAmount"
                     value={loanAmount}
                     onChange={(e) => {
-                      const value = e.target.value.replace(/[^0-9.]/g, "");
+                      const value = e.target.value.replace(/[^0-9.]/g,"");
                       const parts = value.split('.');
-                      const sanitizedValue = parts.length > 2 ? parts[0] + '.' + parts.slice(1).join('') : value;
+                      const sanitizedValue = parts.length > 2 ? parts[0] +'.' + parts.slice(1).join('') : value;
                       setFormData({
                         ...formData,
                         loanAmount: sanitizedValue
                       });
                     }}
                     placeholder="Enter amount"
-                    className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white"/>
-                    <div className='flex flex-wrap gap-2 text-sm font-light text-slate-600 dark:text-white'>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "10000" });}}>₦10,000</span>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "25000" });}}>₦25,000</span>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "50000" });}}>₦50,000</span>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "100000" });}}>₦100,000</span>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "200000" });}}>₦200,000</span>
-                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount: "500000" });}}>₦500,000</span>
+                    className="border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors"/>
+                    <div className='flex flex-wrap gap-2 text-sm font-light text-slate-600'>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"10000" });}}>₦10,000</span>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"25000" });}}>₦25,000</span>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"50000" });}}>₦50,000</span>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"100000" });}}>₦100,000</span>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"200000" });}}>₦200,000</span>
+                        <span className='cursor-pointer hover:bg-green-50 p-1 rounded' onClick={() => { setFormData({ ...formData, loanAmount:"500000" });}}>₦500,000</span>
                     </div>
                 </div>
                 <div className="flex flex-col w-full gap-2">
@@ -91,7 +91,7 @@ const currentStep = 7;
                 setError={setError}/>
                 </div>
                 <div className='flex flex-col w-full gap-2'>
-                    <label htmlFor="accountNumber" className={`transition-colors ${accountNumber?.length === 10 ? 'text-green-600 font-semibold' : ''}`}>Account Number <span className='text-red-500'>*</span></label>
+                    <label htmlFor="accountNumber" className={`transition-colors ${accountNumber?.length === 10 ?'text-green-600 font-semibold' :''}`}>Account Number <span className='text-red-500'>*</span></label>
                     <div className="relative">
                       <input
                         type="text"
@@ -99,7 +99,7 @@ const currentStep = 7;
                         inputMode="numeric"
                         value={accountNumber}
                         onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                          const value = e.target.value.replace(/\D/g,"").slice(0, 10);
                           setFormData({
                             ...formData,
                             accountNumber: value
@@ -107,12 +107,12 @@ const currentStep = 7;
                           setError(false);
                         }}
                         placeholder="10-digit NUBAN number"
-                        className={`w-full border rounded-xl p-2.5 outline-none transition-colors dark:bg-black dark:text-white dark:placeholder-white ${
-                          accountNumber?.length === 10 ? 'border-green-600' : 'border-gray-300 focus:border-green-600'
+                        className={`w-full border rounded-xl p-2.5 outline-none transition-colors ${
+                          accountNumber?.length === 10 ?'border-green-600' :'border-gray-300 focus:border-green-600'
                         }`}
                       />
                       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <span className={`text-[10px] font-bold transition-colors ${accountNumber?.length === 10 ? "text-green-600" : "text-gray-400 dark:text-white"}`}>
+                        <span className={`text-[10px] font-bold transition-colors ${accountNumber?.length === 10 ?"text-green-600" :"text-gray-400"}`}>
                           {(accountNumber?.length || 0)}/10
                         </span>
                       </div>
@@ -131,13 +131,13 @@ const currentStep = 7;
                         value={accountName}
                         onChange={handleChange}
                         placeholder='Name on your bank account'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
                 <div className='flex flex-col w-full gap-2'>
                     <label htmlFor="existingLoans">Existing Loans</label>
                     <input type="text" id="existingLoans"
-                    value={formData.existingLoans} onChange={(e) => setFormData({ ...formData, existingLoans: e.target.value})} placeholder='e.g. Lender name & outstanding amount, if any' className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white' />
+                    value={formData.existingLoans} onChange={(e) => setFormData({ ...formData, existingLoans: e.target.value})} placeholder='e.g. Lender name & outstanding amount, if any' className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors' />
                 </div>
                 <div className='flex w-full justify-between gap-3 mt-2'>
                     <button
@@ -152,8 +152,8 @@ const currentStep = 7;
                     className={`rounded-xl p-2.5 w-1/2 transition-all duration-200 shadow-md font-medium
                     ${
                       isFormValid
-                        ? "bg-green-800 text-white hover:bg-green-900"
-                        : "bg-green-100 text-green-400 cursor-not-allowed"
+                        ?"bg-green-800 text-white hover:bg-green-900"
+                        :"bg-green-100 text-green-400 cursor-not-allowed"
                     }`}
                   >
                     Review Application

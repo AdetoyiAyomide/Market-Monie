@@ -1,4 +1,4 @@
-import React from 'react';
+import React from'react';
 
 const ProgressBar = ({ currentStep, totalSteps }) => {
   const progress = (currentStep / totalSteps) * 100;
@@ -17,7 +17,7 @@ const ProgressBar = ({ currentStep, totalSteps }) => {
       <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden border border-gray-50">
         <div
           className="h-full bg-gradient-to-r from-green-600 to-green-800 transition-all rounded-full duration-700 ease-out shadow-[0_0_8px_rgba(22,101,52,0.2)]"
-          style={{ width: `${progress}%` }}
+          style={{ width:`${progress}%` }}
         />
       </div>
     </>

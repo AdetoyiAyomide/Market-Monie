@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import FormHeader from './formHeader'
-import ProgressBar from './ProgressBar';
-import { useForm } from "../store/FormContext";
+import React, { useState } from'react';
+import { useNavigate } from'react-router-dom';
+import FormHeader from'./formHeader'
+import ProgressBar from'./ProgressBar';
+import { useForm } from"../store/FormContext";
 
 
 
@@ -24,14 +24,8 @@ const handleChange = (e) => {
   });
 };
 
-    const businessYears = ["Less than a year", "1-3 years", "3-5 years", "5+ years"];
-    const dailySalesOptions = [
-        "Below ₦5,000",
-        "₦5,000 - ₦20,000",
-        "₦20,000 - ₦50,000",
-        "₦50,000 - ₦100,000",
-        "₦100,000 - ₦500,000",
-        "Above ₦500,000"
+    const businessYears = ["Less than a year","1-3 years","3-5 years","5+ years"];
+    const dailySalesOptions = ["Below ₦5,000","₦5,000 - ₦20,000","₦20,000 - ₦50,000","₦50,000 - ₦100,000","₦100,000 - ₦500,000","Above ₦500,000"
     ];
 
     const currentStep = 6;
@@ -58,7 +52,7 @@ const handleChange = (e) => {
                         name="businessName"
                         id="businessName" value={businessName} onChange={handleChange}
                         placeholder='e.g. Vickys Salon'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
 
@@ -71,7 +65,7 @@ const handleChange = (e) => {
                         value={businessAddress}
                         onChange={handleChange}
                         placeholder='e.g. 15, Admiralty Way, Lekki'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
 
@@ -84,7 +78,7 @@ const handleChange = (e) => {
                         value={businessType}
                         onChange={handleChange}
                         placeholder='e.g. Retail, Service'
-                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors dark:bg-black dark:text-white dark:placeholder-white'
+                        className='border border-gray-300 rounded-xl p-2.5 outline-none focus:border-green-600 transition-colors'
                     />
                 </div>
 
@@ -100,8 +94,8 @@ const handleChange = (e) => {
                                     setError(false);
                                 }}
                                 className={`p-3 rounded-xl border text-sm transition-all duration-200 ${yearsInBusiness === option
-                                    ? "bg-green-800 text-white border-green-800"
-                                    : "bg-white dark:bg-black text-gray-700 dark:text-white border-gray-300 hover:border-green-600"
+                                    ?"bg-green-800 text-white border-green-800"
+                                    :"bg-white text-gray-700 border-gray-300 hover:border-green-600"
                                     }`}
                             >
                                 {option}
@@ -122,8 +116,8 @@ const handleChange = (e) => {
                                 setError(false);
                                 }}
                                 className={`p-2.5 rounded-xl border text-left text-sm transition-all duration-200 ${dailySales === option
-                                    ? "bg-green-800 text-white border-green-800"
-                                    : "bg-white dark:bg-black text-gray-700 dark:text-white border-gray-300 hover:border-green-600"
+                                    ?"bg-green-800 text-white border-green-800"
+                                    :"bg-white text-gray-700 border-gray-300 hover:border-green-600"
                                     }`}
                             >
                                 {option}
@@ -147,8 +141,8 @@ const handleChange = (e) => {
     className={`rounded-xl p-2.5 w-1/2 transition-all duration-200 shadow-md font-medium
     ${
         isFormValid
-        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
-        : "bg-green-100 text-green-400 cursor-not-allowed"
+        ?"bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+        :"bg-green-100 text-green-400 cursor-not-allowed"
     }`}
 >
     Next

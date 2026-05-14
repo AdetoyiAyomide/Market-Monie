@@ -1,4 +1,4 @@
-import { FiTrendingUp, FiArrowUpRight, FiBarChart2, FiDollarSign, FiCalendar } from "react-icons/fi";
+import { FiTrendingUp, FiArrowUpRight, FiBarChart2, FiDollarSign, FiCalendar } from"react-icons/fi";
 
 const Analytics = () => {
   return (
@@ -67,9 +67,9 @@ const Analytics = () => {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {[
-                { month: "March 2026", revenue: "₦2.1M", repayment: "₦45k", status: "Paid" },
-                { month: "February 2026", revenue: "₦1.8M", repayment: "₦45k", status: "Paid" },
-                { month: "January 2026", revenue: "₦2.4M", repayment: "₦45k", status: "Paid" },
+                { month:"March 2026", revenue:"₦2.1M", repayment:"₦45k", status:"Paid" },
+                { month:"February 2026", revenue:"₦1.8M", repayment:"₦45k", status:"Paid" },
+                { month:"January 2026", revenue:"₦2.4M", repayment:"₦45k", status:"Paid" },
               ].map((row, i) => (
                 <tr key={i} className="group hover:bg-gray-50/50 transition-colors">
                   <td className="py-4 text-sm font-bold text-gray-900">{row.month}</td>
@@ -102,8 +102,8 @@ const CustomComboChart = ({ data, color }) => {
   const points = data.map((d, i) => [getX(i), getY(d.v)]);
   
   const generateCurve = (pts) => {
-    if (pts.length === 0) return "";
-    let d = `M ${pts[0][0]} ${pts[0][1]}`;
+    if (pts.length === 0) return"";
+    let d =`M ${pts[0][0]} ${pts[0][1]}`;
     for (let i = 0; i < pts.length - 1; i++) {
       const p0 = pts[Math.max(0, i - 1)];
       const p1 = pts[i];
@@ -116,7 +116,7 @@ const CustomComboChart = ({ data, color }) => {
       const cp2x = p2[0] - (p3[0] - p1[0]) * 0.15;
       const cp2y = p2[1] - (p3[1] - p1[1]) * 0.15;
       
-      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`;
+      d +=` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`;
     }
     return d;
   };
@@ -159,27 +159,27 @@ const AnalyticsHeroCard = ({ title, value, trend, description, icon, color }) =>
   ];
 
   const themes = {
-    emerald: "bg-emerald-50/50 border-emerald-100 text-emerald-600",
-    blue: "bg-blue-50/50 border-blue-100 text-blue-600",
-    purple: "bg-purple-50/50 border-purple-100 text-purple-600"
+    emerald:"bg-emerald-50/50 border-emerald-100 text-emerald-600",
+    blue:"bg-blue-50/50 border-blue-100 text-blue-600",
+    purple:"bg-purple-50/50 border-purple-100 text-purple-600"
   };
 
   const iconBg = {
-    emerald: "bg-emerald-600 text-white shadow-emerald-200",
-    blue: "bg-blue-600 text-white shadow-blue-200",
-    purple: "bg-purple-600 text-white shadow-purple-200"
+    emerald:"bg-emerald-600 text-white shadow-emerald-200",
+    blue:"bg-blue-600 text-white shadow-blue-200",
+    purple:"bg-purple-600 text-white shadow-purple-200"
   };
 
   const overlayBgColors = {
-    emerald: "bg-emerald-500",
-    blue: "bg-blue-500",
-    purple: "bg-purple-500"
+    emerald:"bg-emerald-500",
+    blue:"bg-blue-500",
+    purple:"bg-purple-500"
   };
 
   const lineColors = {
-    emerald: "#10b981",
-    blue: "#3b82f6",
-    purple: "#a855f7"
+    emerald:"#10b981",
+    blue:"#3b82f6",
+    purple:"#a855f7"
   };
 
   return (
@@ -191,12 +191,12 @@ const AnalyticsHeroCard = ({ title, value, trend, description, icon, color }) =>
         <div 
           className={`absolute inset-0 opacity-[0.4] ${overlayBgColors[color]} pointer-events-none mix-blend-multiply`}
           style={{ 
-            WebkitMaskImage: 'url(/Pattern.svg)',
-            WebkitMaskSize: '150px',
-            WebkitMaskRepeat: 'repeat',
-            maskImage: 'url(/Pattern.svg)',
-            maskSize: '150px',
-            maskRepeat: 'repeat'
+            WebkitMaskImage:'url(/Pattern.svg)',
+            WebkitMaskSize:'150px',
+            WebkitMaskRepeat:'repeat',
+            maskImage:'url(/Pattern.svg)',
+            maskSize:'150px',
+            maskRepeat:'repeat'
           }}
         />
 

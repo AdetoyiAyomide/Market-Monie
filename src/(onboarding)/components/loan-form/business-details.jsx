@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { useQuery } from "@tanstack/react-query";
-import { locationService } from "../../../services/locationService";
+import { useEffect, useRef, useState } from"react";
+import { FiChevronDown, FiChevronUp } from"react-icons/fi";
+import { useQuery } from"@tanstack/react-query";
+import { locationService } from"../../../services/locationService";
 
 const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   const [isBusinessTypeOpen, setIsBusinessTypeOpen] = useState(false);
@@ -32,19 +32,13 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
     enabled: isGuest && !!data.businessState,
   });
 
-  const businessKinds = [
-    "Farming", "Food Processing", "Bakery Business", "Restaurants and Catering",
-    "Supermarkets/Grocery Stores", "Petty Trading", "Leather Production",
-    "Transport Services", "Real Estate", "Other"
+  const businessKinds = ["Farming","Food Processing","Bakery Business","Restaurants and Catering","Supermarkets/Grocery Stores","Petty Trading","Leather Production","Transport Services","Real Estate","Other"
   ];
 
-  const yearOptions = [
-    "0 – 1 year", "2 – 3 years", "4 – 5 years", "6 - 9 years", "10+ and above"
+  const yearOptions = ["0 – 1 year","2 – 3 years","4 – 5 years","6 - 9 years","10+ and above"
   ];
 
-  const saleOptions = [
-    "1,000 – 10,000", "20,000 – 40,000", "50,000 - 100,000",
-    "200,000 - 400,000", "500,000 - 1,000,000", "1,000,000 and above"
+  const saleOptions = ["1,000 – 10,000","20,000 – 40,000","50,000 - 100,000","200,000 - 400,000","500,000 - 1,000,000","1,000,000 and above"
   ];
 
   useEffect(() => {
@@ -90,11 +84,11 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!data.businessName) newErrors.businessName = "Required";
-    if (!data.businessType) newErrors.businessType = "Required";
-    if (data.businessType === "Other" && !data.otherBusiness) newErrors.otherBusiness = "Required";
-    if (!data.businessYears) newErrors.businessYears = "Required";
-    if (!data.dailySales) newErrors.dailySales = "Required";
+    if (!data.businessName) newErrors.businessName ="Required";
+    if (!data.businessType) newErrors.businessType ="Required";
+    if (data.businessType ==="Other" && !data.otherBusiness) newErrors.otherBusiness ="Required";
+    if (!data.businessYears) newErrors.businessYears ="Required";
+    if (!data.dailySales) newErrors.dailySales ="Required";
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -109,10 +103,10 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="hidden sm:block text-left font-poppins">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
            Business Details
         </h2>
-        <p className="mt-2 text-gray-500 dark:text-white text-sm">
+        <p className="mt-2 text-gray-500 text-sm">
            Tell us about your business to help us understand your needs.
         </p>
       </div>
@@ -141,7 +135,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
           error={errors.businessType}
         />
 
-        {data.businessType === "Other" && (
+        {data.businessType ==="Other" && (
           <div className="animate-in slide-in-from-top-2 duration-300">
             <InputGroup 
               label="Please specify your business type" 
@@ -184,7 +178,7 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
         <div className="flex gap-4 mt-10">
           <button
             onClick={onBack}
-            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 dark:text-white hover:bg-gray-50 transition-all font-poppins"
+            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
           >
             Back
           </button>
@@ -201,10 +195,10 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 };
 
 const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = false }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group">
@@ -214,13 +208,13 @@ const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = fal
           onChange={onChange}
           readOnly={readOnly}
           placeholder={placeholder}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white dark:placeholder-white px-4 pr-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             error 
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
-                ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-          } ${readOnly ? "bg-gray-100/50 text-gray-500 dark:text-white cursor-not-allowed opacity-80" : ""}`}
+                ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+          } ${readOnly ?"bg-gray-100/50 text-gray-500 cursor-not-allowed opacity-80" :""}`}
         />
       </div>
     </div>
@@ -229,10 +223,10 @@ const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = fal
 
 
 const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, disabled = false, dropdownRef, placeholder, error }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400 dark:text-white')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
@@ -240,32 +234,32 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           type="button"
           onClick={onToggle}
           disabled={disabled}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 dark:bg-black dark:text-white px-4 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
             error
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
-                ? "border-emerald-500 text-gray-900 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                : "border-gray-200 text-gray-400 dark:text-white focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-          } ${disabled ? "opacity-50 grayscale cursor-not-allowed !border-emerald-500" : ""}`}
+                ?"border-emerald-500 text-gray-900 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                :"border-gray-200 text-gray-400 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+          } ${disabled ?"opacity-50 grayscale cursor-not-allowed !border-emerald-500" :""}`}
         >
-          <span className={value ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-white"}>
+          <span className={value ?"text-gray-900" :"text-gray-400"}>
           {disabled && !value 
-            ? "Loading..." 
-            : value || placeholder || "Select Option"}
+            ?"Loading..." 
+            : value || placeholder ||"Select Option"}
         </span>
         </button>
-        <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400 dark:text-white">
+        <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
           {isOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
         </div>
         {isOpen && !disabled && (
-          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-50 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-black shadow-xl">
+          <div className="absolute left-0 right-0 top-[calc(100%+0.35rem)] z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl">
             <ul className="max-h-56 overflow-y-auto py-2">
               {options.map((opt) => (
                 <li
                   key={opt}
                   onClick={() => onSelect(opt)}
                   className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
-                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700 dark:text-white"
+                    value === opt ?"text-emerald-700 bg-emerald-50" :"text-gray-700"
                   }`}
                 >
                   {opt}

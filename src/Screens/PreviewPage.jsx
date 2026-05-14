@@ -1,10 +1,10 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import ProgressBar from './ProgressBar'
-import { TiPencil } from "react-icons/ti";
-import { FaArrowLeft } from "react-icons/fa";
-import { IoInformationCircleOutline } from "react-icons/io5";
-import { useForm } from "../store/FormContext";
+import React from'react'
+import { useNavigate } from'react-router-dom';
+import ProgressBar from'./ProgressBar'
+import { TiPencil } from"react-icons/ti";
+import { FaArrowLeft } from"react-icons/fa";
+import { IoInformationCircleOutline } from"react-icons/io5";
+import { useForm } from"../store/FormContext";
 
 
 
@@ -23,7 +23,7 @@ const PreviewPage = () => {
             Edit
           </button>
         </div>
-        <div className="text-sm text-gray-700 dark:text-white space-y-1">{children}</div>
+        <div className="text-sm text-gray-700 space-y-1">{children}</div>
       </div>
         );
 
@@ -34,7 +34,7 @@ const PreviewPage = () => {
             <div className='flex items-center justify-between mb-2 w-full'>
                 <button 
                     onClick={() => navigate(-1)}
-                    className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition">
+                    className="p-2 text-gray-500 hover:text-green-600 text-xl hover:bg-slate-200 rounded-full transition">
                     <FaArrowLeft />
                   </button>
             <h2 className='font-semibold text-lg text-center flex-1'>Review Application</h2>
@@ -44,7 +44,7 @@ const PreviewPage = () => {
             <ProgressBar currentStep={currentStep} totalSteps={8} />
             <div className="w-full mt-4 bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3 items-start shadow-sm">
                 <div className='text-lg'>
-                    <IoInformationCircleOutline className='text-green-700 '/>
+                    <IoInformationCircleOutline className='text-green-700'/>
                 </div>
                 {/* Text */}
                 <p className="text-green-800 text-xs leading-relaxed">
@@ -110,7 +110,7 @@ const PreviewPage = () => {
         <Section title="Loan" onEdit={() => navigate("/loan")}>
           <div className='flex justify-between w-full'>
             <h2 className='font-semibold'>Loan amount</h2>
-            <p>₦{formData.loanAmount ? Number(formData.loanAmount).toLocaleString() : "0"}</p>
+            <p>₦{formData.loanAmount ? Number(formData.loanAmount).toLocaleString() :"0"}</p>
           </div>
           <div className='flex justify-between w-full'>
             <h2 className='font-semibold'>Bank Name</h2>

@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { FiCheck } from "react-icons/fi";
-import { toast } from "sonner";
+import { useState, useEffect } from"react";
+import { useNavigate, useLocation } from"react-router-dom";
+import { FiCheck } from"react-icons/fi";
+import { toast } from"sonner";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "../../components/ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import JourneyHeader from "../../components/ui/journey-header";
+} from"../../components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from"input-otp";
+import JourneyHeader from"../../components/ui/journey-header";
 
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || "user@email.com";
+  const email = location.state?.email ||"user@email.com";
   
   const [otpValue, setOtpValue] = useState("");
   const [timer, setTimer] = useState(60);
@@ -63,7 +63,7 @@ const VerifyEmail = () => {
     
     // Mock Verification
     setTimeout(() => {
-      if (otpValue === "123456") {
+      if (otpValue ==="123456") {
         toast.success("Email verified successfully!");
         setIsSuccess(true);
       } else {
@@ -152,7 +152,7 @@ const VerifyEmail = () => {
                       <InputOTPSlot
                         key={index}
                         index={index}
-                        className={`rounded-sm border-gray-200 border focus:ring focus:ring-green-600 focus:border-green-600 outline-none ${hasError && "ring-2 ring-red-500 border-red-500"}`}
+                        className={`rounded-sm border-gray-200 border focus:ring focus:ring-green-600 focus:border-green-600 outline-none ${hasError &&"ring-2 ring-red-500 border-red-500"}`}
                       />
                     ))}
                   </InputOTPGroup>
@@ -161,18 +161,18 @@ const VerifyEmail = () => {
 
               <div className="text-center">
                 <p className="text-sm text-gray-600">
-                  Didn't receive it?{" "}
+                  Didn't receive it?{""}
                   <button
                     type="button"
                     disabled={!canResend}
                     onClick={handleResend}
                     className={`font-semibold ${
                       canResend 
-                        ? "text-emerald-600 hover:text-emerald-500" 
-                        : "text-gray-400 cursor-not-allowed"
+                        ?"text-emerald-600 hover:text-emerald-500" 
+                        :"text-gray-400 cursor-not-allowed"
                     }`}
                   >
-                    Resend code {timer > 0 && `(${timer}s)`}
+                    Resend code {timer > 0 &&`(${timer}s)`}
                   </button>
                 </p>
               </div>
@@ -182,7 +182,7 @@ const VerifyEmail = () => {
                 disabled={otpValue.length < 6 || isVerifying}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isVerifying ? "Verifying..." : "Verify"}
+                {isVerifying ?"Verifying..." :"Verify"}
               </button>
             </form>
           </div>

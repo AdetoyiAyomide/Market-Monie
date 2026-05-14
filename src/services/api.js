@@ -1,14 +1,14 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.example.com';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ||'https://api.example.com';
 
 export const apiClient = async (endpoint, { body, ...customConfig } = {}) => {
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = {'Content-Type':'application/json' };
   
   // You can add logic here to get tokens from localStorage/cookies
   const token = localStorage.getItem('token');
-  if (token) headers.Authorization = `Bearer ${token}`;
+  if (token) headers.Authorization =`Bearer ${token}`;
 
   const config = {
-    method: body ? 'POST' : 'GET',
+    method: body ?'POST' :'GET',
     ...customConfig,
     headers: {
       ...headers,
@@ -30,6 +30,6 @@ export const apiClient = async (endpoint, { body, ...customConfig } = {}) => {
 
     throw new Error(data.message || response.statusText);
   } catch (err) {
-    return Promise.reject(err.message || 'Something went wrong');
+    return Promise.reject(err.message ||'Something went wrong');
   }
 };

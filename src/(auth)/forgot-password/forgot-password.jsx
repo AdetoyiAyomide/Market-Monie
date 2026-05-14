@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { forgotPasswordSchema, otpSchema, resetPasswordSchema } from "../../schemas/auth";
-import { Link, useNavigate } from "react-router-dom";
-import { FiEye, FiEyeOff, FiArrowLeft, FiSmartphone, FiLock, FiCheckCircle } from "react-icons/fi";
-import { motion, AnimatePresence } from "framer-motion";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../components/ui/input-otp";
-import SuccessScreen from "../../components/ui/success-screen";
-import { toast } from "sonner";
+import { useState } from"react";
+import { useForm, Controller } from"react-hook-form";
+import { zodResolver } from"@hookform/resolvers/zod";
+import { forgotPasswordSchema, otpSchema, resetPasswordSchema } from"../../schemas/auth";
+import { Link, useNavigate } from"react-router-dom";
+import { FiEye, FiEyeOff, FiArrowLeft, FiSmartphone, FiLock, FiCheckCircle } from"react-icons/fi";
+import { motion, AnimatePresence } from"framer-motion";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from"../../components/ui/input-otp";
+import SuccessScreen from"../../components/ui/success-screen";
+import { toast } from"sonner";
 
 const STAGES = {
-  PHONE: "PHONE",
-  OTP: "OTP",
-  RESET: "RESET",
-  SUCCESS: "SUCCESS",
+  PHONE:"PHONE",
+  OTP:"OTP",
+  RESET:"RESET",
+  SUCCESS:"SUCCESS",
 };
 
 const ForgotPassword = () => {
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
     formState: { errors: otpErrors, isSubmitting: isOtpSubmitting },
   } = useForm({
     resolver: zodResolver(otpSchema),
-    defaultValues: { otp: "" },
+    defaultValues: { otp:"" },
   });
 
   // Reset Password Form
@@ -147,7 +147,7 @@ const ForgotPassword = () => {
                 disabled={isPhoneSubmitting}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isPhoneSubmitting ? "Sending..." : "Reset Password"}
+                {isPhoneSubmitting ?"Sending..." :"Reset Password"}
               </button>
             </form>
           </motion.div>
@@ -213,10 +213,10 @@ const ForgotPassword = () => {
                   disabled={isOtpSubmitting}
                   className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
                 >
-                  {isOtpSubmitting ? "Verifying..." : "Verify Otp"}
+                  {isOtpSubmitting ?"Verifying..." :"Verify Otp"}
                 </button>
                 <p className="text-center text-sm text-gray-600">
-                  Didn't receive the code?{" "}
+                  Didn't receive the code?{""}
                   <button
                     type="button"
                     className="font-semibold text-emerald-600 hover:text-emerald-500 transition-colors"
@@ -240,10 +240,10 @@ const ForgotPassword = () => {
             className="space-y-6"
           >
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white font-poppins">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 font-poppins">
                 Set New PIN
               </h2>
-              <p className="mt-2 text-sm text-gray-600 dark:text-white font-poppins">
+              <p className="mt-2 text-sm text-gray-600 font-poppins">
                 Please enter a new 6-digit PIN to secure your account.
               </p>
             </div>
@@ -251,24 +251,24 @@ const ForgotPassword = () => {
             <form onSubmit={handleResetSubmit(onResetSubmit)} className="space-y-6">
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                  <label className="block text-sm font-medium leading-6 text-gray-900">
                     New PIN
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="h-5 w-5 text-gray-400 dark:text-white" />
+                      <FiLock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                       {...registerReset("password")}
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ?"text" :"password"}
                       maxLength={6}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-white transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                     >
                       {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
@@ -281,24 +281,24 @@ const ForgotPassword = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                  <label className="block text-sm font-medium leading-6 text-gray-900">
                     Confirm PIN
                   </label>
                   <div className="mt-2 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiLock className="h-5 w-5 text-gray-400 dark:text-white" />
+                      <FiLock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                       {...registerReset("confirmPassword")}
-                      type={showConfirmPassword ? "text" : "password"}
+                      type={showConfirmPassword ?"text" :"password"}
                       maxLength={6}
-                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
+                      className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-white transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                     >
                       {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
                     </button>
@@ -313,9 +313,9 @@ const ForgotPassword = () => {
 
               <div className="space-y-2 py-2">
                  {[
-                   { label: "Please enter a 6-digit pin", met: true }
+                   { label:"Please enter a 6-digit pin", met: true }
                  ].map((rule, i) => (
-                   <div key={i} className="flex items-center gap-2 text-xs text-gray-500 dark:text-white">
+                   <div key={i} className="flex items-center gap-2 text-xs text-gray-500">
                      <FiCheckCircle size={14} className="text-emerald-500" />
                      <span>{rule.label}</span>
                    </div>
@@ -327,7 +327,7 @@ const ForgotPassword = () => {
                 disabled={isResetSubmitting}
                 className="flex w-full justify-center rounded-md bg-emerald-600 px-3 py-3.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:opacity-50 transition-all font-poppins"
               >
-                {isResetSubmitting ? "Updating..." : "Reset PIN"}
+                {isResetSubmitting ?"Updating..." :"Reset PIN"}
               </button>
             </form>
           </motion.div>

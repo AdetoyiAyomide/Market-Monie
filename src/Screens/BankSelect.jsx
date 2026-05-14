@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { banks } from "../store/Data";
+import React, { useState, useRef, useEffect } from"react";
+import { banks } from"../store/Data";
 
 const BankSelect = ({ bankName, setBankName, setError }) => {
   const [query, setQuery] = useState("");
@@ -37,11 +37,11 @@ const BankSelect = ({ bankName, setBankName, setError }) => {
           setError(false);
         }}
         placeholder="Type to search bank..."
-        className="border border-gray-400 rounded-xl p-2 w-full outline-none focus:border-green-600 dark:bg-black dark:text-white dark:placeholder-white"
+        className="border border-gray-400 rounded-xl p-2 w-full outline-none focus:border-green-600"
       />
 
       {showDropdown && filteredBanks.length > 0 && (
-        <ul className="absolute z-10 w-full bg-white dark:bg-black border border-gray-300 dark:border-gray-800 rounded-xl mt-1 max-h-60 overflow-y-auto shadow-lg">
+        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-xl mt-1 max-h-60 overflow-y-auto shadow-lg">
           {filteredBanks.map((bank) => (
             <li
               key={bank}

@@ -1,4 +1,4 @@
-import { FiArrowLeft, FiCheckCircle, FiUser, FiCalendar } from "react-icons/fi";
+import { FiArrowLeft, FiCheckCircle, FiUser, FiCalendar } from"react-icons/fi";
 
 const BvnConfirmation = ({ userData, onConfirm, onBack }) => {
   if (!userData) return null;

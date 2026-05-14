@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { locations } from '../store/Data';
-import { FaChevronDown, FaChevronUp, FaArrowLeft } from "react-icons/fa";
-import { stateLgaMapping } from '../store/LgaData';
-import FormHeader from './formHeader';
-import ProgressBar from "./ProgressBar"
-import { useForm } from "../store/FormContext";
+import React, { useState, useRef, useEffect } from'react';
+import { useNavigate } from'react-router-dom';
+import { locations } from'../store/Data';
+import { FaChevronDown, FaChevronUp, FaArrowLeft } from"react-icons/fa";
+import { stateLgaMapping } from'../store/LgaData';
+import FormHeader from'./formHeader';
+import ProgressBar from"./ProgressBar"
+import { useForm } from"../store/FormContext";
 
 const Address = () => {
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Address = () => {
         setFormData({
             ...formData,
             state: loc,
-            lga: ""
+            lga:""
         });
         setOpen(false);
         setQuery("");
@@ -105,7 +105,7 @@ const Address = () => {
                     <ProgressBar currentStep={currentStep} totalSteps={8} />
                 </div>
                 <FormHeader />
-                <h2 className='font-bold text-left w-full text-xl dark:text-white'>
+                <h2 className='font-bold text-left w-full text-xl'>
                     Residential Address
                 </h2>
                 {error && (
@@ -115,14 +115,14 @@ const Address = () => {
                 )}
 
                 <div className='flex flex-col w-full relative'>
-                    <label className="dark:text-white" htmlFor="state">State <span className='text-red-500'>*</span></label>
+                    <label className="" htmlFor="state">State <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
                         value={query || selectedLocation}
                         onClick={() => setOpen(prev => !prev)}
                         onChange={handleStateChange}
                         placeholder="Select State"
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none dark:bg-black dark:text-white dark:placeholder-white"
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
                     />
                     <button type='button' onClick={() => setOpen(prev => !prev)}>
                         {open ? (
@@ -133,7 +133,7 @@ const Address = () => {
                     </button>
 
                     {open && (
-                        <div className="absolute left-0 top-full w-full bg-white dark:bg-black border border-slate-400 mt-1 rounded shadow z-10">
+                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
                             <ul className="max-h-40 overflow-y-auto">
                                 {filtered.length > 0 ? (
                                     filtered.map((loc, index) => (
@@ -146,23 +146,23 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400 dark:text-white">enter a valid state</li>
+                                    <li className="p-2 text-gray-400">enter a valid state</li>
                                 )}
                             </ul>
                         </div>
                     )}
                 </div>
                 <div className='flex flex-col w-full relative'>
-                    <label className="dark:text-white">LGA <span className='text-red-500'>*</span></label>
+                    <label className="">LGA <span className='text-red-500'>*</span></label>
 
                     <input
                         type="text"
                         value={lgaQuery || formData.lga}
                         onClick={() => setOpenLga(prev => !prev)}
                         onChange={handleLgaChange}
-                        placeholder={formData.state ? "Select LGA" : "Select State First"}
+                        placeholder={formData.state ?"Select LGA" :"Select State First"}
                         disabled={!formData.state}
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100 dark:bg-black dark:text-white dark:placeholder-white" />
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100" />
 
                     <button type="button" onClick={() => setOpenLga(prev => !prev)}>
                         {openLga ? (
@@ -173,7 +173,7 @@ const Address = () => {
                     </button>
 
                     {openLga && (
-                        <div className="absolute left-0 top-full w-full bg-white dark:bg-black border border-slate-400 mt-1 rounded shadow z-10">
+                        <div className="absolute left-0 top-full w-full bg-white border border-slate-400 mt-1 rounded shadow z-10">
                             <ul className="max-h-40 overflow-y-auto">
                                 {filteredLgas.length > 0 ? (
                                     filteredLgas.map((lga, index) => (
@@ -186,26 +186,26 @@ const Address = () => {
                                         </li>
                                     ))
                                 ) : (
-                                    <li className="p-2 text-gray-400 dark:text-white">enter a valid LGA</li>
+                                    <li className="p-2 text-gray-400">enter a valid LGA</li>
                                 )}
                             </ul>
                         </div>
                     )}
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label className="dark:text-white" htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
-                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2 dark:bg-black dark:text-white dark:placeholder-white' />
+                    <label className="" htmlFor="area">Area/Street <span className='text-red-500'>*</span></label>
+                    <input type="text" id="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} placeholder='e.g Victoria, Lekki Phase 1' className='border border-gray-500 rounded-xl p-2' />
                 </div>
                 <div className='flex flex-col w-full'>
-                    <label className="dark:text-white" htmlFor="houseAddress">House Address <span className='text-red-500'>*</span></label>
+                    <label className="" htmlFor="houseAddress">House Address <span className='text-red-500'>*</span></label>
                     <input
                         type="text"
                         name="houseAddress"
                         id="houseAddress"
-                        value={formData.houseAddress || ""}
+                        value={formData.houseAddress ||""}
                         onChange={handleChange}
                         placeholder='house number and street name'
-                        className='border border-gray-500 rounded-xl p-2 dark:bg-black dark:text-white dark:placeholder-white'
+                        className='border border-gray-500 rounded-xl p-2'
                     />
                 </div>
                 <div className='flex w-full justify-between gap-2'>
@@ -218,8 +218,8 @@ const Address = () => {
                         disabled={!isFormValid}
                         className={`rounded-xl p-2 w-1/2 transition-all duration-200 font-medium
     ${isFormValid
-                                ? "bg-green-800 text-white hover:bg-green-900"
-                                : "bg-green-100 text-green-400 cursor-not-allowed"
+                                ?"bg-green-800 text-white hover:bg-green-900"
+                                :"bg-green-100 text-green-400 cursor-not-allowed"
                             }`}
                     >
                         Next

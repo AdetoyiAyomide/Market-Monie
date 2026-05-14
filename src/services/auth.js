@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiClient } from './api';
+import { useMutation, useQuery } from'@tanstack/react-query';
+import { apiClient } from'./api';
 
 // --- QUERIES ---
 
@@ -42,6 +42,6 @@ export const useLogout = () => {
     // This could just clear local storage and reset query client
     // For now, we just export a simple hook structure
     return useMutation({
-        mutationFn: () => apiClient('/auth/logout', { method: 'POST' }),
+        mutationFn: () => apiClient('/auth/logout', { method:'POST' }),
     })
 }

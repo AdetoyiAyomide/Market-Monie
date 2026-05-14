@@ -1,4 +1,4 @@
-import { stateLgaMapping } from "../store/LgaData";
+import { stateLgaMapping } from"../store/LgaData";
 
 /**
  * Service to handle Nigerian state and LGA data fetching
@@ -32,8 +32,8 @@ export const locationService = {
     const lgas = stateLgaMapping[stateName];
     if (lgas) return lgas;
 
-    // Fallback for cases like "FCT (Abuja)" vs "Abuja" if they differ in the input
-    const normalizedName = stateName.includes("Abuja") ? "FCT (Abuja)" : stateName;
+    // Fallback for cases like"FCT (Abuja)" vs"Abuja" if they differ in the input
+    const normalizedName = stateName.includes("Abuja") ?"FCT (Abuja)" : stateName;
     return stateLgaMapping[normalizedName] || [];
   }
 };

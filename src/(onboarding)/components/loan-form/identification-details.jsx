@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { FiFileText, FiUploadCloud, FiType, FiCheck, FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useEffect, useRef, useState } from"react";
+import { FiFileText, FiUploadCloud, FiType, FiCheck, FiChevronDown, FiChevronUp } from"react-icons/fi";
 
 const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
   const [isIdTypeOpen, setIsIdTypeOpen] = useState(false);
@@ -9,18 +9,10 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
 
   const [errors, setErrors] = useState({});
 
-  const idOptions = [
-    "Driver’s License", 
-    "International Passport", 
-    "Voter's Card",
-    "NIN"
+  const idOptions = ["Driver’s License","International Passport","Voter's Card","NIN"
   ];
 
-  const proofOptions = [
-    "Utility Bill",
-    "Bank Statement",
-    "Rent Agreement",
-    "Lagos State Residency Card (LASRRA)"
+  const proofOptions = ["Utility Bill","Bank Statement","Rent Agreement","Lagos State Residency Card (LASRRA)"
   ];
 
   useEffect(() => {
@@ -84,7 +76,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               onSelect={(val) => {
                 setIsIdTypeOpen(false);
                 onChange('idType', val);
-                onChange('idNumber', '');
+                onChange('idNumber','');
                 if (errors.idType) setErrors(prev => ({ ...prev, idType: null }));
               }}
               options={idOptions}
@@ -92,25 +84,21 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               error={errors.idType}
             />
             <div className="space-y-2">
-              <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.idNumber ? 'text-red-500' : (data.idNumber ? 'text-emerald-600' : 'text-gray-400')}`}>
+              <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${errors.idNumber ?'text-red-500' : (data.idNumber ?'text-emerald-600' :'text-gray-400')}`}>
                 ID Number
               </label>
               <div className="relative group">
                 <input
                   type="text"
-                  inputMode={data.idType === "NIN" ? "numeric" : "text"}
-                  value={data.idNumber || ""}
+                  inputMode={data.idType ==="NIN" ?"numeric" :"text"}
+                  value={data.idNumber ||""}
                   onChange={(e) => {
-                    const config = {
-                      "NIN": { length: 11, pattern: /^\d*$/ },
-                      "International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },
-                      "Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },
-                      "Voter's Card": { length: 9, pattern: /^[a-zA-Z0-9]*$/ }
+                    const config = {"NIN": { length: 11, pattern: /^\d*$/ },"International Passport": { length: 9, pattern: /^[a-zA-Z0-9]*$/ },"Driver’s License": { length: 12, pattern: /^[a-zA-Z0-9]*$/ },"Voter's Card": { length: 9, pattern: /^[a-zA-Z0-9]*$/ }
                     }[data.idType] || { length: 15, pattern: /^[a-zA-Z0-9]*$/ };
 
-                    const val = data.idType === "NIN" 
-                      ? e.target.value.replace(/\D/g, '').slice(0, config.length)
-                      : e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, config.length);
+                    const val = data.idType ==="NIN" 
+                      ? e.target.value.replace(/\D/g,'').slice(0, config.length)
+                      : e.target.value.replace(/[^a-zA-Z0-9]/g,'').toUpperCase().slice(0, config.length);
 
                     if (config.pattern.test(val)) {
                       onChange('idNumber', val);
@@ -118,23 +106,22 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
                     }
                   }}
                   placeholder={
-                    data.idType === "NIN" ? "Enter 11-digit NIN" :
-                    data.idType === "International Passport" ? "Enter 9-digit Passport No." :
-                    data.idType === "Driver’s License" ? "Enter 12-digit License No." :
-                    data.idType === "Voter's Card" ? "Enter 9-digit Voter's Card No." :
-                    "Enter ID number"
+                    data.idType ==="NIN" ?"Enter 11-digit NIN" :
+                    data.idType ==="International Passport" ?"Enter 9-digit Passport No." :
+                    data.idType ==="Driver’s License" ?"Enter 12-digit License No." :
+                    data.idType ==="Voter's Card" ?"Enter 9-digit Voter's Card No." :"Enter ID number"
                   }
                   className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
                     errors.idNumber 
-                      ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
-                      : (data.idNumber?.length === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15))
-                        ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                        : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                      ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                      : (data.idNumber?.length === ({"NIN": 11,"International Passport": 9,"Driver’s License": 12,"Voter's Card": 9 }[data.idType] || 15))
+                        ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                        :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
                   }`}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === ({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15) ? "text-emerald-500" : "text-gray-300"}`}>
-                    {(data.idNumber?.length || 0)}/{({ "NIN": 11, "International Passport": 9, "Driver’s License": 12, "Voter's Card": 9 }[data.idType] || 15)}
+                  <span className={`text-[10px] font-bold transition-colors ${(data.idNumber?.length || 0) === ({"NIN": 11,"International Passport": 9,"Driver’s License": 12,"Voter's Card": 9 }[data.idType] || 15) ?"text-emerald-500" :"text-gray-300"}`}>
+                    {(data.idNumber?.length || 0)}/{({"NIN": 11,"International Passport": 9,"Driver’s License": 12,"Voter's Card": 9 }[data.idType] || 15)}
                   </span>
                 </div>
               </div>
@@ -148,7 +135,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               onChange('idFile', file);
               setErrors(prev => ({ ...prev, idFile: false }));
             }}
-            label={`Upload ${data.idType || 'ID'}`}
+            label={`Upload ${data.idType ||'ID'}`}
             description="PNG, JPG or PDF. Max 2MB."
             error={errors.idFile}
           />
@@ -182,7 +169,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
               onChange('proofFile', file);
               setErrors(prev => ({ ...prev, proofFile: false }));
             }}
-            label={`Upload ${data.proofType || 'Proof Document'}`}
+            label={`Upload ${data.proofType ||'Proof Document'}`}
             description="Utility bill or bank statement (not older than 3 months)"
             error={errors.proofFile}
           />
@@ -191,7 +178,7 @@ const IdentificationDetails = ({ data, onChange, onContinue, onBack }) => {
         <div className="flex gap-4 mt-10">
           <button
             onClick={onBack}
-            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 dark:text-white hover:bg-gray-50 transition-all font-poppins"
+            className="flex-1 rounded-xl border-2 border-gray-100 py-4 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-all font-poppins"
           >
             Back
           </button>
@@ -216,24 +203,24 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
     />
     <div className={`p-6 rounded-2xl border-2 border-dashed transition-all flex flex-col items-center justify-center gap-2 ${
       error 
-        ? "bg-red-50 border-red-300"
+        ?"bg-red-50 border-red-300"
         : file 
-          ? "bg-emerald-50 border-emerald-300" 
-          : "bg-gray-50/50 dark:bg-black border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
+          ?"bg-emerald-50 border-emerald-300" 
+          :"bg-gray-50/50 border-gray-200 hover:border-emerald-300 group-hover:bg-emerald-50/30"
     }`}>
       <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
         error 
-          ? "bg-red-100 text-red-600"
+          ?"bg-red-100 text-red-600"
           : file 
-            ? "bg-emerald-100 text-emerald-600" 
-            : "bg-gray-100 dark:bg-black text-gray-400"
+            ?"bg-emerald-100 text-emerald-600" 
+            :"bg-gray-100 text-gray-400"
       }`}>
         {file ? <FiCheck size={20} /> : <FiUploadCloud size={20} />}
       </div>
-      <p className={`text-sm font-bold ${error ? "text-red-700" : (file ? "text-emerald-700" : "text-gray-900")}`}>
+      <p className={`text-sm font-bold ${error ?"text-red-700" : (file ?"text-emerald-700" :"text-gray-900")}`}>
         {file ? file.name : label}
       </p>
-      <p className="text-[10px] text-gray-500 dark:text-black text-center tracking-wider font-medium">
+      <p className="text-[10px] text-gray-500 text-center tracking-wider font-medium">
          {description}
       </p>
     </div>
@@ -241,10 +228,10 @@ const FileUpload = ({ file, onFileSelect, label, description, error }) => (
 );
 
 const InputGroup = ({ label, value, onChange, placeholder, error }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group">
@@ -255,10 +242,10 @@ const InputGroup = ({ label, value, onChange, placeholder, error }) => {
           placeholder={placeholder}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium text-sm ${
             error 
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+              ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
-                ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         />
       </div>
@@ -267,10 +254,10 @@ const InputGroup = ({ label, value, onChange, placeholder, error }) => {
 };
 
 const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, dropdownRef, error }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
@@ -279,14 +266,14 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           onClick={onToggle}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium text-sm ${
             error 
-              ? "border-red-300"
+              ?"border-red-300"
               : isValid
-                ? "border-emerald-500"
-                : "border-gray-200"
+                ?"border-emerald-500"
+                :"border-gray-200"
           }`}
         >
-          <span className={value ? "text-gray-900" : "text-gray-400"}>
-            {value || `Select ${label}`}
+          <span className={value ?"text-gray-900" :"text-gray-400"}>
+            {value ||`Select ${label}`}
           </span>
         </button>
         <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
@@ -300,7 +287,7 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
                   key={opt}
                   onClick={() => onSelect(opt)}
                   className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
-                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                    value === opt ?"text-emerald-700 bg-emerald-50" :"text-gray-700"
                   }`}
                 >
                   {opt}

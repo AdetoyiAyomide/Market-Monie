@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import PersonalDetails from "./components/loan-form/personal-details";
-import BusinessDetails from "./components/loan-form/business-details";
-import FinancialDetails from "./components/loan-form/financial-details";
-import ExistingLoans from "./components/loan-form/existing-loans";
-import ReviewApplication from "./components/loan-form/review-application";
-import ApplicationSuccess from "./components/loan-form/success-screen";
+import { useEffect, useState } from"react";
+import { useLocation, useNavigate } from"react-router-dom";
+import PersonalDetails from"./components/loan-form/personal-details";
+import BusinessDetails from"./components/loan-form/business-details";
+import FinancialDetails from"./components/loan-form/financial-details";
+import ExistingLoans from"./components/loan-form/existing-loans";
+import ReviewApplication from"./components/loan-form/review-application";
+import ApplicationSuccess from"./components/loan-form/success-screen";
 import {
   isGuestGlobal,
   selectedStateGlobal,
@@ -14,8 +14,8 @@ import {
   selectedAreaGlobal,
   selectedHubGlobal,
   setIsGuestGlobal,
-} from "../store/Data";
-import JourneyHeader from "../components/ui/journey-header";
+} from"../store/Data";
+import JourneyHeader from"../components/ui/journey-header";
 
 const LoanApplication = () => {
   const location = useLocation();
@@ -30,11 +30,11 @@ const LoanApplication = () => {
       if (step > 0 && step < 4) { // Don't intercept if on Success screen or first step
         e.preventDefault();
         setStep(prev => prev - 1);
-        window.history.pushState(null, '', window.location.pathname);
+        window.history.pushState(null,'', window.location.pathname);
       }
     };
 
-    window.history.pushState(null, '', window.location.pathname);
+    window.history.pushState(null,'', window.location.pathname);
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [step]);
@@ -51,11 +51,11 @@ const LoanApplication = () => {
     if (isGuestGlobal) {
       setFormData(prev => ({
         ...prev,
-        firstname: "",
-        lastname: "",
-        middlename: "",
-        phone: "",
-        dob: ""
+        firstname:"",
+        lastname:"",
+        middlename:"",
+        phone:"",
+        dob:""
       }));
     } else {
       // If Registered (has account), pre-populate from localStorage
@@ -74,47 +74,47 @@ const LoanApplication = () => {
   const [formData, setFormData] = useState({
     // Step 0: Hub
     hub: selectedHubGlobal || null,
-    selectedState: selectedStateGlobal || location.state?.state || "",
+    selectedState: selectedStateGlobal || location.state?.state ||"",
 
     // Step 1: Personal (Pre-populated from mock BVN/Register data)
-    title: "",
-    firstname: "",
-    lastname: "",
-    middlename: "",
-    phone: "",
-    bvn: "",
-    email: "",
-    dob: "",
+    title:"",
+    firstname:"",
+    lastname:"",
+    middlename:"",
+    phone:"",
+    bvn:"",
+    email:"",
+    dob:"",
 
     // Step 2: Address
-    state: "",
-    lga: "",
+    state:"",
+    lga:"",
 
-    area: "",
-    houseAddress: "",
+    area:"",
+    houseAddress:"",
 
     // Step 3: Identification
-    idType: "",
-    idNumber: "",
+    idType:"",
+    idNumber:"",
     idFile: null,
-    proofType: "",
+    proofType:"",
     proofFile: null,
 
     // Step 4: Business
-    businessName: "",
-    businessState: localStorage.getItem("selectedState") || selectedStateGlobal || location.state?.state || "",
-    businessLga: localStorage.getItem("selectedLga") || selectedLgaGlobal || "",
-    businessTown: localStorage.getItem("selectedTown") || selectedTownGlobal || "",
-    businessArea: localStorage.getItem("selectedArea") || selectedAreaGlobal || "",
-    businessType: "",
-    otherBusiness: "",
-    businessYears: "",
-    dailySales: "",
+    businessName:"",
+    businessState: localStorage.getItem("selectedState") || selectedStateGlobal || location.state?.state ||"",
+    businessLga: localStorage.getItem("selectedLga") || selectedLgaGlobal ||"",
+    businessTown: localStorage.getItem("selectedTown") || selectedTownGlobal ||"",
+    businessArea: localStorage.getItem("selectedArea") || selectedAreaGlobal ||"",
+    businessType:"",
+    otherBusiness:"",
+    businessYears:"",
+    dailySales:"",
 
     // Step 5: Financial
-    loanAmount: "",
-    bankName: "",
-    accountNumber: "",
+    loanAmount:"",
+    bankName:"",
+    accountNumber:"",
 
     // Step 6: Loans
     hasExistingLoan: null,
@@ -157,7 +157,7 @@ const handleCancel = () => {
   }
 };
 
-const withJourneyHeader = (content, activeStep = "application") => (
+const withJourneyHeader = (content, activeStep ="application") => (
   <div className="w-full pr-4 sm:pr-6 lg:pr-8 pt-2 pb-10 font-poppins">
     <div className="flex flex-col lg:flex-row gap-4 items-start">
       {/* Progress Sidebar - Placed at the very edge */}
@@ -223,8 +223,7 @@ switch (step) {
         onSubmit={handleSubmit}
         onCancel={handleCancel}
         isGuest={isGuestGlobal}
-      />,
-      "review"
+      />,"review"
     );
   case 5:
     return (

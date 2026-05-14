@@ -1,4 +1,4 @@
-import { FiTrendingUp, FiArrowDown, FiCreditCard, FiActivity } from "react-icons/fi";
+import { FiTrendingUp, FiArrowDown, FiCreditCard, FiActivity } from"react-icons/fi";
 
 const CustomComboChart = ({ data, color }) => {
   const values = data.map(d => d.v);
@@ -12,8 +12,8 @@ const CustomComboChart = ({ data, color }) => {
   const points = data.map((d, i) => [getX(i), getY(d.v)]);
   
   const generateCurve = (pts) => {
-    if (pts.length === 0) return "";
-    let d = `M ${pts[0][0]} ${pts[0][1]}`;
+    if (pts.length === 0) return"";
+    let d =`M ${pts[0][0]} ${pts[0][1]}`;
     for (let i = 0; i < pts.length - 1; i++) {
       const p0 = pts[Math.max(0, i - 1)];
       const p1 = pts[i];
@@ -26,7 +26,7 @@ const CustomComboChart = ({ data, color }) => {
       const cp2x = p2[0] - (p3[0] - p1[0]) * 0.15;
       const cp2y = p2[1] - (p3[1] - p1[1]) * 0.15;
       
-      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`;
+      d +=` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2[0]} ${p2[1]}`;
     }
     return d;
   };
@@ -69,45 +69,45 @@ const CustomComboChart = ({ data, color }) => {
 const QuickStats = () => {
   const stats = [
     { 
-      label: "Loan Balance", 
-      value: "₦2,450,000", 
-      trend: "+12.5%", 
-      isPositive: false, // Balance increasing is usually 'negative' in a loan context
+      label:"Loan Balance", 
+      value:"₦2,450,000", 
+      trend:"+12.5%", 
+      isPositive: false, // Balance increasing is usually'negative' in a loan context
       icon: <FiActivity />,
-      color: "emerald",
+      color:"emerald",
       chartData: [
         { v: 80 }, { v: 100 }, { v: 90 }, { v: 130 }, { v: 120 }, { v: 150 }, { v: 180 }, { v: 160 }, { v: 200 }
       ]
     },
     { 
-      label: "Next Repayment", 
-      value: "₦45,000", 
-      trend: "In 15 days", 
+      label:"Next Repayment", 
+      value:"₦45,000", 
+      trend:"In 15 days", 
       isPositive: true,
       icon: <FiCreditCard />,
-      color: "blue",
+      color:"blue",
       chartData: [
         { v: 180 }, { v: 160 }, { v: 170 }, { v: 150 }, { v: 140 }, { v: 160 }, { v: 130 }, { v: 140 }, { v: 110 }
       ]
     },
     { 
-      label: "Credit Score", 
-      value: "740", 
-      trend: "Excellent", 
+      label:"Credit Score", 
+      value:"740", 
+      trend:"Excellent", 
       isPositive: true,
       icon: <FiTrendingUp />,
-      color: "purple",
+      color:"purple",
       chartData: [
         { v: 620 }, { v: 640 }, { v: 635 }, { v: 660 }, { v: 690 }, { v: 680 }, { v: 710 }, { v: 730 }, { v: 740 }
       ]
     },
     { 
-      label: "Limit Used", 
-      value: "4.5%", 
-      trend: "₦450k / ₦10M", 
+      label:"Limit Used", 
+      value:"4.5%", 
+      trend:"₦450k / ₦10M", 
       isPositive: true,
       icon: <FiArrowDown className="rotate-180" />,
-      color: "orange",
+      color:"orange",
       chartData: [
         { v: 15 }, { v: 20 }, { v: 25 }, { v: 22 }, { v: 30 }, { v: 28 }, { v: 35 }, { v: 40 }, { v: 45 }
       ]
@@ -115,24 +115,24 @@ const QuickStats = () => {
   ];
 
   const themeColors = {
-    emerald: "text-emerald-600 border-emerald-100 bg-emerald-50/20",
-    blue: "text-blue-600 border-blue-100 bg-blue-50/20",
-    purple: "text-purple-600 border-purple-100 bg-purple-50/20",
-    orange: "text-orange-600 border-orange-100 bg-orange-50/20"
+    emerald:"text-emerald-600 border-emerald-100 bg-emerald-50/20",
+    blue:"text-blue-600 border-blue-100 bg-blue-50/20",
+    purple:"text-purple-600 border-purple-100 bg-purple-50/20",
+    orange:"text-orange-600 border-orange-100 bg-orange-50/20"
   };
 
   const lineColors = {
-    emerald: "#10b981",
-    blue: "#3b82f6",
-    purple: "#a855f7",
-    orange: "#f97316"
+    emerald:"#10b981",
+    blue:"#3b82f6",
+    purple:"#a855f7",
+    orange:"#f97316"
   };
 
   const overlayBgColors = {
-    emerald: "bg-emerald-500",
-    blue: "bg-blue-500",
-    purple: "bg-purple-500",
-    orange: "bg-orange-500"
+    emerald:"bg-emerald-500",
+    blue:"bg-blue-500",
+    purple:"bg-purple-500",
+    orange:"bg-orange-500"
   };
 
   return (
@@ -147,12 +147,12 @@ const QuickStats = () => {
             <div 
               className={`absolute inset-0 opacity-[0.90] ${overlayBgColors[stat.color]} pointer-events-none mix-blend-multiply`}
               style={{ 
-                WebkitMaskImage: 'url(/Pattern.svg)',
-                WebkitMaskSize: '180px',
-                WebkitMaskRepeat: 'repeat',
-                maskImage: 'url(/Pattern.svg)',
-                maskSize: '180px',
-                maskRepeat: 'repeat'
+                WebkitMaskImage:'url(/Pattern.svg)',
+                WebkitMaskSize:'180px',
+                WebkitMaskRepeat:'repeat',
+                maskImage:'url(/Pattern.svg)',
+                maskSize:'180px',
+                maskRepeat:'repeat'
               }}
             />
             
@@ -174,7 +174,7 @@ const QuickStats = () => {
               {stat.isPositive !== null && (
                 <div className="flex flex-col items-end">
                   <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border bg-white/50 backdrop-blur-md shadow-sm ${
-                    stat.isPositive ? "border-emerald-100 text-emerald-600" : "border-red-100 text-red-600"
+                    stat.isPositive ?"border-emerald-100 text-emerald-600" :"border-red-100 text-red-600"
                   }`}>
                     {stat.trend}
                   </span>
@@ -191,7 +191,7 @@ const QuickStats = () => {
             </div>
           </div>
 
-          <div className={`absolute -bottom-8 -right-8 h-32 w-32 rounded-full blur-3xl opacity-[0.12] pointer-events-none group-hover:opacity-[0.2] transition-opacity duration-500 ${overlayBgColors[stat.color]} `} />
+          <div className={`absolute -bottom-8 -right-8 h-32 w-32 rounded-full blur-3xl opacity-[0.12] pointer-events-none group-hover:opacity-[0.2] transition-opacity duration-500 ${overlayBgColors[stat.color]}`} />
         </div>
       ))}
     </div>

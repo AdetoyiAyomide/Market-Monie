@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { selectedStateGlobal, setSelectedHubGlobal } from "../store/Data";
-import { branchAddresses } from "../store/Data";
-import { useNavigate } from "react-router-dom";
-import { PiWarningCircle } from "react-icons/pi";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaRegCircleCheck } from "react-icons/fa6";
-import { LuBuilding2 } from "react-icons/lu";
-import ProgressBar from "./ProgressBar";
+import { useState } from"react";
+import { selectedStateGlobal, setSelectedHubGlobal } from"../store/Data";
+import { branchAddresses } from"../store/Data";
+import { useNavigate } from"react-router-dom";
+import { PiWarningCircle } from"react-icons/pi";
+import { FaArrowLeft } from"react-icons/fa";
+import { FaRegCircleCheck } from"react-icons/fa6";
+import { LuBuilding2 } from"react-icons/lu";
+import ProgressBar from"./ProgressBar";
 
 const HubSelection = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const HubSelection = () => {
   const [selectedHubLocal, setSelectedHubLocal] = useState("");
 
   const hubs = branchAddresses[selectedState]?.map((address, index) => ({
-    name: `${selectedState} Hub ${index + 1}`,
+    name:`${selectedState} Hub ${index + 1}`,
     address,
   })) || [];
 
@@ -30,7 +30,7 @@ const HubSelection = () => {
   return (
     <section className='w-full min-h-screen flex items-center justify-center'>
       <div className="rounded-2xl relative bg-white shadow-lg border border-white min-w-md flex flex-col items-center gap-5 p-6">
-          <button onClick={() => navigate(-1)} className="p-2 text-gray-500 dark:text-white hover:text-green-600 text-xl flex absolute left-4 top-10 hover:bg-slate-200 rounded-full transition-colors duration-200">
+          <button onClick={() => navigate(-1)} className="p-2 text-gray-500 hover:text-green-600 text-xl flex absolute left-4 top-10 hover:bg-slate-200 rounded-full transition-colors duration-200">
               <FaArrowLeft />
           </button>
               <img src="/marketmonie.png" className='w-40' alt="" />
@@ -39,11 +39,11 @@ const HubSelection = () => {
   
         <div className='flex items-center gap-3 text-md lg:text-2xl px-3 mt-2'>
           <div className='bg-[#e8f7ef] p-3 rounded-2xl'>
-            <LuBuilding2 className=' text-[#3e8b4b]' />
+            <LuBuilding2 className='text-[#3e8b4b]' />
           </div>
           <div className="flex flex-col p-2 mt-2">
             <h3>Select a Hub Near You</h3>
-            <h3 className="text-sm text-gray-600 dark:text-white font-semibold mb-4">Hubs in <span className="text-black font-bold">{selectedState}</span></h3>
+            <h3 className="text-sm text-gray-600 font-semibold mb-4">Hubs in <span className="text-black font-bold">{selectedState}</span></h3>
           </div>
         </div>
 
@@ -57,16 +57,16 @@ const HubSelection = () => {
                 <label
                   key={hub.name}
                   className={`flex text-start items-center justify-between p-4 border rounded-xl cursor-pointer transition-all duration-200 ${selectedHubLocal === hub.name
-                    ? "border-green-600 bg-green-50"
-                    : "border-gray-200 hover:border-green-200 hover:bg-gray-50"
+                    ?"border-green-600 bg-green-50"
+                    :"border-gray-200 hover:border-green-200 hover:bg-gray-50"
                     }`}
                 >
                   <div className="flex flex-col gap-1 pr-4">
-                    <span className={`text-sm font-semibold ${selectedHubLocal === hub.name ? "text-green-900" : "text-gray-800 dark:text-white"
+                    <span className={`text-sm font-semibold ${selectedHubLocal === hub.name ?"text-green-900" :"text-gray-800"
                       }`}>
                       {hub.name}
                     </span>
-                    <span className={`text-xs ${selectedHubLocal === hub.name ? "text-green-700" : "text-gray-500 dark:text-white"
+                    <span className={`text-xs ${selectedHubLocal === hub.name ?"text-green-700" :"text-gray-500"
                       }`}>
                       {hub.address}
                     </span>
@@ -89,8 +89,8 @@ const HubSelection = () => {
               onClick={handleContinue}
               disabled={!selectedHubLocal}
               className={`w-full border p-2.5 rounded-xl text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400 ${selectedHubLocal
-                ? "bg-[#8abfa0] hover:bg-green-200 shadow-md"
-                : "bg-gray-300 cursor-not-allowed"
+                ?"bg-[#8abfa0] hover:bg-green-200 shadow-md"
+                :"bg-gray-300 cursor-not-allowed"
                 }`}
             >
               Continue
@@ -113,15 +113,15 @@ const HubSelection = () => {
               </div>
             </div>
             <div className="flex flex-col gap-3 mb-6 p-3 ml-2 rounded-xl">
-              <div className="flex gap-2 items-center text-gray-600 dark:text-white">
+              <div className="flex gap-2 items-center text-gray-600">
                 <div className="text-green-500 text-sm"><FaRegCircleCheck /></div>
                 <div className="text-sm">Your application will be processed remotely</div>
               </div>
-              <div className="flex gap-2 items-center text-gray-600 dark:text-white">
+              <div className="flex gap-2 items-center text-gray-600">
                 <div className="text-green-500 text-sm"><FaRegCircleCheck /></div>
                 <div className="text-sm">An agent will call your registered number</div>
               </div>
-              <div className="flex gap-2 items-center text-gray-600 dark:text-white">
+              <div className="flex gap-2 items-center text-gray-600">
                 <div className="text-green-500 text-sm"><FaRegCircleCheck /></div>
                 <div className="text-sm">Verification can be done via video call</div>
               </div>
@@ -129,7 +129,7 @@ const HubSelection = () => {
 
             <button
               onClick={() => navigate("/create-account")}
-              className="w-full border p-2.5 rounded-xl bg-green-800 text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400 "
+              className="w-full border p-2.5 rounded-xl bg-green-800 text-white text-sm hover:bg-green-900 hover:text-white hover:border-green-900 transition-colors duration-400"
             >
               Continue Anyway
             </button>

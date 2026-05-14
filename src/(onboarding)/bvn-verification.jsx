@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiShield, FiAlertCircle, FiCheck } from "react-icons/fi";
-import { toast } from "sonner";
-import BvnConfirmation from "./components/bvn-confirmation";
-import JourneyHeader from "../components/ui/journey-header";
+import { useState, useEffect } from"react";
+import { useNavigate } from"react-router-dom";
+import { FiShield, FiAlertCircle, FiCheck } from"react-icons/fi";
+import { toast } from"sonner";
+import BvnConfirmation from"./components/bvn-confirmation";
+import JourneyHeader from"../components/ui/journey-header";
 
 const BvnVerification = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const BvnVerification = () => {
   }, [isConfirmed, redirectTimer, navigate]);
 
   const handleBvnChange = (e) => {
-    const value = e.target.value.replace(/\D/g, "");
+    const value = e.target.value.replace(/\D/g,"");
     if (value.length <= 11) {
       setBvn(value);
     }
@@ -44,11 +44,11 @@ const BvnVerification = () => {
     setTimeout(() => {
       setIsVerifying(false);
       
-      if (bvn === "12345678901") {
+      if (bvn ==="12345678901") {
          // Mock BVN Details retrieval
          toast.success("BVN Verified Successfully!");
-         localStorage.setItem("firstName", "Samuel");
-         localStorage.setItem("lastName", "Peter");
+         localStorage.setItem("firstName","Samuel");
+         localStorage.setItem("lastName","Peter");
          setIsConfirmed(true);
       } else {
          toast.error("Invalid BVN. Please check and try again.");
@@ -68,10 +68,10 @@ const BvnVerification = () => {
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold font-poppins text-gray-900 dark:text-white">
+        <h2 className="text-3xl font-bold font-poppins text-gray-900">
            BVN Verified
         </h2>
-        <p className="mt-4 text-gray-500 dark:text-white text-lg leading-relaxed">
+        <p className="mt-4 text-gray-500 text-lg leading-relaxed">
           Your identity details have been successfully confirmed.
         </p>
 
@@ -101,17 +101,17 @@ const BvnVerification = () => {
                   <FiShield size={24} />
                 </div>
                 
-                <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h2 className="text-xl sm:text-3xl font-bold tracking-tight text-gray-900">
                   BVN Verification
                 </h2>
-                <p className="mt-2 text-gray-600 dark:text-white text-xs sm:text-[15px] leading-relaxed">
+                <p className="mt-2 text-gray-600 text-xs sm:text-[15px] leading-relaxed">
                   We need your Bank Verification Number to verify your identity. This is a secure one-time process.
                 </p>
               </div>
 
               <form className="mt-4 space-y-6" onSubmit={handleVerify}>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-400 dark:text-white tracking-widest ml-1">
+                  <label className="text-xs font-bold text-gray-400 tracking-widest ml-1">
                     Bank Verification Number (BVN)
                   </label>
                   <div className="relative group">
@@ -121,11 +121,11 @@ const BvnVerification = () => {
                       value={bvn}
                       onChange={handleBvnChange}
                       placeholder="Enter your 11-digit BVN"
-                      className="block w-full rounded-xl border-gray-200 dark:border-gray-800 border-2 bg-gray-50/30 dark:bg-black px-4 py-4 text-gray-900 dark:text-white shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none placeholder:text-gray-400 dark:text-white dark:placeholder:text-white font-medium"
+                      className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 px-4 py-4 text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none placeholder:text-gray-400 font-medium"
                       required
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                      <span className={`text-xs font-bold transition-colors ${bvn.length === 11 ? "text-emerald-500" : "text-gray-300 dark:text-white"}`}>
+                      <span className={`text-xs font-bold transition-colors ${bvn.length === 11 ?"text-emerald-500" :"text-gray-300"}`}>
                         {bvn.length}/11
                       </span>
                     </div>
@@ -149,7 +149,7 @@ const BvnVerification = () => {
                       <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Verifying...
                     </div>
-                  ) : "Continue"}
+                  ) :"Continue"}
                 </button>
               </form>
             </div>

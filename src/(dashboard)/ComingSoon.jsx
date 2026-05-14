@@ -1,5 +1,5 @@
-import { FiClock, FiArrowLeft } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { FiClock, FiArrowLeft } from"react-icons/fi";
+import { useNavigate } from"react-router-dom";
 
 const ComingSoon = ({ title }) => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const ComingSoon = ({ title }) => {
       </div>
       
       <h2 className="text-3xl font-bold text-gray-900 font-poppins mb-4">
-        {title || "Feature Coming Soon"}
+        {title ||"Feature Coming Soon"}
       </h2>
       
       <p className="text-gray-500 max-w-sm leading-relaxed mb-10">

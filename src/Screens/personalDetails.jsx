@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import FormHeader from './formHeader';
-import ProgressBar from './ProgressBar';
-import { useForm } from "../store/FormContext";
+import React, { useState } from'react';
+import { useNavigate } from"react-router-dom";
+import FormHeader from'./formHeader';
+import ProgressBar from'./ProgressBar';
+import { useForm } from"../store/FormContext";
 
 
 const PersonalDetails = () => {
@@ -12,7 +12,7 @@ const PersonalDetails = () => {
 
     const [error, setError] = useState(false);
     const { firstName, lastName, phoneNumber, email, dateOfBirth } = formData;
-    const isEmailValid = email.trim() === "" || /\S+@\S+\.\S+/.test(email);
+    const isEmailValid = email.trim() ==="" || /\S+@\S+\.\S+/.test(email);
     const isFormValid =
     firstName.trim().length > 0 &&
     lastName.trim().length >= 2 &&
@@ -22,8 +22,8 @@ const PersonalDetails = () => {
 
     const handleChange = (e) => {
   let value = e.target.value;
-  if (e.target.id === 'firstName' || e.target.id === 'lastName') {
-    value = value.replace(/[0-9]/g, '');
+  if (e.target.id ==='firstName' || e.target.id ==='lastName') {
+    value = value.replace(/[0-9]/g,'');
   }
   setFormData({
     ...formData,
@@ -49,7 +49,7 @@ setError(false);
                     <ProgressBar currentStep={currentStep} totalSteps={8} />
                 </div>
                 <FormHeader />
-                <h1 className='w-full text-left font-bold text-xl dark:text-white'>Personal Details</h1>
+                <h1 className='w-full text-left font-bold text-xl'>Personal Details</h1>
 
                 {error && (
                     <div className='w-full p-2 bg-red-50 text-red-600 rounded-lg text-xs text-center'>
@@ -60,34 +60,34 @@ setError(false);
                 <form onSubmit={handleContinue} className='w-full'>
                 <div className='flex gap-3 w-full'>
                     <div className='flex flex-col gap-2 w-1/2'>
-                        <label className="dark:text-white" htmlFor="firstName">First Name <span className='text-red-500'>*</span></label>
-                        <input type="text" id="firstName" required value={formData.firstName} onChange={handleChange} placeholder='First Name' className='border border-gray-300 rounded-lg p-2 dark:bg-black dark:text-white dark:placeholder-white' />
+                        <label className="" htmlFor="firstName">First Name <span className='text-red-500'>*</span></label>
+                        <input type="text" id="firstName" required value={formData.firstName} onChange={handleChange} placeholder='First Name' className='border border-gray-300 rounded-lg p-2' />
                     </div>
                     <div className='flex flex-col gap-2 w-1/2'>
-                        <label className="dark:text-white" htmlFor="lastName">Last Name <span className='text-red-500'>*</span></label>
-                        <input type="text" id="lastName" required value={formData.lastName} onChange={handleChange} placeholder='Last Name' className='border border-gray-300 rounded-lg p-2 dark:bg-black dark:text-white dark:placeholder-white' />
+                        <label className="" htmlFor="lastName">Last Name <span className='text-red-500'>*</span></label>
+                        <input type="text" id="lastName" required value={formData.lastName} onChange={handleChange} placeholder='Last Name' className='border border-gray-300 rounded-lg p-2' />
                     </div>
                 </div>
-                <div className='flex flex-col gap-1 items-start justify-start w-full '>
-                    <label className="dark:text-white" htmlFor="phoneNumber">Phone Number <span className='text-red-500'>*</span></label>
+                <div className='flex flex-col gap-1 items-start justify-start w-full'>
+                    <label className="" htmlFor="phoneNumber">Phone Number <span className='text-red-500'>*</span></label>
                     <div className='flex items-center border border-gray-300 rounded-lg w-full'>
-                        <span className='p-2 bg-slate-100 border-r flex flex-row border-gray-300 text-slate-500 dark:text-white rounded-l-lg text-sm'>+234(0)</span>
-                        <input type="text" id="phoneNumber" required value={formData.phoneNumber} onChange={handleChange} placeholder='Phone Number' className='p-2 w-full rounded-r-lg outline-none text-sm dark:bg-black dark:text-white dark:placeholder-white' maxLength={10} />
+                        <span className='p-2 bg-slate-100 border-r flex flex-row border-gray-300 text-slate-500 rounded-l-lg text-sm'>+234(0)</span>
+                        <input type="text" id="phoneNumber" required value={formData.phoneNumber} onChange={handleChange} placeholder='Phone Number' className='p-2 w-full rounded-r-lg outline-none text-sm' maxLength={10} />
                     </div>
                 </div>
 
-                <div className='flex flex-col gap-2 items-start justify-start w-full '>
-                    <label className="dark:text-white" htmlFor="email">Email Address <span className='text-red-500'>*</span></label>
-                    <input type="email" id="email" placeholder='Email Address' value={formData.email} onChange={handleChange} className='border border-gray-300 rounded-lg p-2 w-full dark:bg-black dark:text-white dark:placeholder-white' />
+                <div className='flex flex-col gap-2 items-start justify-start w-full'>
+                    <label className="" htmlFor="email">Email Address <span className='text-red-500'>*</span></label>
+                    <input type="email" id="email" placeholder='Email Address' value={formData.email} onChange={handleChange} className='border border-gray-300 rounded-lg p-2 w-full' />
                 </div>
                 <div className='flex flex-col gap-2 items-start justify-start w-full'>
-                    <label className="dark:text-white" htmlFor="dateOfBirth">Date of birth <span className='text-red-500'>*</span></label>
-                    <input type="date" id="dateOfBirth" required value={formData.dateOfBirth} onChange={handleChange} placeholder='dd/mm/yyyy' className='border border-gray-300 rounded-lg p-2 w-full dark:bg-black dark:text-white dark:placeholder-white' />
+                    <label className="" htmlFor="dateOfBirth">Date of birth <span className='text-red-500'>*</span></label>
+                    <input type="date" id="dateOfBirth" required value={formData.dateOfBirth} onChange={handleChange} placeholder='dd/mm/yyyy' className='border border-gray-300 rounded-lg p-2 w-full' />
                 </div>
                 <div className='flex flex-col gap-1 items-start justify-start w-full'>
-                    <label className="dark:text-white" htmlFor="ID">ID Document <span className='text-red-500'>*</span></label>
-                    <p className='text-[10px] text-slate-400 dark:text-white mb-1 lg:text-xs'>NIN, Driver's License, Passport, Voter's Card</p>
-                    <input type="file" id="ID" onChange={(e) => setFormData({ ...formData, ID: e.target.files[0] })} className='border border-gray-300 rounded-lg p-2 w-full cursor-pointer dark:bg-black dark:text-white' />
+                    <label className="" htmlFor="ID">ID Document <span className='text-red-500'>*</span></label>
+                    <p className='text-[10px] text-slate-400 mb-1 lg:text-xs'>NIN, Driver's License, Passport, Voter's Card</p>
+                    <input type="file" id="ID" onChange={(e) => setFormData({ ...formData, ID: e.target.files[0] })} className='border border-gray-300 rounded-lg p-2 w-full cursor-pointer' />
                 </div>
                 <div className='w-full mt-2'>
                    <button
@@ -96,8 +96,8 @@ setError(false);
                     className={`rounded-xl p-2.5 w-full transition-all duration-200 shadow-md font-medium
                     ${
                         isFormValid
-                        ? "bg-green-800 text-white hover:bg-green-900 cursor-pointer"
-                        : "bg-green-100 text-green-400 cursor-not-allowed"}`}>
+                        ?"bg-green-800 text-white hover:bg-green-900 cursor-pointer"
+                        :"bg-green-100 text-green-400 cursor-not-allowed"}`}>
                     Continue
                 </button>
                 </div>

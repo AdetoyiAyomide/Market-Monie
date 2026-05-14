@@ -1,19 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FiHome, FiMap, FiType, FiLoader, FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { useQuery } from "@tanstack/react-query";
-import { locationService } from "../../../services/locationService";
+import { useEffect, useMemo, useRef, useState } from"react";
+import { FiHome, FiMap, FiType, FiLoader, FiChevronDown, FiChevronUp } from"react-icons/fi";
+import { useQuery } from"@tanstack/react-query";
+import { locationService } from"../../../services/locationService";
 
 const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
   const [isStateOpen, setIsStateOpen] = useState(false);
   const [isLgaOpen, setIsLgaOpen] = useState(false);
-  const [stateQuery, setStateQuery] = useState(data.state || "");
+  const [stateQuery, setStateQuery] = useState(data.state ||"");
   const stateDropdownRef = useRef(null);
   const lgaDropdownRef = useRef(null);
 
   const [errors, setErrors] = useState({});
 
   // Real-time validation for green highlight
-  const isValid = (field) => !errors[field] && data[field] && data[field] !== "";
+  const isValid = (field) => !errors[field] && data[field] && data[field] !=="";
 
   // Query for states
   const { data: states = [], isLoading: loadingStates } = useQuery({
@@ -37,14 +37,14 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
   }, [stateQuery, states]);
 
   useEffect(() => {
-    setStateQuery(data.state || "");
+    setStateQuery(data.state ||"");
   }, [data.state]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
         setIsStateOpen(false);
-        setStateQuery(data.state || "");
+        setStateQuery(data.state ||"");
       }
 
       if (lgaDropdownRef.current && !lgaDropdownRef.current.contains(event.target)) {
@@ -60,8 +60,8 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
     const value = e.target.value;
     setStateQuery(value);
     setIsStateOpen(true);
-    onChange("state", "");
-    onChange("lga", "");
+    onChange("state","");
+    onChange("lga","");
   };
 
   const handleStateSelect = (state) => {
@@ -69,7 +69,7 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
     setIsStateOpen(false);
     setIsLgaOpen(false);
     onChange("state", state);
-    onChange("lga", "");
+    onChange("lga","");
     setErrors(prev => ({ ...prev, state: null }));
   };
 
@@ -81,10 +81,10 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
 
   const validate = () => {
     const newErrors = {};
-    if (!data.state) newErrors.state = "Please select a valid state ";
-    if (!data.lga) newErrors.lga = "Please select a valid LGA ";
-    if (!data.area) newErrors.area = "Required";
-    if (!data.houseAddress) newErrors.houseAddress = "Required";
+    if (!data.state) newErrors.state ="Please select a valid state";
+    if (!data.lga) newErrors.lga ="Please select a valid LGA";
+    if (!data.area) newErrors.area ="Required";
+    if (!data.houseAddress) newErrors.houseAddress ="Required";
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -154,7 +154,7 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
           label="House Number" 
           value={data.houseAddress} 
           onChange={(e) => {
-            const val = e.target.value.replace(/\D/g, ''); // Number only
+            const val = e.target.value.replace(/\D/g,''); // Number only
             onChange('houseAddress', val);
             setErrors(prev => ({ ...prev, houseAddress: null }));
           }}
@@ -183,14 +183,14 @@ const AddressDetails = ({ data, onChange, onContinue, onBack }) => {
 };
 
 const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group">
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
+        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ?'text-red-400' : (isValid ?'text-emerald-500' :'text-gray-400')}`}>
           {icon}
         </div>
         <input
@@ -200,10 +200,10 @@ const InputGroup = ({ label, value, onChange, icon, placeholder, error }) => {
           placeholder={placeholder}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             error 
-              ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
+              ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10" 
               : isValid
-                ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         />
       </div>
@@ -226,32 +226,32 @@ const SearchableSelectGroup = ({
   dropdownRef,
   error
 }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
+        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ?'text-red-400' : (isValid ?'text-emerald-500' :'text-gray-400')}`}>
           {icon}
         </div>
         <input
           type="text"
-          value={isOpen ? query : (value || "")}
+          value={isOpen ? query : (value ||"")}
           onFocus={() => !disabled && onToggle()}
           onClick={() => !disabled && onToggle()}
           onChange={onInputChange}
           disabled={disabled}
-          placeholder={disabled ? "Loading..." : `Select ${label}`}
+          placeholder={disabled ?"Loading..." :`Select ${label}`}
           className={`block w-full rounded-xl border-2 placeholder:text-sm bg-gray-50/30 pl-11 pr-11 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
-              ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+              ?"opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
-                ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                 : isValid
-                  ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         />
         <button
@@ -271,7 +271,7 @@ const SearchableSelectGroup = ({
                     key={opt}
                     onClick={() => onSelect(opt)}
                     className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
-                      value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                      value === opt ?"text-emerald-700 bg-emerald-50" :"text-gray-700"
                     }`}
                   >
                     {opt}
@@ -289,14 +289,14 @@ const SearchableSelectGroup = ({
 };
 
 const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, icon, disabled = false, dropdownRef, error }) => {
-  const isValid = !error && value && value !== "";
+  const isValid = !error && value && value !=="";
   return (
     <div className="space-y-2">
-      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ? 'text-red-500' : (isValid ? 'text-emerald-600' : 'text-gray-400')}`}>
+      <label className={`text-xs font-bold tracking-widest ml-1 transition-colors ${error ?'text-red-500' : (isValid ?'text-emerald-600' :'text-gray-400')}`}>
         {label}
       </label>
       <div className="relative group" ref={dropdownRef}>
-        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ? 'text-red-400' : (isValid ? 'text-emerald-500' : 'text-gray-400')}`}>
+        <div className={`absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none transition-colors ${error ?'text-red-400' : (isValid ?'text-emerald-500' :'text-gray-400')}`}>
           {icon}
         </div>
         <button
@@ -305,16 +305,16 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           disabled={disabled}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all outline-none font-medium ${
             disabled 
-              ? "opacity-50 grayscale cursor-not-allowed border-gray-100" 
+              ?"opacity-50 grayscale cursor-not-allowed border-gray-100" 
               : error
-                ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
+                ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
                 : isValid
-                  ? "border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
-                  : "border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  ?"border-emerald-500 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
+                  :"border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10"
           }`}
         >
-          <span className={value ? "text-gray-900" : "text-gray-400"}>
-            {disabled && !value ? "Loading..." : value || "Select LGA"}
+          <span className={value ?"text-gray-900" :"text-gray-400"}>
+            {disabled && !value ?"Loading..." : value ||"Select LGA"}
           </span>
         </button>
         <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
@@ -328,7 +328,7 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
                   key={opt}
                   onClick={() => onSelect(opt)}
                   className={`cursor-pointer px-4 py-3 text-xs sm:text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 ${
-                    value === opt ? "text-emerald-700 bg-emerald-50" : "text-gray-700"
+                    value === opt ?"text-emerald-700 bg-emerald-50" :"text-gray-700"
                   }`}
                 >
                   {opt}

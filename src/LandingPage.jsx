@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from"react";
+import { useNavigate } from"react-router-dom";
+import { motion, AnimatePresence } from"framer-motion";
 import {
   FiArrowRight, FiLogIn, FiDollarSign,
   FiTwitter, FiLinkedin, FiFacebook, FiInstagram,
   FiChevronLeft, FiChevronRight, FiUserCheck, FiUserPlus
-} from "react-icons/fi";
+} from"react-icons/fi";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -22,25 +22,25 @@ const LandingPage = () => {
   const modes = [
     {
       id: 0,
-      label: "New Entrepreneur",
-      title: "Empower Your Business Growth",
-      desc: "Get quick, reliable financial support tailored for your business needs. Apply in minutes.",
-      cta: "Request for Loan",
-      path: "/location-select",
+      label:"New Entrepreneur",
+      title:"Empower Your Business Growth",
+      desc:"Get quick, reliable financial support tailored for your business needs. Apply in minutes.",
+      cta:"Request for Loan",
+      path:"/location-select",
       icon: <FiUserPlus />,
-      color: "emerald",
-      bg: "/monie.jpg"
+      color:"emerald",
+      bg:"/monie.jpg"
     },
     {
       id: 1,
-      label: "Returning Client",
-      title: "Welcome Back to Market Monie",
-      desc: "Manage your active loans, track repayments, and explore new financial opportunities.",
-      cta: "Return to Account",
-      path: "/login",
+      label:"Returning Client",
+      title:"Welcome Back to Market Monie",
+      desc:"Manage your active loans, track repayments, and explore new financial opportunities.",
+      cta:"Return to Account",
+      path:"/login",
       icon: <FiUserCheck />,
-      color: "emerald",
-      bg: "/market-woman.jpg"
+      color:"emerald",
+      bg:"/market-woman.jpg"
     }
   ];
 
@@ -50,11 +50,11 @@ const LandingPage = () => {
       animate={isNavigating ? {
         scale: 1.2,
         opacity: 0,
-        filter: "blur(10px)",
+        filter:"blur(10px)",
       } : {
         opacity: 1,
         scale: 1,
-        filter: "blur(0px)",
+        filter:"blur(0px)",
       }}
       transition={{
         duration: 0.8,
@@ -79,16 +79,16 @@ const LandingPage = () => {
         <div
           className="absolute inset-0 opacity-90 pointer-events-none mix-blend-overlay"
           style={{
-            backgroundImage: 'url(/Pattern.svg)',
-            backgroundSize: '300px',
-            backgroundRepeat: 'repeat',
+            backgroundImage:'url(/Pattern.svg)',
+            backgroundSize:'300px',
+            backgroundRepeat:'repeat',
           }}
         />
 
         <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/60 to-gray-900/20" />
 
         <motion.div
-          animate={{ background: "radial-gradient(circle at 30% 50%, transparent 0%, rgba(16, 185, 129, 0.1) 40%, rgba(17, 24, 39, 0.95) 100%)" }}
+          animate={{ background:"radial-gradient(circle at 30% 50%, transparent 0%, rgba(16, 185, 129, 0.1) 40%, rgba(17, 24, 39, 0.95) 100%)" }}
           className="absolute inset-0 pointer-events-none transition-colors duration-1000"
         />
       </div>
@@ -130,7 +130,7 @@ const LandingPage = () => {
             <div className="h-16 w-[1px] bg-white/10" />
             <div className="flex flex-col gap-6 text-white/30">
               {[FiTwitter, FiLinkedin, FiFacebook, FiInstagram].map((Icon, i) => (
-                <motion.div key={i} whileHover={{ scale: 1.3, color: '#10b981' }} className="cursor-pointer">
+                <motion.div key={i} whileHover={{ scale: 1.3, color:'#10b981' }} className="cursor-pointer">
                   <Icon size={18} />
                 </motion.div>
               ))}
@@ -149,18 +149,18 @@ const LandingPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease:"easeOut" }}
                 className="max-w-2xl flex flex-col items-start text-left"
               >
                 <div className={`px-4 py-1.5 rounded-full bg-${modes[activeMode].color}-500/10 border border-${modes[activeMode].color}-500/20 text-${modes[activeMode].color}-500 text-[10px] font-bold tracking-widest mb-8`}>
                   {modes[activeMode].label}
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.05] tracking-tighter mb-8 ">
+                <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.05] tracking-tighter mb-8">
                   {modes[activeMode].id === 0 ? (
-                    <>Empower Your <br /><span className="text-emerald-500 ">Business</span> Growth</>
+                    <>Empower Your <br /><span className="text-emerald-500">Business</span> Growth</>
                   ) : (
-                    <>Welcome Back to <br /><span className="text-emerald-500 ">Market</span> Monie</>
+                    <>Welcome Back to <br /><span className="text-emerald-500">Market</span> Monie</>
                   )}
                 </h1>
 
@@ -177,9 +177,9 @@ const LandingPage = () => {
                   <div
                     className="absolute inset-0 opacity-40 bg-white pointer-events-none mix-blend-overlay"
                     style={{
-                      WebkitMaskImage: 'url(/Pattern.svg)',
-                      WebkitMaskSize: '150px',
-                      maskImage: 'url(/Pattern.svg)',
+                      WebkitMaskImage:'url(/Pattern.svg)',
+                      WebkitMaskSize:'150px',
+                      maskImage:'url(/Pattern.svg)',
                     }}
                   />
                   <div className="relative z-10 flex items-center justify-center gap-3 font-bold tracking-widest text-sm">
@@ -199,19 +199,19 @@ const LandingPage = () => {
                 <motion.div
                   layout
                   className={`absolute inset-1 w-[calc(50%-4px)] h-[calc(100%-8px)] bg-emerald-600 rounded-[1.8rem] z-0 shadow-lg`}
-                  animate={{ x: activeMode === 0 ? 0 : '100%' }}
+                  animate={{ x: activeMode === 0 ? 0 :'100%' }}
                 />
                 <div className="relative z-10 flex">
                   <button
                     onClick={() => setActiveMode(0)}
-                    className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 0 ? 'text-white' : 'text-white/40'}`}
+                    className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 0 ?'text-white' :'text-white/40'}`}
                   >
                     <FiUserPlus size={20} className="mb-2" />
                     <span className="text-[10px] font-bold tracking-wider">New Loan</span>
                   </button>
                   <button
                     onClick={() => setActiveMode(1)}
-                    className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 1 ? 'text-white' : 'text-white/40'}`}
+                    className={`flex-1 flex flex-col items-center py-6 transition-colors duration-500 ${activeMode === 1 ?'text-white' :'text-white/40'}`}
                   >
                     <FiUserCheck size={20} className="mb-2" />
                     <span className="text-[10px] font-bold tracking-wider">Returning</span>
@@ -224,8 +224,7 @@ const LandingPage = () => {
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-[9px] font-bold text-gray-500 tracking-widest">Market Context</span>
                 </div>
-                <p className="text-[11px] text-gray-400 font-medium leading-relaxed italic">
-                  "Market Monie helped me scale my kiosk to a mini-mart in just 3 months."
+                <p className="text-[11px] text-gray-400 font-medium leading-relaxed italic">"Market Monie helped me scale my kiosk to a mini-mart in just 3 months."
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="h-6 w-6 rounded-full bg-gray-700 border border-white/10" />

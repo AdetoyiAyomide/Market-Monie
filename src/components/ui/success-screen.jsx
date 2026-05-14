@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from"react";
+import { useNavigate } from"react-router-dom";
 
 const SuccessScreen = ({ 
-  title = "Success!", 
-  description = "Your action was successful.", 
-  redirectPath = "/", 
+  title ="Success!", 
+  description ="Your action was successful.", 
+  redirectPath ="/", 
   countdownSeconds = 5 
 }) => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const SuccessScreen = ({
             <div 
               key={i} 
               className={`h-1.5 w-10 rounded-full transition-all duration-500 ${
-                i < (countdownSeconds - timer) ? "bg-emerald-600 w-12" : "bg-gray-100"
+                i < (countdownSeconds - timer) ?"bg-emerald-600 w-12" :"bg-gray-100"
               }`} 
             />
           ))}

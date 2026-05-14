@@ -1,16 +1,16 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { FiMapPin, FiChevronRight, FiChevronDown, FiChevronUp, FiGlobe } from "react-icons/fi";
-import { branchAddresses } from "../../../store/Data";
+import { useEffect, useMemo, useRef, useState } from"react";
+import { FiMapPin, FiChevronRight, FiChevronDown, FiChevronUp, FiGlobe } from"react-icons/fi";
+import { branchAddresses } from"../../../store/Data";
 
 const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, onContinue }) => {
   const [isStateOpen, setIsStateOpen] = useState(false);
-  const [stateQuery, setStateQuery] = useState(selectedState || "");
+  const [stateQuery, setStateQuery] = useState(selectedState ||"");
   const [isHubOpen, setIsHubOpen] = useState(false);
   const stateDropdownRef = useRef(null);
   const hubDropdownRef = useRef(null);
 
   // Map our states to handle the FCT (Abuja) case if necessary
-  const displayState = selectedState === "Abuja" ? "FCT (Abuja)" : selectedState;
+  const displayState = selectedState ==="Abuja" ?"FCT (Abuja)" : selectedState;
   const hubsRaw = branchAddresses[displayState] || [];
 
   // Transform raw addresses into hub objects consistent with our components
@@ -33,14 +33,14 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
   }, [stateQuery, states]);
 
   useEffect(() => {
-    setStateQuery(selectedState || "");
+    setStateQuery(selectedState ||"");
   }, [selectedState]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
         setIsStateOpen(false);
-        setStateQuery(selectedState || "");
+        setStateQuery(selectedState ||"");
       }
 
       if (hubDropdownRef.current && !hubDropdownRef.current.contains(event.target)) {
@@ -153,8 +153,8 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
                 onClick={() => setIsHubOpen((prev) => !prev)}
                 className="block w-full rounded-xl border-gray-200 border-2 bg-gray-50/30 pl-11 pr-11 py-4 text-left text-gray-900 shadow-sm transition-all focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none font-medium"
               >
-                <span className={selectedHub ? "text-gray-900" : "text-gray-400"}>
-                  {selectedHub?.name || "Select a hub near you"}
+                <span className={selectedHub ?"text-gray-900" :"text-gray-400"}>
+                  {selectedHub?.name ||"Select a hub near you"}
                 </span>
               </button>
               <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400">
@@ -203,7 +203,7 @@ const HubSelection = ({ selectedState, selectedHub, onSelectState, onSelectHub, 
           disabled={!selectedState || (hasHubs && !selectedHub)}
           className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-4 text-sm font-semibold leading-6 text-white shadow-xl shadow-emerald-200/50 hover:bg-emerald-500 disabled:opacity-50 transition-all font-poppins mt-8 group"
         >
-          {hasHubs ? "Continue" : "Continue Anyway"}
+          {hasHubs ?"Continue" :"Continue Anyway"}
           <FiChevronRight className="transition-transform group-hover:translate-x-1" />
         </button>
       </div>

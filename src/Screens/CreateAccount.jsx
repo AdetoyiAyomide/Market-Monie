@@ -1,8 +1,8 @@
-import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { FiUserPlus, FiUserCheck } from "react-icons/fi";
-import { FaArrowLeft } from "react-icons/fa";
-import ProgressBar from './ProgressBar';
+import React from'react';
+import { useNavigate } from"react-router-dom";
+import { FiUserPlus, FiUserCheck } from"react-icons/fi";
+import { FaArrowLeft } from"react-icons/fa";
+import ProgressBar from'./ProgressBar';
 const CreateAccount = () => {
     const navigate = useNavigate();
     const currentStep = 3;
@@ -13,7 +13,7 @@ const CreateAccount = () => {
 
                 {/* Back Button */}
                 <button
-                    className="absolute left-4 top-20 text-gray-500 dark:text-white hover:text-green-600 text-xl p-2 hover:bg-slate-200 rounded-full transition"
+                    className="absolute left-4 top-20 text-gray-500 hover:text-green-600 text-xl p-2 hover:bg-slate-200 rounded-full transition"
                     onClick={() => navigate(-1)}
                 >
                     <FaArrowLeft />
@@ -31,7 +31,7 @@ const CreateAccount = () => {
                     How would you like to continue?
                 </h3>
 
-                <p className='text-slate-400 dark:text-white text-center text-sm'>
+                <p className='text-slate-400 text-center text-sm'>
                     Create an account to track your application, or continue as a guest.
                 </p>
 
@@ -50,7 +50,7 @@ const CreateAccount = () => {
 
                                 <div>
                                     <h1 className='font-semibold'>Create an Account</h1>
-                                    <p className='text-sm text-slate-400 dark:text-white'>
+                                    <p className='text-sm text-slate-400'>
                                         Track your loans, get status updates
                                     </p>
                                 </div>
@@ -81,12 +81,12 @@ const CreateAccount = () => {
                     >
                         <div className='flex items-center gap-3'>
                             <div className='rounded-2xl bg-gray-300 p-3 flex items-center justify-center'>
-                                <FiUserCheck className='text-gray-500 dark:text-white text-2xl' />
+                                <FiUserCheck className='text-gray-500 text-2xl' />
                             </div>
 
                             <div>
                                 <h1 className='font-semibold'>Continue as Guest</h1>
-                                <p className='text-sm text-slate-400 dark:text-white'>
+                                <p className='text-sm text-slate-400'>
                                     Apply without creating an account
                                 </p>
                             </div>

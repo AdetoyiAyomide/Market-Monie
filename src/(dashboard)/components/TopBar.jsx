@@ -1,16 +1,16 @@
-import { FiBell, FiUser, FiSearch, FiMenu } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
+import { FiBell, FiUser, FiSearch, FiMenu } from"react-icons/fi";
+import { useLocation } from"react-router-dom";
 
 const TopBar = ({ user, loanStage, toggleMobile }) => {
   const location = useLocation();
 
   const getTitle = () => {
-    if (location.pathname.includes('/loan-requests')) return "Loan Requests";
-    if (location.pathname.includes('/analytics')) return "Analytics Overview";
-    if (location.pathname.includes('/settings')) return "Settings";
-    if (location.pathname.includes('/support')) return "Support Center";
-    if (location.pathname.includes('/make-payment')) return "Make Payment";
-    return "Dashboard Overview";
+    if (location.pathname.includes('/loan-requests')) return"Loan Requests";
+    if (location.pathname.includes('/analytics')) return"Analytics Overview";
+    if (location.pathname.includes('/settings')) return"Settings";
+    if (location.pathname.includes('/support')) return"Support Center";
+    if (location.pathname.includes('/make-payment')) return"Make Payment";
+    return"Dashboard Overview";
   };
 
   return (
@@ -27,7 +27,7 @@ const TopBar = ({ user, loanStage, toggleMobile }) => {
         <div className="flex flex-col">
           <div className="flex items-center gap-2 mb-0.5">
             <h1 className="text-sm md:text-xl font-bold text-gray-900 font-poppins line-clamp-1">
-              {loanStage === 'NO_LOAN' ? (
+              {loanStage ==='NO_LOAN' ? (
                 <>Hello {user.firstname}, you can borrow up to <span className="text-emerald-600">₦10,000,000</span></>
               ) : (
                 <>Hello {user.firstname}</>
