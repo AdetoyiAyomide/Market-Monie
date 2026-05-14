@@ -1,7 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from"react-router-dom";
-import { AnimatePresence } from"framer-motion";
-import { QueryClient, QueryClientProvider } from"@tanstack/react-query";
-import { ReactQueryDevtools } from"@tanstack/react-query-devtools";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import SelectState from"./Screens/SelectState";
 import LegacyHubSelection from"./Screens/HubSelection";
 import LegacyCreateAccount from"./Screens/CreateAccount";
@@ -55,7 +53,8 @@ function AnimatedRoutes() {
         <Route path="/personal-details" element={<LegacyPersonalDetails />} />
         <Route path="/address" element={<LegacyAddress />} />
         <Route path="/business" element={<LegacyBusiness />} />
-        <Route path="/loan" element={<LegacyLoan />} />
+        <Route path="/loan" element={<LegacyL
+        oan />} />
         <Route path="/preview" element={<LegacyPreviewPage />} />
 
         <Route path="/legacy-login" element={<LegacyLogin />} />
