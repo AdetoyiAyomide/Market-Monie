@@ -297,7 +297,7 @@ const LandingPage2 = () => {
                           setSearchQuery(e.target.value);
                           setIsDropdownOpen(true);
                         }}
-                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all placeholder:text-gray-400 text-gray-900 shadow-sm font-medium ${isDropdownOpen ?'border-emerald-500 ring-4 ring-emerald-500/5' :'border-gray-100'}`}
+                        className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all placeholder:text-gray-400 text-gray-900 shadow-sm font-medium text-sm ${isDropdownOpen ?'border-emerald-500 ring-4 ring-emerald-500/5' :'border-gray-100'}`}
                       />
                     </div>
 
@@ -317,7 +317,7 @@ const LandingPage2 = () => {
                                   onClick={() => handleStateSelect(state)}
                                   className="w-full text-left p-3 rounded-xl hover:bg-emerald-500/10 hover:text-emerald-500 transition-all group flex justify-between items-center"
                                 >
-                                  <span className={`font-medium transition-colors ${selectedState === state ?'text-emerald-500' :'text-gray-600'} group-hover:text-emerald-500`}>{state}</span>
+                                  <span className={`font-medium text-sm transition-colors ${selectedState === state ?'text-emerald-500' :'text-gray-600'} group-hover:text-emerald-500`}>{state}</span>
                                   {selectedState === state && <FiCheckCircle className="text-emerald-500" />}
                                 </button>
                               ))}
@@ -356,7 +356,7 @@ const LandingPage2 = () => {
                                 setSearchQuery(e.target.value);
                                 setIsLgaDropdownOpen(true);
                               }}
-                              className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all placeholder:text-gray-400 text-gray-900 shadow-sm font-medium ${isLgaDropdownOpen ?'border-emerald-500 ring-4 ring-emerald-500/5' :'border-gray-100'}`}
+                              className={`w-full bg-gray-50 border rounded-2xl py-4 pl-12 pr-4 focus:outline-none transition-all placeholder:text-gray-400 text-gray-900 shadow-sm font-medium text-sm ${isLgaDropdownOpen ?'border-emerald-500 ring-4 ring-emerald-500/5' :'border-gray-100'}`}
                             />
                           </div>
 
@@ -376,7 +376,7 @@ const LandingPage2 = () => {
                                         onClick={() => handleLgaSelect(lga)}
                                         className="w-full text-left p-3 rounded-xl hover:bg-emerald-500/10 hover:text-emerald-500 transition-all group flex justify-between items-center"
                                       >
-                                        <span className={`font-medium transition-colors ${selectedLga === lga ?'text-emerald-500' :'text-gray-600'} group-hover:text-emerald-500`}>{lga}</span>
+                                        <span className={`font-medium text-sm transition-colors ${selectedLga === lga ?'text-emerald-500' :'text-gray-600'} group-hover:text-emerald-500`}>{lga}</span>
                                         {selectedLga === lga && <FiCheckCircle className="text-emerald-500" />}
                                       </button>
                                     ))}
@@ -532,7 +532,7 @@ const LandingPage2 = () => {
                                       <FiMapPin size={20} />
                                     </div>
                                     <div className="flex-1">
-                                      <p className={`font-medium leading-snug transition-colors ${selectedHub === hub.name ?'text-emerald-500' :'text-gray-700'} group-hover:text-emerald-500`}>{hub.name}</p>
+                                      <p className={`font-medium text-sm leading-snug transition-colors ${selectedHub === hub.name ?'text-emerald-500' :'text-gray-700'} group-hover:text-emerald-500`}>{hub.name}</p>
                                       <p className="text-gray-400 text-[10px] font-bold tracking-wider uppercase">Business Center</p>
                                     </div>
                                     <FiArrowRight className={`transition-all ${selectedHub === hub.name ?'opacity-100 translate-x-0' :'opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'} text-emerald-500`} />

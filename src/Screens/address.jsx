@@ -122,7 +122,7 @@ const Address = () => {
                         onClick={() => setOpen(prev => !prev)}
                         onChange={handleStateChange}
                         placeholder="Select State"
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none"
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none text-sm"
                     />
                     <button type='button' onClick={() => setOpen(prev => !prev)}>
                         {open ? (
@@ -140,7 +140,7 @@ const Address = () => {
                                         <li
                                             key={index}
                                             onClick={() => handleSelect(loc)}
-                                            className="p-2 hover:bg-gray-100 cursor-pointer"
+                                            className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
                                         >
                                             {loc}
                                         </li>
@@ -162,7 +162,7 @@ const Address = () => {
                         onChange={handleLgaChange}
                         placeholder={formData.state ?"Select LGA" :"Select State First"}
                         disabled={!formData.state}
-                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100" />
+                        className="w-full border border-slate-400 p-2 rounded-2xl outline-none disabled:bg-gray-100 text-sm" />
 
                     <button type="button" onClick={() => setOpenLga(prev => !prev)}>
                         {openLga ? (
@@ -180,7 +180,7 @@ const Address = () => {
                                         <li
                                             key={index}
                                             onClick={() => handleLgaSelect(lga)}
-                                            className="p-2 hover:bg-gray-100 cursor-pointer"
+                                            className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
                                         >
                                             {lga}
                                         </li>

@@ -56,7 +56,7 @@ const SelectState = () => {
             onClick={() => setOpen(prev => !prev)}
             onChange={handleChange}
             placeholder="Select Location"
-            className="w-full border border-slate-400 p-2 mb-3 rounded-2xl outline-none"
+            className="w-full border border-slate-400 p-2 mb-3 rounded-2xl outline-none text-sm"
           />
           <button onClick={() => setOpen(prev => !prev)}>
             {open ? (
@@ -76,7 +76,7 @@ const SelectState = () => {
                     <li
                       key={index}
                       onClick={() => handleSelect(loc)}
-                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
                     >
                       {loc}
                     </li>
