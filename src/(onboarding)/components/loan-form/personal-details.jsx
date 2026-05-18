@@ -382,8 +382,8 @@ const days = Array.from({ length: maxDays }, (_, i) =>
                         :"border-gray-200 bg-gray-50/30 text-gray-400"
                   } ${!isGuest ?"bg-gray-100/50 text-gray-500 cursor-not-allowed opacity-80" :""}`}
                 >
-                  <span className="text-xs font-bold">
-                    {data.title || "Select"}
+                  <span className={data.title ?"text-gray-900" :"text-gray-400"}>
+                    {data.title || "Mr"}
                   </span>
                   {isGuest && (isTitleOpen ? <FiChevronUp /> : <FiChevronDown />)}
                 </button>

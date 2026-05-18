@@ -1,13 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import SelectState from"./Screens/SelectState";
-import LegacyHubSelection from"./Screens/HubSelection";
-import LegacyCreateAccount from"./Screens/CreateAccount";
-import LegacyAccountCreation from"./Screens/AccountCreation";
-import LegacyPersonalDetails from"./Screens/personalDetails";
-import LegacyAddress from"./Screens/address";
-import LegacyBusiness from"./Screens/business";
-import LegacyLoan from"./Screens/loan";
 import LegacyPreviewPage from"./Screens/PreviewPage";
 import LegacyLogin from"./Screens/Login";
 import LandingPage2 from"./LandingPage2";
@@ -46,15 +38,15 @@ function AnimatedRoutes() {
         {/* Entry Point */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/location-select" element={<LandingPage2 />} />
-        <Route path="/select-state" element={<SelectState />} />
-        <Route path="/hub-selection" element={<LegacyHubSelection />} />
-        <Route path="/create-account" element={<LegacyCreateAccount />} />
-        <Route path="/account-creation" element={<LegacyAccountCreation />} />
-        <Route path="/personal-details" element={<LegacyPersonalDetails />} />
-        <Route path="/address" element={<LegacyAddress />} />
-        <Route path="/business" element={<LegacyBusiness />} />
-        <Route path="/loan" element={<LegacyLoan />} />
-        <Route path="/preview" element={<LegacyPreviewPage />} />
+        {/* <Route path="/select-state" element={<SelectState />} /> */}
+        {/* <Route path="/hub-selection" element={<LegacyHubSelection />} /> */}
+        {/* <Route path="/create-account" element={<LegacyCreateAccount />} /> */}
+        {/* <Route path="/account-creation" element={<LegacyAccountCreation />} /> */}
+        {/* <Route path="/personal-details" element={<LegacyPersonalDetails />} /> */}
+        {/* <Route path="/address" element={<LegacyAddress />} /> */}
+        {/* <Route path="/business" element={<LegacyBusiness />} /> */}
+        {/* <Route path="/loan" element={<LegacyLoan />} /> */}
+        {/* <Route path="/preview" element={<LegacyPreviewPage />} /> */}
 
         <Route path="/legacy-login" element={<LegacyLogin />} />
         

@@ -26,7 +26,7 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     mode:"onSubmit",
     defaultValues: {
-      title: "",
+      title: "Mr",
       agreeTerms: true
     }
   });
