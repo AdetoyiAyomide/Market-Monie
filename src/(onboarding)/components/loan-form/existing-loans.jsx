@@ -213,9 +213,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
 };
 
 const InputGroup = ({ label, value, onChange, placeholder, inputMode }) => {
-  const handleBlur = () => {
-    // Removed auto-decimal formatting as per user request for "only numbers"
-  };
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div className="space-y-2">
@@ -226,9 +224,10 @@ const InputGroup = ({ label, value, onChange, placeholder, inputMode }) => {
         <input
           type="text"
           inputMode={inputMode}
-          value={value}
+          value={isFocused ? value : (value ? `${value}.00` : "")}
           onChange={onChange}
-          onBlur={handleBlur}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
             value 

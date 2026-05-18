@@ -26,7 +26,7 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     mode:"onSubmit",
     defaultValues: {
-      title: "Mr",
+      title: "",
       agreeTerms: true
     }
   });
@@ -270,6 +270,8 @@ const Register = () => {
                     }
                   })}
                   type={showPassword ?"text" :"password"}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   maxLength={6}
                   placeholder="••••••"
                   className={`${getInputClassName("password")} pr-12 tracking-widest font-mono`}
@@ -302,6 +304,8 @@ const Register = () => {
                     }
                   })}
                   type={showConfirmPassword ?"text" :"password"}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   maxLength={6}
                   placeholder="••••••"
                   className={`${getInputClassName("confirmPassword")} pr-12 tracking-widest font-mono`}
