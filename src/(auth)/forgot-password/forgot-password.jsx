@@ -45,6 +45,7 @@ const ForgotPassword = () => {
   const {
     register: registerReset,
     handleSubmit: handleResetSubmit,
+    setValue: setResetValue,
     formState: { errors: resetErrors, isSubmitting: isResetSubmitting },
   } = useForm({
     resolver: zodResolver(resetPasswordSchema),
@@ -259,8 +260,14 @@ const ForgotPassword = () => {
                       <FiLock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
-                      {...registerReset("password")}
+                      {...registerReset("password", {
+                        onChange: (e) => {
+                          const numericValue = e.target.value.replace(/\D/g, "").slice(0, 6);
+                          setResetValue("password", numericValue, { shouldDirty: true });
+                        }
+                      })}
                       type={showPassword ?"text" :"password"}
+                      inputMode="numeric"
                       maxLength={6}
                       className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••"
@@ -289,8 +296,14 @@ const ForgotPassword = () => {
                       <FiLock className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
-                      {...registerReset("confirmPassword")}
+                      {...registerReset("confirmPassword", {
+                        onChange: (e) => {
+                          const numericValue = e.target.value.replace(/\D/g, "").slice(0, 6);
+                          setResetValue("confirmPassword", numericValue, { shouldDirty: true });
+                        }
+                      })}
                       type={showConfirmPassword ?"text" :"password"}
+                      inputMode="numeric"
                       maxLength={6}
                       className="block w-full rounded-lg border-0 py-3.5 pl-10 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6 bg-gray-50/50 transition-all"
                       placeholder="••••••"

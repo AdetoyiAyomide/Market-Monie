@@ -78,7 +78,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
           </div>
         </>
       ) : data.hasExistingLoan === true ? (
-        <div className="animate-in slide-in-from-bottom-4 duration-500">
+        <div className="animate-in slide-in-from-bottom-4 duration-500 -mx-4 sm:mx-0 px-4 sm:px-0">
           <div className="flex items-center gap-2 mb-6 cursor-pointer text-emerald-600 font-bold text-xs tracking-widest" onClick={() => handleToggle(null)}>
             <FiArrowLeft /> BACK TO SELECTION
           </div>
@@ -93,7 +93,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
 
           <div className="mt-3 space-y-4">
             {data.loans.map((loan, index) => (
-              <div key={index} className="lg:p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
+              <div key={index} className="p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-sm font-bold text-emerald-600 tracking-widest uppercase">Loan {index + 1}</span>
                   {index > 0 && (
@@ -130,7 +130,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
                     placeholder="Search bank or lender"
                   />
                   
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <InputGroup 
                       label="How much did you borrow?" 
                       inputMode="numeric"
