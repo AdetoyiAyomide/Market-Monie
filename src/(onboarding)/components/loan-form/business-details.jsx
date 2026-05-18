@@ -102,12 +102,12 @@ const BusinessDetails = ({ data, onChange, onContinue, onBack, isGuest }) => {
 
   return (
     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="hidden sm:block text-left font-poppins">
+      <div className="block text-left font-poppins">
         <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-gray-900">
-           Business Details
+          Business Details
         </h2>
         <p className="mt-2 text-gray-500 text-sm">
-           Tell us about your business to help us understand your needs.
+          Tell us about your business to help us understand your needs.
         </p>
       </div>
 
@@ -208,7 +208,7 @@ const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = fal
           onChange={onChange}
           readOnly={readOnly}
           placeholder={placeholder}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-sm text-gray-900 shadow-sm transition-all outline-none font-medium ${
             error 
               ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
@@ -234,7 +234,7 @@ const CustomSelectGroup = ({ label, value, isOpen, onToggle, onSelect, options, 
           type="button"
           onClick={onToggle}
           disabled={disabled}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-left shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-11 py-4 text-sm text-left shadow-sm transition-all outline-none font-medium ${
             error
               ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
