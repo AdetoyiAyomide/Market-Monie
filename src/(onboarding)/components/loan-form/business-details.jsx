@@ -208,7 +208,7 @@ const InputGroup = ({ label, value, onChange, placeholder, error, readOnly = fal
           onChange={onChange}
           readOnly={readOnly}
           placeholder={placeholder}
-          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-base text-gray-900 shadow-sm transition-all outline-none font-medium ${
+          className={`block w-full rounded-xl border-2 bg-gray-50/30 px-4 pr-4 py-4 text-base text-gray-900 shadow-sm transition-all outline-none font-medium placeholder:text-gray-400 placeholder:font-medium ${
             error 
               ?"border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-500/10"
               : isValid
