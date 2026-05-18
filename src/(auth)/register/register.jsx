@@ -26,7 +26,7 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     mode:"onSubmit",
     defaultValues: {
-      title:"Mr",
+      title: "",
       agreeTerms: true
     }
   });
@@ -66,7 +66,7 @@ const Register = () => {
     console.log("Form Data:", data);
     localStorage.setItem("firstName", data.firstName);
     localStorage.setItem("lastName", data.lastName);
-    localStorage.setItem("title", data.title ||"Mr");
+    localStorage.setItem("title", data.title || "");
     localStorage.setItem("email", data.email ||"");
     localStorage.setItem("phone", data.phone);
     // Navigate directly to phone verification with pre-filled phone
@@ -115,7 +115,7 @@ const Register = () => {
                   }`}
                 >
                   <span className={titleValue ?"text-gray-900" :"text-gray-400"}>
-                    {titleValue ||"Mr"}
+                    {titleValue || "Mr"}
                   </span>
                   {isTitleOpen ? <FiChevronUp className="text-gray-400" /> : <FiChevronDown className="text-gray-400" />}
                 </button>
