@@ -93,7 +93,7 @@ const ExistingLoans = ({ data, onChange, onContinue, onBack }) => {
 
           <div className="mt-3 space-y-4">
             {data.loans.map((loan, index) => (
-              <div key={index} className="p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
+              <div key={index} className="lg:p-6 bg-gray-50/50 rounded-2xl border-2 border-gray-100 relative group animate-in slide-in-from-top-4 duration-300">
                 <div className="flex justify-between items-center mb-6">
                   <span className="text-sm font-bold text-emerald-600 tracking-widest uppercase">Loan {index + 1}</span>
                   {index > 0 && (
